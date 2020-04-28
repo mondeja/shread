@@ -7,10 +7,10 @@ Bash Ubuntu/Debian readable scripts.
 ### Scripts execution
 
 #### With arguments
-- `curl -sL https://softmond.gitlab.io/scripts/unix/debian/install/nodejs/es.sh | sudo bash -s -- --prepend-stdout '  '`
+- `curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh | sudo bash -s -- --prepend-stdout '  '`
 
 #### Withour arguments
-- `curl -sL https://softmond.gitlab.io/scripts/unix/debian/install/nodejs/es.sh | sudo bash -`
+- `curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh | sudo bash -`
 
 ### Source to scripts
-- `source <(curl -sL https://softmond.gitlab.io/scripts/unix/_/util/get-distro.sh)`
+- `source <(curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh)`
