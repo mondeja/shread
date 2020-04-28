@@ -1,7 +1,7 @@
 #!/bin/bash
 
+rm -rf public
 if [ ! -d "public" ]; then
-  rm -rf public
   mkdir public
 fi;
 

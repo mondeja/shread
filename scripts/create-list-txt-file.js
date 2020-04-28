@@ -5,7 +5,7 @@ const path = require("path");
 
 const walk = require("./util/walk.js");
 
-const BASE_URL = "https://softmond.gitlab.io/scripts";
+const BASE_URL = "https://mondeja.github.io/shread";
 
 const PUBLIC_DIR = path.resolve(__filename, "..", "..", "public");
 const SRC_DIR = path.resolve(__filename, "..", "..", "src");
