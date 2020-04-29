@@ -1,1 +1,5 @@
 /public/**/**
+/node_modules/
+*.pot
+*.mo
+__dev__.sh

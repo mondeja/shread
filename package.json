@@ -12,7 +12,7 @@
     "url": "git+https://github.com/mondeja/shread.git"
   },
   "author": "Álvaro Mondéjar Rubio <mondejar1994@gmail.com>",
-  "license": "BSD-3-Clause",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mondeja/shread/issues"
   },
@@ -20,5 +20,5 @@
   "dependencies": {
     "cson": "^7.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
 }

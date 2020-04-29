@@ -1,16 +1,20 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+_MSG_ATOM_NOT_INSTALLED_FOR_LOCAL_USER="Atom is not installed for local user"
+_MSG_DIRECTORY_DOESNT_EXISTS="The directory '$HOME/.atom' doesn't exists."
+
 # Instalación de paquetes de utilidad para Atom
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "Este script necesita ser ejecutado como superusuario.\n" >&2
+  printf "$_MSG_EXECUTED_AS_SUPERUSER.\n" >&2
   exit 1
 fi;
 
 if [ ! -d ~/.atom ]; then
-  printf "Atom no está instalado para el usuario actual ($USER).\n"
-  printf "El directorio '$HOME/.atom' no existe.\n"
+  printf "$_MSG_ATOM_NOT_INSTALLED_FOR_LOCAL_USER ($USER).\n"
+  printf "$_MSG_DIRECTORY_DOESNT_EXISTS\n"
   exit 1
 fi;
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+_MSG_MUST_SPECIFY_ADDRESS="You must specify an address with parameter"
+
 _ADDRESS=""
 _MAX_ATTEMPTS=40
 _SLEEP=1
@@ -41,8 +43,7 @@ do
 done
 
 if [ -z "$_ADDRESS" ]; then
-  printf "Necesitas especificar una dirección con el parámetro" >&2
-  printf " --address '<dirección>'.\n" >&2
+  printf "$_MSG_MUST_SPECIFY_ADDRESS --address" >&2
   exit 1
 fi;
 

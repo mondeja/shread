@@ -19,3 +19,6 @@ trim_trailing_whitespace = false
 # Bash, Python, HTML...
 [*.{html,py}]
 indent_size = 4
+
+[*.{po}]
+insert_final_newline = false
