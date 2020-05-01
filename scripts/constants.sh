@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PUBLIC_URL="https://mondeja.github.io/shread"
+
 SHREAD_VERSION=$(cat package.json | grep version | cut -d' ' -f4 | tr -d '",')
 
 SUPPORTED_LANGUAGES=(

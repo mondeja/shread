@@ -15,4 +15,4 @@ bash scripts/localize-minify-encode-scripts.sh
 bash scripts/move-no-sh-scripts.sh
 
 # Create index file
-node scripts/create-list-txt-file.js
+bash scripts/create-list-txt-file.sh
