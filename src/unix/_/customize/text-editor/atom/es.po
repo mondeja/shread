@@ -1,0 +1,48 @@
+# es translation of shread 'src/unix/_/customize/text-editor/atom/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-30 21:36:48+0200\n"
+"PO-Revision-Date: 2020-04-30 21:24:27+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Atom is not installed for local user"
+msgstr "Atom no está instalado para el usuario local"
+
+msgid "The directory '$HOME/.atom' doesn't exists."
+msgstr "El directorio '$HOME/.atom' no existe."
+
+msgid "NodeJS needs to be installed before customize Atom."
+msgstr "NodeJS necesita estar instalado antes de personalizar Atom."
+
+msgid "Customizing Atom text editor"
+msgstr "Personalizando el editor de textos Atom"
+
+msgid "Checking Atom packages installed..."
+msgstr "Comprobando paquetes de Atom instalados..."
+
+msgid "Setting up editor..."
+msgstr "Configurando el editor..."
+
+msgid "Disabling incompatible packages..."
+msgstr "Deshabilitando paquetes incompatibles..."
+
+msgid "An error happen installing the Atom package"
+msgstr "Ocurrió un error instalando paquete de Atom"
+
+msgid "An error happen disabling the Atom package"
+msgstr "Ocurrió un error deshabilitando el paquete de Atom"

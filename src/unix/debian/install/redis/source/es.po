@@ -1,0 +1,96 @@
+# es translation of shread 'src/unix/debian/install/redis/source/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 22:24:39+0200\n"
+"PO-Revision-Date: 2020-05-01 22:24:19+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Setting up Redis ecosystem..."
+msgstr "Configurando ecosistema Redis..."
+
+msgid "Checking base dependencies..."
+msgstr "Comprobando dependencias base..."
+
+msgid "Retrieving lastest stable version..."
+msgstr "Obteniendo la última versión estable disponible..."
+
+msgid "An error happen retrieving lastest stable Redis version from file"
+msgstr "Ocurrió un error obteniendo la última versión estable disponible de Redis del archivo"
+
+msgid "Versions found:"
+msgstr "Versiones encontradas:"
+
+msgid "Downloading Redis"
+msgstr "Descargando Redis"
+
+msgid "Building source code..."
+msgstr "Construyendo el código fuente..."
+
+msgid "Testing build..."
+msgstr "Testeando la construcción..."
+
+msgid "An error happen running build tests."
+msgstr "Ocurrió un error ejecutando los tests de construcción."
+
+msgid "Checking 'redis' service configuration..."
+msgstr "Comprobando configuración del servicio 'redis'..."
+
+msgid "Enabling..."
+msgstr "Habilitando..."
+
+msgid "An error happen enabling 'redis' service."
+msgstr "Ocurrió un error habilitando el servicio 'redis'."
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Exit code"
+msgstr "Código de salida"
+
+msgid "It's enabled"
+msgstr "Está habilitado"
+
+msgid "Executing..."
+msgstr "Ejecutando..."
+
+msgid "The 'redis' service could not be started."
+msgstr "El servicio 'redis' no pudo ser iniciado."
+
+msgid "It's on state"
+msgstr "Se encuentra en estado"
+
+msgid "It's runnning"
+msgstr "Se encuentra en ejecución"
+
+msgid "Creating 'redis' service..."
+msgstr "Creando servicio 'redis'..."
+
+msgid "Creating 'redis' user..."
+msgstr "Creando usuarios 'redis'..."
+
+msgid "Unzipping..."
+msgstr "Descomprimiendo"
+
+msgid "Installing Redis"
+msgstr "Instalando Redis"
+
+msgid "Updating Redis"
+msgstr "Actualizando Redis"
+
+msgid "Found Redis installed"
+msgstr "Encontrado Redis instalado"

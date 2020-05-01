@@ -1,0 +1,57 @@
+# es translation of shread 'src/unix/debian/install/docker/compose/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 15:54:22+0200\n"
+"PO-Revision-Date: 2020-05-01 15:48:27+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error code"
+msgstr "Código de error"
+
+msgid "Not found"
+msgstr "No encontrado"
+
+msgid "An error happen retrieving Docker Compose releases info from Github API."
+msgstr "Ocurrió un error obteniendo la información de las releases de Docker de la API de Github."
+
+msgid "An error happen parsing the penultimate Docker Compose releases version from Github API."
+msgstr "Ocurrió un error parseando la penúltima versión de las releases de Docker Compose de la API de Github."
+
+msgid "An error happen retrieving last Docker Compose version from Github API."
+msgstr "Ocurrió un error obteniendo la última versión de Docker Compose de la API de Github."
+
+msgid "Retrieving last available version..."
+msgstr "Obteniendo la última versión disponible..."
+
+msgid "An error happen downloading Docker Compose"
+msgstr "Ocurrió un error descargando Docker Compose"
+
+msgid "Downloading Docker Compose"
+msgstr "Descargando Docker Compose"
+
+msgid "Docker Compose found installed in the system"
+msgstr "Encontrado Docker Compose instalado en el sistema"
+
+msgid "Updating Docker Compose"
+msgstr "Actualizando Docker Compose"

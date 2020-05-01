@@ -1,0 +1,42 @@
+# es translation of shread 'src/unix/debian/install/dropbox/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 16:00:37+0200\n"
+"PO-Revision-Date: 2020-05-01 15:54:22+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Checking Dropbox environment..."
+msgstr "Comprobando entorno Dropbox..."
+
+msgid "Dropbox found installed in the system"
+msgstr "Encontrado Dropbox instalado en el sistema"
+
+msgid "Checking if is updated..."
+msgstr "Comprobando si está actualizado..."
+
+msgid "Updating Dropbox"
+msgstr "Actualizando Dropbox"
+
+msgid "Retrieving last Dropbox version..."
+msgstr "Obteniendo la última versión de Dropbox..."
+
+msgid "Downloading Dropbox"
+msgstr "Descargando Dropbox"
+
+msgid "Installing Dropbox"
+msgstr "Instalando Dropbox"

@@ -1,0 +1,553 @@
+# es compedium of shread.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 19:54:07+0200\n"
+"PO-Revision-Date: 2020-05-01 16:16+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error code"
+msgstr "Código de error"
+
+msgid "Not found"
+msgstr "No encontrado"
+
+msgid ""
+"An error happen retrieving Google Drive releases information from Github API."
+msgstr ""
+"Ocurrió un error obteniendo la información de las releases de Google Drive "
+"de la API de Github."
+
+msgid ""
+"An error happen parsing the penultimate Google Drive release version from "
+"Github API."
+msgstr ""
+"Ocurrió un error parseando la versión de la penúltima release de Google "
+"Drive de la API de Github."
+
+msgid "An error happen retrieving last Google Drive release version."
+msgstr ""
+"Ocurrió un error obteniendo la versión de la última release de Google Drive."
+
+msgid "An error happen downloading Google Drive"
+msgstr "Ocurrió un error descargando Google Drive"
+
+msgid "Checking Google Drive client..."
+msgstr "Comprobando el cliente Google Drive..."
+
+msgid "Retrieving last available version..."
+msgstr "Obteniendo la última versión disponible..."
+
+msgid "Downloading Google Drive client..."
+msgstr "Descargando el cliente de Google Drive..."
+
+msgid "Updating Google Drive"
+msgstr "Actualizando Google Drive"
+
+msgid "Google Drive found installed in the system"
+msgstr "Encontrado Google Drive instalado en el sistema"
+
+msgid "Checking Dropbox environment..."
+msgstr "Comprobando entorno Dropbox..."
+
+msgid "Dropbox found installed in the system"
+msgstr "Encontrado Dropbox instalado en el sistema"
+
+msgid "Checking if is updated..."
+msgstr "Comprobando si está actualizado..."
+
+msgid "Updating Dropbox"
+msgstr "Actualizando Dropbox"
+
+msgid "Retrieving last Dropbox version..."
+msgstr "Obteniendo la última versión de Dropbox..."
+
+msgid "Downloading Dropbox"
+msgstr "Descargando Dropbox"
+
+msgid "Installing Dropbox"
+msgstr "Instalando Dropbox"
+
+msgid ""
+"An error happen retrieving Docker Compose releases info from Github API."
+msgstr ""
+"Ocurrió un error obteniendo la información de las releases de Docker de "
+"la API de Github."
+
+msgid ""
+"An error happen parsing the penultimate Docker Compose releases version "
+"from Github API."
+msgstr ""
+"Ocurrió un error parseando la penúltima versión de las releases de Docker "
+"Compose de la API de Github."
+
+msgid ""
+"An error happen retrieving last Docker Compose version from Github API."
+msgstr ""
+"Ocurrió un error obteniendo la última versión de Docker Compose de la API "
+"de Github."
+
+msgid "An error happen downloading Docker Compose"
+msgstr "Ocurrió un error descargando Docker Compose"
+
+msgid "Downloading Docker Compose"
+msgstr "Descargando Docker Compose"
+
+msgid "Docker Compose found installed in the system"
+msgstr "Encontrado Docker Compose instalado en el sistema"
+
+msgid "Updating Docker Compose"
+msgstr "Actualizando Docker Compose"
+
+msgid "Checking Docker Community Edition..."
+msgstr "Comprobando Docker Community Edition..."
+
+msgid "Setting up public key..."
+msgstr "Configurando la clave pública..."
+
+msgid "An error happen retrieving Docker repositories key"
+msgstr "Ocurrió un error obteniendo la clave de los repositorios de Docker"
+
+msgid "Public key configured found"
+msgstr "Encontrada la clave pública configurada"
+
+msgid "Adding Docker repository..."
+msgstr "Añadiendo repositorio de Docker..."
+
+msgid "Docker repository configured found"
+msgstr "Encontrado repositorio de Docker configurado"
+
+msgid "Checking Docker CE packages..."
+msgstr "Comprobando paquetes de Docker CE..."
+
+msgid "Checking Chrome ecosystem..."
+msgstr "Comprobando ecosistema Chrome..."
+
+msgid "Is not possible to install Google Chrome on 32 bits systems."
+msgstr "No es posible instalar Google Chrome en sistemas de 32 bits."
+
+msgid "Installing Google Chrome..."
+msgstr "Instalando Google Chrome..."
+
+msgid "Google Chrome found installed"
+msgstr "Encontrado Google Chrome instalado"
+
+msgid "Installing chromedriver"
+msgstr "Instalando chromedriver"
+
+msgid "Updating chromedriver"
+msgstr "Actualizando chromedriver"
+
+msgid "Chromedriver found installed"
+msgstr "Encontrado chromedriver instalado"
+
+msgid "Setting up NodeJS ecosystem..."
+msgstr "Configurando ecosistema NodeJS..."
+
+msgid "Checking base dependencies..."
+msgstr "Comprobando dependencias base..."
+
+msgid "Retrieving lastest absolute NodeJS version..."
+msgstr "Obteniendo última versión absoluta de NodeJS..."
+
+msgid "The version"
+msgstr "La versión"
+
+msgid "has not been found in official NodeJS repositories"
+msgstr "no ha sido encontrada en los repositorios oficiales de NodeJS"
+
+msgid "Installing NodeJS"
+msgstr "Instalando NodeJS"
+
+msgid "An error happen installing NodeJS"
+msgstr "Ocurrió un error instalando NodeJS"
+
+msgid "Found NodeJS installed in the system"
+msgstr "Encontrado NodeJS instalado en el sistema"
+
+msgid ""
+"Your distribution is not supported by this NodeJS installation script"
+msgstr ""
+"Tu distribución no está soportada por este script de instalación de NodeJS"
+
+msgid "Checking NPM..."
+msgstr "Comprobando NPM..."
+
+msgid "It's installed"
+msgstr "Está instalado"
+
+msgid "Updating"
+msgstr "Actualizando"
+
+msgid "An error happen updating NPM to version"
+msgstr "Ocurrió un error actualizando NPM a la versión"
+
+msgid "It's updated"
+msgstr "Está actualizado"
+
+msgid "Checking Yarn..."
+msgstr "Comprobando Yarn..."
+
+msgid "Checking Pandoc..."
+msgstr "Comprobando Pandoc..."
+
+msgid ""
+"An error happen retrieving information for Pandoc releases from Github "
+"API."
+msgstr ""
+"Ocurrió un error obteniendo la información de las releases de Pandoc de "
+"la API de Github."
+
+msgid "Retrieving lastest available Pandoc version..."
+msgstr "Obteniendo la última versión disponible de Pandoc..."
+
+msgid "Downloading package..."
+msgstr "Descargando paquete..."
+
+msgid "An error happen retrieving lastest Pandoc version."
+msgstr "Ocurrió un error obteniendo la última versión de Pandoc."
+
+msgid "An error happen downloading Pandoc"
+msgstr "Ocurrió un error descargando Pandoc"
+
+msgid "Installing..."
+msgstr "Instalando..."
+
+msgid "Pandoc found installed in the system"
+msgstr "Ha sido encontrado Pandoc instalado en el sistema"
+
+msgid "Updating Pandoc"
+msgstr "Actualizando Pandoc"
+
+msgid "Setting up Python3 ecosystem..."
+msgstr "Configurando ecosistema Python3..."
+
+msgid "Installing base package"
+msgstr "Instalando paquete base"
+
+msgid "Found Python3 installed in the system"
+msgstr "Encontrado Python3 instalado en el sistema"
+
+msgid "Checking additional Python packages..."
+msgstr "Comprobando paquetes de Python adicionales..."
+
+msgid "Updating global Python3 libraries..."
+msgstr "Actualizando bibliotecas de Python3 globales..."
+
+msgid "Adding repository..."
+msgstr "Añadiendo repositorio..."
+
+msgid "An error happen retrieving PostgreSQL public key"
+msgstr "Ocurrió un error obteniendo la clave pública de PostgreSQL"
+
+msgid "Updating packages..."
+msgstr "Actualizando paquetes..."
+
+msgid "Removing previous packages..."
+msgstr "Eliminando paquetes anteriores..."
+
+msgid "Retrieving lastest stable available version..."
+msgstr "Obteniendo la última versión estable disponible..."
+
+msgid "Checking version available"
+msgstr "Comprobando versión disponible"
+
+msgid "Version not available at official PostgreSQL repositories"
+msgstr "Versión no disponible en los repositorios de PostgreSQL oficiales"
+
+msgid "The version of Postgis that you're trying to install"
+msgstr "La versión de Postgis que estás intentando instalar"
+
+msgid "doesn't exists as APT package for PostgreSQL"
+msgstr "no existe como un paquete APT para PostgreSQL"
+
+msgid "the package"
+msgstr "el paquete"
+
+msgid "doesn't exists in PostgreSQL official repositories."
+msgstr "no existe en los repositorios oficiales de PostgreSQL."
+
+msgid ""
+"Specify an existent version between the next using the param '--postgis-"
+"version':"
+msgstr ""
+"Especifica una versión existente de entre las siguientes usando el "
+"parámetro '--postgis-version':"
+
+msgid "Checking the configuration of the service 'postgresql'..."
+msgstr "Comprobando la configuración del servicio 'postgresql'..."
+
+msgid "Enabling..."
+msgstr "Habilitando..."
+
+msgid "It's enabled"
+msgstr "Está habilitado"
+
+msgid "An error happen enabling 'postgresql' service."
+msgstr "Ocurrió un error habilitando el servicio 'postgresql'."
+
+msgid "Exit code"
+msgstr "Código de salida"
+
+msgid "Launching..."
+msgstr "Ejecutando..."
+
+msgid "The 'postgresql' service couldn't be started."
+msgstr "El servicio 'postgresql' no pudo ser iniciado."
+
+msgid "It's on state"
+msgstr "Se encuentra en estado"
+
+msgid "It's running"
+msgstr "Esta en ejecución"
+
+msgid "Installing PostgreSQL..."
+msgstr "Instalando PostgreSQL..."
+
+msgid "Installing packages..."
+msgstr "Instalando paquetes..."
+
+msgid "Checking PostgreSQL environment..."
+msgstr "Comprobando entorno PostgreSQL..."
+
+msgid "Checking packages..."
+msgstr "Comprobando paquetes..."
+
+msgid ""
+"Your version of Debian/Ubuntu is not supported by official PostgreSQL "
+"repositories"
+msgstr ""
+"Tu versión de Debian/Ubuntu no está soportada por los repositorios "
+"oficiales de PostgreSQL"
+
+msgid "An error happen retrieving Boostnote releases info from Github API."
+msgstr ""
+"Ocurrió un error obteniendo la información de las releases de Boostnote "
+"de la API de Github."
+
+msgid ""
+"An error happen parsing penultimate Boostnote release from Github API."
+msgstr ""
+"Ocurrió un error parseando la penúltima release de Boostnote de la API de "
+"Github."
+
+msgid "An error happen retrieving last Boostnote version."
+msgstr "Ocurrió un error obteniendo la última versión de Boostnote."
+
+msgid "An error happen downloading Boostnote"
+msgstr "Ocurrió un error descargando Boostnote"
+
+msgid "Checking Boostnote..."
+msgstr "Comprobando Boostnote..."
+
+msgid "Downloading Boostnote"
+msgstr "Descargando Boostnote"
+
+msgid "Installing Boostnote"
+msgstr "Instalando Boostnote"
+
+msgid "Boostnote found installed on the system"
+msgstr "Encontrado Boostnote instalado en el sistema"
+
+msgid "Updating Boostnote"
+msgstr "Actualizando Boostnote"
+
+msgid "Checking Mozilla ecosystem..."
+msgstr "Comprobando ecosistema Mozilla..."
+
+msgid "Mozilla Firefox found installed in the system"
+msgstr "Econtrado Mozilla Firefox instalado en el sistema"
+
+msgid "Installing Mozilla Firefox packages..."
+msgstr "Instalando paquetes de Mozilla Firefox..."
+
+msgid "Geckodriver found installed in the system"
+msgstr "Encontrado Geckodriver instalado en el sistema"
+
+msgid "Installing geckodriver..."
+msgstr "Instalando geckodriver..."
+
+msgid "Installing CircleCI"
+msgstr "Instalando CircleCI"
+
+msgid "Updating CircleCI"
+msgstr "Actualizando CircleCI"
+
+msgid "CircleCI found installed"
+msgstr "Encontrado CircleCI instalado"
+
+msgid "is already installed"
+msgstr "ya se encuentra instalado"
+
+msgid "Checking Atom..."
+msgstr "Comprobando Atom..."
+
+msgid "An error happen rerieving Atom public key:"
+msgstr "Ocurrió un error obteniendo la clave pública de Atom:"
+
+msgid "Atom found"
+msgstr "Atom encontrado"
+
+msgid "Running installation script..."
+msgstr "Ejecutando script de instalación..."
+
+msgid "An error happen installing Atom"
+msgstr "Ocurrió un error instalando Atom"
+
+msgid "Setting up Redis ecosystem..."
+msgstr "Configurando ecosistema Redis..."
+
+msgid "Checking service configuration..."
+msgstr "Comprobando configuración del servicio..."
+
+msgid "An error happen enabling 'redis-server' service."
+msgstr "Ocurrió un error habilitando el servicio 'redis-server'."
+
+msgid "The service 'redis-server' could not be started."
+msgstr "El servicio 'redis-server' no pudo ser iniciado."
+
+msgid "Retrieving lastest stable version..."
+msgstr "Obteniendo la última versión estable disponible..."
+
+msgid "An error happen retrieving lastest stable Redis version from file"
+msgstr ""
+"Ocurrió un error obteniendo la última versión estable disponible de Redis "
+"del archivo"
+
+msgid "Versions found:"
+msgstr "Versiones encontradas:"
+
+msgid "Downloading Redis"
+msgstr "Descargando Redis"
+
+msgid "Building source code..."
+msgstr "Construyendo el código fuente..."
+
+msgid "Testing build..."
+msgstr "Testeando la construcción..."
+
+msgid "An error happen running build tests."
+msgstr "Ocurrió un error ejecutando los tests de construcción."
+
+msgid "Checking 'redis' service configuration..."
+msgstr "Comprobando configuración del servicio 'redis'..."
+
+msgid "An error happen enabling 'redis' service."
+msgstr "Ocurrió un error habilitando el servicio 'redis'."
+
+msgid "Executing..."
+msgstr "Ejecutando..."
+
+msgid "The 'redis' service could not be started."
+msgstr "El servicio 'redis' no pudo ser iniciado."
+
+msgid "It's runnning"
+msgstr "Se encuentra en ejecución"
+
+msgid "Creating 'redis' service..."
+msgstr "Creando servicio 'redis'..."
+
+msgid "Creating 'redis' user..."
+msgstr "Creando usuarios 'redis'..."
+
+msgid "Unzipping..."
+msgstr "Descomprimiendo"
+
+msgid "Installing Redis"
+msgstr "Instalando Redis"
+
+msgid "Updating Redis"
+msgstr "Actualizando Redis"
+
+msgid "Found Redis installed"
+msgstr "Encontrado Redis instalado"
+
+msgid "Uninstalling NodeJS ecosystem..."
+msgstr "Desinstalando ecosistema NodeJS..."
+
+msgid "Uninstalling NodeJS"
+msgstr "Desinstalando NodeJS"
+
+msgid "NodeJS is not installed"
+msgstr "NodeJS no está instalado"
+
+msgid "NPM is not installed"
+msgstr "NPM no está instalado"
+
+msgid "Uninstalling NPM..."
+msgstr "Desinstalando NPM..."
+
+msgid "Yarn is not installed"
+msgstr "Yarn no está instalado"
+
+msgid "Uninstalling Atom"
+msgstr "Desinstalando Atom"
+
+msgid "An error happen uninstalling Atom"
+msgstr "Ocurrión un error desinstalando Atom"
+
+msgid "Atom is not installed"
+msgstr "Atom no está instalado"
+
+msgid "Atom is not installed for local user"
+msgstr "Atom no está instalado para el usuario local"
+
+msgid "The directory '$HOME/.atom' doesn't exists."
+msgstr "El directorio '$HOME/.atom' no existe."
+
+msgid "NodeJS needs to be installed before customize Atom."
+msgstr "NodeJS necesita estar instalado antes de personalizar Atom."
+
+msgid "Customizing Atom text editor"
+msgstr "Personalizando el editor de textos Atom"
+
+msgid "Checking Atom packages installed..."
+msgstr "Comprobando paquetes de Atom instalados..."
+
+msgid "Setting up editor..."
+msgstr "Configurando el editor..."
+
+msgid "Disabling incompatible packages..."
+msgstr "Deshabilitando paquetes incompatibles..."
+
+msgid "An error happen installing the Atom package"
+msgstr "Ocurrió un error instalando el paquete de Atom"
+
+msgid "An error happen disabling the Atom package"
+msgstr "Ocurrió un error deshabilitando el paquete de Atom"
+
+msgid "Updating system packages..."
+msgstr "Actualizando paquetes del sistema..."
+
+msgid "An error happen updating system packages."
+msgstr "Ocurrió un error actualizando los paquetes del sistema."
+
+msgid "Relaunching with standard output and canceling the installation..."
+msgstr "Relanzando con salida estándar y cancelando la instalación..."
+
+msgid "Leaving ports free of processes..."
+msgstr "Dejando puertos libres de procesos."
+
+msgid "You must specify an address with the parameter"
+msgstr "Debes especificar una dirección con el parámetro"

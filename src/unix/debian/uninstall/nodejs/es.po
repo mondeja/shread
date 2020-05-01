@@ -1,0 +1,39 @@
+# es translation of shread 'src/unix/debian/uninstall/nodejs/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 21:35:49+0200\n"
+"PO-Revision-Date: 2020-05-01 21:35:49+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Uninstalling NodeJS ecosystem..."
+msgstr "Desinstalando ecosistema NodeJS..."
+
+msgid "Uninstalling NodeJS"
+msgstr "Desinstalando NodeJS"
+
+msgid "NodeJS is not installed"
+msgstr "NodeJS no está instalado"
+
+msgid "NPM is not installed"
+msgstr "NPM no está instalado"
+
+msgid "Uninstalling NPM..."
+msgstr "Desinstalando NPM..."
+
+msgid "Yarn is not installed"
+msgstr "Yarn no está instalado"

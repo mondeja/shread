@@ -1,0 +1,102 @@
+# es translation of shread 'src/unix/debian/install/postgresql/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 21:26:09+0200\n"
+"PO-Revision-Date: 2020-05-01 21:24:33+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Adding repository..."
+msgstr "Añadiendo repositorio..."
+
+msgid "An error happen retrieving PostgreSQL public key"
+msgstr "Ocurrió un error obteniendo la clave pública de PostgreSQL"
+
+msgid "Updating packages..."
+msgstr "Actualizando paquetes..."
+
+msgid "Removing previous packages..."
+msgstr "Eliminando paquetes anteriores..."
+
+msgid "Retrieving lastest stable available version..."
+msgstr "Obteniendo la última versión estable disponible..."
+
+msgid "Checking version available"
+msgstr "Comprobando versión disponible"
+
+msgid "Version not available at official PostgreSQL repositories"
+msgstr "Versión no disponible en los repositorios de PostgreSQL oficiales"
+
+msgid "The version of Postgis that you're trying to install"
+msgstr "La versión de Postgis que estás intentando instalar"
+
+msgid "doesn't exists as APT package for PostgreSQL"
+msgstr "no existe como un paquete APT para PostgreSQL"
+
+msgid "the package"
+msgstr "el paquete"
+
+msgid "doesn't exists in PostgreSQL official repositories."
+msgstr "no existe en los repositorios oficiales de PostgreSQL."
+
+msgid "Specify an existent version between the next using the param '--postgis-version':"
+msgstr "Especifica una versión existente de entre las siguientes usando el parámetro '--postgis-version':"
+
+msgid "Checking the configuration of the service 'postgresql'..."
+msgstr "Comprobando la configuración del servicio 'postgresql'..."
+
+msgid "Enabling..."
+msgstr "Habilitando..."
+
+msgid "It's enabled"
+msgstr "Está habilitado"
+
+msgid "An error happen enabling 'postgresql' service."
+msgstr "Ocurrió un error habilitando el servicio 'postgresql'."
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Exit code"
+msgstr "Código de salida"
+
+msgid "Launching..."
+msgstr "Ejecutando..."
+
+msgid "The 'postgresql' service couldn't be started."
+msgstr "El servicio 'postgresql' no pudo ser iniciado."
+
+msgid "It's on state"
+msgstr "Se encuentra en estado"
+
+msgid "It's running"
+msgstr "Esta en ejecución"
+
+msgid "Installing PostgreSQL..."
+msgstr "Instalando PostgreSQL..."
+
+msgid "Installing packages..."
+msgstr "Instalando paquetes..."
+
+msgid "Checking PostgreSQL environment..."
+msgstr "Comprobando entorno PostgreSQL..."
+
+msgid "Checking packages..."
+msgstr "Comprobando paquetes..."
+
+msgid "Your version of Debian/Ubuntu is not supported by official PostgreSQL repositories"
+msgstr "Tu versión de Debian/Ubuntu no está soportada por los repositorios oficiales de PostgreSQL"

@@ -1,0 +1,63 @@
+# es translation of shread 'src/unix/debian/install/boostnote/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-05-01 14:44:11+0200\n"
+"PO-Revision-Date: 2020-05-01 14:28:10+0200\n"
+"Last-Translator: \n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "An error happen retrieving Boostnote releases info from Github API."
+msgstr "Ocurrió un error obteniendo la información de las releases de Boostnote de la API de Github."
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Error code"
+msgstr "Código de error"
+
+msgid "Not found"
+msgstr "No encontrado"
+
+msgid "An error happen parsing penultimate Boostnote release from Github API."
+msgstr "Ocurrió un error parseando la penúltima release de Boostnote de la API de Github."
+
+msgid "An error happen retrieving last Boostnote version."
+msgstr "Ocurrió un error obteniendo la última versión de Boostnote."
+
+msgid "An error happen downloading Boostnote"
+msgstr "Ocurrió un error descargando Boostnote"
+
+msgid "Checking Boostnote..."
+msgstr "Comprobando Boostnote..."
+
+msgid "Retrieving last available version..."
+msgstr "Obteniendo la última versión disponible..."
+
+msgid "Downloading Boostnote"
+msgstr "Descargando Boostnote"
+
+msgid "Installing Boostnote"
+msgstr "Instalando Boostnote"
+
+msgid "Boostnote found installed on the system"
+msgstr "Encontrado Boostnote instalado en el sistema"
+
+msgid "Updating Boostnote"
+msgstr "Actualizando Boostnote"
