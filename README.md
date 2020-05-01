@@ -18,7 +18,31 @@ Bash Ubuntu/Debian readable scripts with localized and indented simple format ou
 ### Output example
 > The verbosity only is increased when failures happen.
 
+#### English
+
+```bash
+Setting up NodeJS ecosystem...
+  Checking base dependencies...
+    build-essential ✔
+    gcc ✔
+    g++ ✔
+    make ✔
+    apt-transport-https ✔
+    lsb-release ✔
+    curl ✔
+    gnupg ✔
+  Found NodeJS installed in the system (v13.13.0) ✔
+  Checking NPM...
+    It's installed (v6.14.4) ✔
+    It's updated ✔
+  Checking Yarn...
+    It's installed (v1.22.4) ✔
+    It's updated ✔
 ```
+
+#### Spanish
+
+```bash
 Configurando ecosistema NodeJS...
   Comprobando dependencias base...
     build-essential ✔
@@ -29,7 +53,7 @@ Configurando ecosistema NodeJS...
     lsb-release ✔
     curl ✔
     gnupg ✔
-  Encontrado NodeJS v13.13.0 instalado ✔
+  Encontrado NodeJS instalado en el sistema (v13.13.0) ✔
   Comprobando NPM...
     Está instalado (v6.14.4) ✔
     Está actualizado ✔
@@ -38,4 +62,11 @@ Configurando ecosistema NodeJS...
     Está actualizado ✔
 ```
 
+## Supported languages
+
+- English
+- Spanish
+
 ## Scripts list ([view files urls](https://mondeja.github.io/shread/list.txt))
+
+TODO
