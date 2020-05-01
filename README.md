@@ -14,7 +14,7 @@ Bash Ubuntu/Debian readable scripts with localized, indented  and simple output.
 - `curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh | sudo bash -`
 
 ### Source to scripts
-- `source <(curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh)`
+- `source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)`
 
 ### Output example
 > The verbosity only is increased when failures happen.

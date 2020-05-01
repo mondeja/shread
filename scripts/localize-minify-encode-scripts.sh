@@ -31,7 +31,7 @@ find src -type f -name '*.sh' | while read script_filepath; do
     # Copy `main.sh` script content localizing messages
     if [ "$lang" != "en" ]; then
       while IFS= read -r line; do
-        # If the line contains a messageç
+        # If the line contains a message
         line_output=$line
         if [[ $line = _MSG* ]]; then
           # Get msgid
