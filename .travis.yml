@@ -9,7 +9,7 @@ script:
 
 branches:
   only:
-  - test
+  - master
 
 jobs:
   include:
