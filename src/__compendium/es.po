@@ -537,6 +537,39 @@ msgstr "Ocurrió un error instalando el paquete de Atom"
 msgid "An error happen disabling the Atom package"
 msgstr "Ocurrió un error deshabilitando el paquete de Atom"
 
+msgid ""
+"An error happen retrieving shunit2 releases information from Github API."
+msgstr ""
+"Ocurrió un error obteniendo la información de las releases de shunit2 de "
+"la API de Github."
+
+msgid "Checking shunit2..."
+msgstr "Comprobando shunit2..."
+
+msgid "Binary not found in PATH"
+msgstr "Binario no encontrado en PATH"
+
+msgid "Retrieving lastest version..."
+msgstr "Obteniendo la última version..."
+
+msgid ""
+"An error happen parsing lastest shunit2 release version from Github API."
+msgstr ""
+"Ocurrió un error parseando la versión de la última release de shunit2 de "
+"la API de Github."
+
+msgid "Downloading shunit2"
+msgstr "Descargando shunit2"
+
+msgid "An error happen downloading shunit2"
+msgstr "Ocurrió un error descargando shunit2"
+
+msgid "Destination file exists"
+msgstr "El archivo de destino ya existe"
+
+msgid "Indicate another destination for shunit2 with parameter"
+msgstr "Indica otro destino para shunit2 con el parámetro"
+
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
 

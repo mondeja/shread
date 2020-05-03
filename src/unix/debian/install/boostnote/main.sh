@@ -48,6 +48,17 @@ function printPrependedStdout() {
   printf "%s" "$_PREPEND_STDOUT_STRING"
 }
 
+INSTALLATION_DEPENDENCIES=(
+  "curl"
+  "jq"
+)
+
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+  fi;
+done;
+
 ARCH=""
 case $(uname -m) in
     i386)   ARCH="386" ;;
@@ -73,7 +84,7 @@ _GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS=0
 _GET_BOOSTNOTE_LATEST_VERSION_MAX_ATTEMPTS=5
 _GET_BOOSTNOTE_LATEST_VERSION_URL=https://api.github.com/repos/BoostIO/boost-releases/releases
 function getBoostnoteLatestVersion() {
-  _BOOSTNOTE_RELEASES_INFO=$(curl -s $_GET_BOOSTNOTE_LATEST_VERSION_URL 2>&1)
+  _BOOSTNOTE_RELEASES_INFO=$(curl -sL $_GET_BOOSTNOTE_LATEST_VERSION_URL 2>&1)
   _BOOSTNOTE_RELEASES_INFO_MESSAGE=$(echo $_BOOSTNOTE_RELEASES_INFO | jq -r '.message' 2>&1)
   _BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then
@@ -124,7 +135,8 @@ function getBoostnoteLatestVersion() {
     let "_GET_BOOSTNOTE_VERSION_INDEX++"
     getBoostnoteLatestVersion
   else
-    printf " (v$_BOOSTNOTE_LASTEST_VERSION) \e[92m\xE2\x9C\x94\e[39m\n"
+    printf " (v$_BOOSTNOTE_LASTEST_VERSION)"
+    printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 }
 

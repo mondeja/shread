@@ -96,12 +96,16 @@ function printPrependedStdout() {
   printf "%s" "$_PREPEND_STDOUT_STRING"
 }
 
-if [[ "$(sudo dpkg -s wget 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq wget > /dev/null
-fi;
-if [[ "$(sudo dpkg -s aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq aptitude > /dev/null
-fi;
+INSTALLATION_DEPENDENCIES=(
+  "wget"
+  "aptitude"
+)
+
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+  fi;
+done;
 
 _PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
 DEBIAN_VERSION="$(lsb_release -c -s)"

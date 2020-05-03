@@ -3,3 +3,4 @@
 *.pot
 *.mo
 __dev__.sh
+/scripts/shunit2

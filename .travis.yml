@@ -1,0 +1,50 @@
+language: bash
+
+install:
+  - bash scripts/build.sh
+
+script:
+  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST distribution with shunit v.\n"
+  - bash scripts/test.sh
+
+branches:
+  only:
+  - test
+
+jobs:
+  include:
+  - os: linux
+    dist: xenial
+    name: xenial
+    language: minimal
+    before_install:
+      - |
+         sudo systemctl stop apt-daily.service &&
+         sudo systemctl kill --kill-who=all apt-daily.service &&
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+           sleep 1
+         done
+  - os: linux
+    dist: bionic
+    name: bionic
+    language: minimal
+    before_install:
+      - |
+         sudo systemctl stop apt-daily.service &&
+         sudo systemctl kill --kill-who=all apt-daily.service &&
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+           sleep 1
+         done
+  - os: linux
+    dist: focal
+    name: focal
+    language: minimal
+    before_install:
+      - |
+         sudo systemctl stop apt-daily.service &&
+         sudo systemctl kill --kill-who=all apt-daily.service &&
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+           sleep 1
+         done
+notifications:
+  email: false

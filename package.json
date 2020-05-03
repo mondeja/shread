@@ -4,6 +4,7 @@
   "description": "Public and readable Ubuntu/Debian scripts directory.",
   "scripts": {
     "build": "bash scripts/build.sh",
+    "test": "bash scripts/test.sh",
     "test:updates": "yarn-check -u || exit 0",
     "locale": "bash scripts/extract-strings-to-po-files.sh"
   },

@@ -50,16 +50,21 @@ function printPrependedStdout() {
   printf "%s" "$_PREPEND_STDOUT_STRING"
 }
 
-if [ -z "$UNIX_DISTRO" ]; then
-  if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq curl > /dev/null
+INSTALLATION_DEPENDENCIES=(
+  "curl"
+  "debconf-utils"
+)
+
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
   fi;
-  source <(curl -sL https://softmond.gitlab.io/scripts/unix/_/util/get-distro.sh)
+done;
+
+if [ -z "$UNIX_DISTRO" ]; then
+  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
-if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq debconf-utils > /dev/null
-fi;
 if [ "$(which debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
@@ -71,14 +76,6 @@ fi;
 CHECK_CURRENT_NODEJS_STABLE_VERSION_URL=https://nodejs.org/dist/latest/SHASUMS256.txt
 LATEST_NODEJS_MAJOR_VERSION=13
 NODEJS_VERSION_TO_INSTALL=$LATEST_HARDCODED_NODEJS_VERSION
-
-if [ -z "$UNIX_DISTRO" ]; then
-  echo empty
-  if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq curl > /dev/null
-  fi;
-  source <(curl -sL https://softmond.gitlab.io/scripts/unix/_/util/get-distro.sh)
-fi;
 
 if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printPrependedStdout
