@@ -4,7 +4,7 @@ install:
   - bash scripts/build.sh
 
 script:
-  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST distribution with shunit v.\n"
+  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST.\n"
   - bash scripts/test.sh
 
 branches:
@@ -35,6 +35,7 @@ jobs:
          while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
            sleep 1
          done
+      - sudo apt update
   - os: linux
     dist: focal
     name: focal
@@ -46,5 +47,6 @@ jobs:
          while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
            sleep 1
          done
+      - sudo apt update
 notifications:
   email: false
