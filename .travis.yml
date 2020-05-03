@@ -4,7 +4,7 @@ install:
   - bash scripts/build.sh
 
 script:
-  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST distribution with shunit v.\n"
+  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST.\n"
   - bash scripts/test.sh
 
 branches:
