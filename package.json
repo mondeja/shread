@@ -1,7 +1,7 @@
 {
   "name": "shread",
   "version": "1.0.0",
-  "description": "Public and readable Ubuntu/Debian scripts directory.",
+  "description": "Ubuntu/Debian localized Bash scripts.",
   "scripts": {
     "build": "bash scripts/build.sh",
     "test": "bash scripts/test.sh",
