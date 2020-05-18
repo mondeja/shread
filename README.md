@@ -88,7 +88,7 @@ All scripts take an optional parameter:
 
 <a name="prepend-stdout" href="#prepend-stdout">#</a> <b>--prepend-stdout</b> *string*
 
-Every line of output will be preceded will the string passed on this parameter. As default an empty string.
+Every line of output will be preceded with the string passed on this parameter. As default an empty string.
 
 
 ### Installation

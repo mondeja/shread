@@ -30,10 +30,6 @@ function printPrependedStdout() {
   printf "%s" "$_PREPEND_STDOUT_STRING"
 }
 
-if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq curl > /dev/null || exit $?
-fi;
-
 if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq debconf-utils > /dev/null
 fi;
@@ -43,6 +39,10 @@ if [ "$(which debconf-get-selections)" != "" ]; then
     grep debconf/frontend | \
     awk '{print $4}')
   sudo sh -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
+fi;
+
+if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
 
 printPrependedStdout

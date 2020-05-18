@@ -2,6 +2,7 @@
 
 Installs Python3 (and some Python2) related APT packages if are not installed:
 
+- `curl`
 - `python-dev`
 - `python3-dev`
 - `python-pip`

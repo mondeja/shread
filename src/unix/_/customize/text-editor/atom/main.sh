@@ -155,7 +155,7 @@ done
 yarn install --silent --no-progress --ignore-optional --non-interactive
 printPrependedStdout
 printf "  $_MSG_CONFIGURING_EDITOR"
-curl -sL https://softmond.gitlab.io/scripts/_/customize/text-editor/atom/configure.js | \
+curl -sL https://mondeja.github.io/shread/_/customize/text-editor/atom/configure.js | \
   node - \
   exit $?
 printf " \e[92m\xE2\x9C\x94\e[39m\n"

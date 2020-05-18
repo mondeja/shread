@@ -44,9 +44,17 @@ if [ "$ATOM_BINARY_PATH" != "" ]; then
   printf "Atom v$ATOM_VERSION $_MSG_ALREADY_INSTALLED"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
-
   printf "$_MSG_CHECKING_ATOM\n"
-  sudo apt-get install -y -qqq wget > /dev/null
+  INSTALLATION_DEPENDENCIES=(
+    "wget"
+    "jq"
+  )
+
+  for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+    if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+    fi;
+  done;
 
   printPrependedStdout
   printf "  $_MSG_ADDING_REPO..."

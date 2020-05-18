@@ -40,7 +40,7 @@ if [ -z $UNIX_DISTRO ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
-  source <(curl -sL https://softmond.gitlab.io/scripts/unix/_/util/get-distro.sh)
+  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
 if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then

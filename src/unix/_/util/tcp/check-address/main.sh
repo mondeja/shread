@@ -42,6 +42,13 @@ do
     esac
 done
 
+if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  sudo apt-get install -y -qqq curl > /dev/null
+  if [ $? -ne 0 ]; then
+    exit $?
+  fi;
+fi;
+
 if [ -z "$_ADDRESS" ]; then
   printf "$_MSG_MUST_SPECIFY_ADDRESS --address" >&2
   exit 1
