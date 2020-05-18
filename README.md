@@ -8,15 +8,23 @@ Bash Ubuntu/Debian readable scripts with localized, indented  and simple output.
 ## Scripts execution
 
 ### With arguments
-- `curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh | sudo bash -s -- --prepend-stdout '  '`
+```bash
+curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
+    | sudo bash -s -- --prepend-stdout '  '
+```
 
 ### Without arguments
-- `curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh | sudo bash -`
+```bash
+curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
+    | sudo bash -
+```
 
-### Source to scripts
-- `source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)`
+### Sourcing
+```bash
+source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
+```
 
-### Output example
+### Output
 > The verbosity only is increased when failures happen.
 
 #### English
@@ -70,6 +78,18 @@ Configurando ecosistema NodeJS...
 - English
 - Spanish
 
-## Scripts list ([view files urls](https://mondeja.github.io/shread/list.txt))
+_____________________________________________________________
 
-TODO
+## Documentation
+- [Files urls](https://mondeja.github.io/shread/list.txt)
+
+### Common parameters
+All scripts take an optional parameter:
+
+<a name="prepend-stdout" href="#prepend-stdout">#</a> <b>--prepend-stdout</b> *string*
+
+Every line of output will be preceded will the string passed on this parameter. As default an empty string.
+
+
+### Installation
+- [Python3](https://github.com/mondeja/shread/blob/master/src/unix/debian/install/python/v3/README.md)
