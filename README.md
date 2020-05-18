@@ -75,8 +75,8 @@ Configurando ecosistema NodeJS...
 
 ## Supported languages
 
-- English
-- Spanish
+- English :uk: :us:
+- Spanish :es:
 
 _____________________________________________________________
 
