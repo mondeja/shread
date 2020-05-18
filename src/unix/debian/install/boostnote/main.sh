@@ -17,7 +17,7 @@ _MSG_BOOSTNOTE_FOUND_INSTALLED="Boostnote found installed on the system"
 _MSG_UPDATING_BOOSTNOTE="Updating Boostnote"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

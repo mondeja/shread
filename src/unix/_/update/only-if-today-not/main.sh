@@ -10,7 +10,7 @@ _MSG_ERROR_UPDATING_SYSTEM_PACKAGES="An error happen updating system packages."
 _MSG_RELAUNCHING_WITH_STDOUT="Relaunching with standard output and canceling the installation..."
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

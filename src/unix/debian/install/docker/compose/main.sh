@@ -16,7 +16,7 @@ _MSG_DOCKER_COMPOSE_FOUND_INSTALLED="Docker Compose found installed in the syste
 _MSG_UPDATING_DOCKER_COMPOSE="Updating Docker Compose"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

@@ -7,7 +7,7 @@ _MSG_UPDATING_CIRCLECI="Updating CircleCI"
 _MSG_FOUND_CIRCLECI_INSTALLED="CircleCI found installed"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

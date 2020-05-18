@@ -31,7 +31,7 @@ _MSG_UPDATING_REDIS="Updating Redis"
 _MSG_FOUND_REDIS_INSTALLED="Found Redis installed"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

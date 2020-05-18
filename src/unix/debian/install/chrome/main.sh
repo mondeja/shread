@@ -10,7 +10,7 @@ _MSG_UPDATING_CHROMEDRIVER="Updating chromedriver"
 _MSG_FOUND_CHROMEDRIVER_INSTALLED="Chromedriver found installed"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 

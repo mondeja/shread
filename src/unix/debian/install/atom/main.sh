@@ -12,7 +12,7 @@ _MSG_RUNNING_INSTALLATION_SCRIPT="Running installation script..."
 _MSG_ERROR_INSTALLING_ATOM="An error happen installing Atom"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
   exit 1
 fi;
 
