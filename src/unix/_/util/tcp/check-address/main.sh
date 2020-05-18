@@ -43,10 +43,7 @@ do
 done
 
 if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq curl > /dev/null
-  if [ $? -ne 0 ]; then
-    exit $?
-  fi;
+  sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
 
 if [ -z "$_ADDRESS" ]; then

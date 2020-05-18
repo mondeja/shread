@@ -4,8 +4,9 @@
   "description": "Ubuntu/Debian localized Bash scripts.",
   "scripts": {
     "build": "bash scripts/build.sh",
+    "lint": "bash scripts/lint.sh",
     "test": "bash scripts/test.sh",
-    "test:updates": "yarn-check -u || exit 0",
+    "test:updates": "yarn-check -u",
     "locale": "bash scripts/extract-strings-to-po-files.sh"
   },
   "private": true,
