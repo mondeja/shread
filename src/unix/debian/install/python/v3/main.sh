@@ -13,8 +13,11 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-# Indica si debemos atualizar las bibliotecas globales
-#   recomendadas de Python3
+# We must update global libraries recommended for Python:
+#   - pip
+#   - virtualenv
+#   - setuptools
+#   - testresources
 _UPGRADE_PY3_GLOBAL_LIBS=1
 
 _PREPEND_STDOUT_STRING=""
@@ -61,10 +64,10 @@ printPrependedStdout
 printf "$_MSG_SETTING_UP_PY3_ECOSYSTEM\n"
 
 printPrependedStdout
-# Comprobamos si existe el binario `python3`
+# Python3 binary exists?
 PY3_BINARY_FILEPATH=$(which python3)
 if [ "$PY3_BINARY_FILEPATH" = "" ]; then
-  # Python3 no está instalado
+  # If not, Python might not be installed
   _PYTHON_STABLE_PACKAGE_VERSION=$(apt-cache policy python3-dev | grep -Po "(\d+\.)+\d+" | head -n 1)
   printf "  $_MSG_INSTALLING_BASE_PACKAGE"
   if [ "$_PYTHON_STABLE_PACKAGE_VERSION" != "" ]; then
@@ -137,11 +140,10 @@ if [ -d "~/.cache/pip/" ]; then
   fi;
 fi;
 
-# Actualizamos PIP para Python2 a una versión compatible
-sudo python2 -m pip install -qq pip==20.0.2
-
-# Actualizamos PIP para Python3 usando 'ensurepip'.
-sudo python3 -m pip install -qq python-dotenv
+# Update PIP for Python2 to latest compatible version
+if [ "$(which python2)" != "" ]; then
+  sudo python2 -m pip install -qq pip==20.0.2
+fi;
 
 if [ $_UPGRADE_PY3_GLOBAL_LIBS -eq 1 ]; then
 
@@ -160,7 +162,7 @@ if [ $_UPGRADE_PY3_GLOBAL_LIBS -eq 1 ]; then
     printPrependedStdout
     printf "    $LIB"
 
-    # Comprobamos si está instalada localmente
+    # Check if it's installed locally
     _GET_VERSION_EXEC_STR="
 import sys;
 try: import $LIB as l;
@@ -171,15 +173,14 @@ print(l.__version__ if isinstance(l.__version__, str) else \
     _LIB_LOCAL_VERSION=$($PY3_BINARY_FILEPATH -c "$_GET_VERSION_EXEC_STR")
     _LIB_LOCAL_VERSION_EXIT_CODE=$?
     if [ $_LIB_LOCAL_VERSION_EXIT_CODE -eq 777 ]; then
-      # Si no está instalado, la instalamos
+      # If not, install it
     	sudo -H $PY3_BINARY_FILEPATH -m pip install -U --quiet $LIB
     else
       printf " ("
       if [ "$_LIB_LOCAL_VERSION" != "" ]; then
         printf "v$_LIB_LOCAL_VERSION"
       fi;
-      # Si ya está instalada
-        # Obtenemos la última versión en PyPi
+      # If it's intalled, get latest version
       _LIB_LAST_PYPI_VERSION=$(
         xmllint --html --xpath "//a[last()]/text() " \
           <(curl -sL https://pypi.org/simple/$LIB/) | \

@@ -1,0 +1,3 @@
+* text=auto
+public/**/** -diff
+package-lock.json -diff
