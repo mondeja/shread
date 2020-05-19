@@ -6,8 +6,8 @@
 '
 function testDependentAptPackages {
   # aptitude is required to search packages
-  if [[ "$(dpkg -s aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    apt-get install -y -qqq aptitude > /dev/null
+  if [[ "$(sudo dpkg -s aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq aptitude > /dev/null
   fi;
 
   INSTALLATION_DEPENDENCIES=(
@@ -27,8 +27,8 @@ function testDependentAptPackages {
   )
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
     if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      _APTITUDE_SEARCH="$(aptitude search $DEP 2> /dev/null)"
-      assertNotEquals " $DEP not found on public APT repositories ->" "$_APTITUDE_SEARCH" ""
+      _APTITUDE_SEARCH="$(sudo aptitude search $DEP 2> /dev/null)"
+      assertNotEquals "$DEP not found on public APT repositories ->" "$_APTITUDE_SEARCH" ""
     fi;
   done;
 }
