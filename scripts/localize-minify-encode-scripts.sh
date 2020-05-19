@@ -12,6 +12,8 @@ find src -type f -name '*.sh' | while read script_filepath; do
     continue
   fi;
 
+  printf "."
+
   # Relative path to `main.sh` scripts from `src/`
   relative_path_to_script_from_src="${script_filepath:4:${#script_filepath}}"
   # Relative path to `main.sh` directories from `src/`
@@ -75,3 +77,5 @@ find src -type f -name '*.sh' | while read script_filepath; do
     rm -f "$temp_localized_script"
   done
 done
+
+printf "\n"

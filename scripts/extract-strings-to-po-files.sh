@@ -47,6 +47,8 @@ find src -iname "*.sh" | while read filepath; do
     continue
   fi;
 
+  printf "."
+
   # Iterate over language codes
   for lang in "${SUPPORTED_LANGUAGES[@]}"; do
     # If compendium for this language doesn't exists, create it
@@ -143,3 +145,5 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
     sed -i 's/^msgstr " "/msgstr ""/' "$COMPENDIUM_DIRPATH/$lang.po"
   fi;
 done;
+
+printf "\n"
