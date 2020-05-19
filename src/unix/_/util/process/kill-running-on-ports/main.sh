@@ -5,7 +5,7 @@ _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_LEAVING_PORTS_FREE="Leaving ports free of processes..."
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER.\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

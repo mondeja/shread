@@ -15,7 +15,7 @@ _MSG_ERROR_DISABLING_ATOM_PACKAGE="An error happen disabling the Atom package"
 # Instalación de paquetes de utilidad para Atom
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "$_MSG_EXECUTED_AS_SUPERUSER.\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

@@ -582,5 +582,11 @@ msgstr "Relanzando con salida estándar y cancelando la instalación..."
 msgid "Leaving ports free of processes..."
 msgstr "Dejando puertos libres de procesos."
 
+msgid "Setting new timeout for Grub"
+msgstr "Definiendo nuevo tiempo de expiración para Grub"
+
+msgid "Grub configuration file not found"
+msgstr "Archivo de configuración de Grub no encontrado"
+
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"

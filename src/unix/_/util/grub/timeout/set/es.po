@@ -1,4 +1,4 @@
-# es translation of shread 'src/unix/_/util/get-distro/es.sh' file.
+# es translation of shread 'src/unix/_/util/grub/timeout/set/es.sh' file.
 # Copyright © 2020 shread.
 # This file is distributed under the same license as shread.
 # Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-19 13:34:21+0200\n"
-"PO-Revision-Date: 2020-05-03 17:03:55+0200\n"
+"POT-Creation-Date: 2020-05-19 13:36:30+0200\n"
+"PO-Revision-Date: 2020-05-19 13:34:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: es\n"
 "Language: es\n"
@@ -19,3 +19,9 @@ msgstr ""
 
 msgid "This script needs to be executed as superuser."
 msgstr "Este script necesita ser ejecutado como superusuario."
+
+msgid "Setting new timeout for Grub"
+msgstr "Definiendo nuevo tiempo de expiración para Grub"
+
+msgid "Grub configuration file not found"
+msgstr "Archivo de configuración de Grub no encontrado"
