@@ -2,7 +2,7 @@
 
 PUBLIC_URL="https://mondeja.github.io/shread"
 
-SHREAD_VERSION=$(cat package.json | grep version | cut -d' ' -f4 | tr -d '",')
+SHREAD_VERSION="0.0.1"
 
 SUPPORTED_LANGUAGES=(
   "es"

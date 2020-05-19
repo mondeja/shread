@@ -132,9 +132,13 @@ find src -iname "*.sh" | while read filepath; do
       "$dirpath/$lang.pot" \
       "$COMPENDIUM_DIRPATH/$lang.po~"
 
-    # Convert `msgstr " "` messages to `msgstr ""` bacause with a space,
-    #   the translations will not be updated from compendium at next execution
-    sed -i 's/^msgstr " "/msgstr ""/' "$dirpath/$lang.po"
+    if [ $_N_STRINGS_EXTRACTED -eq 0 ]; then
+      rm -f "$dirpath/$lang.po"
+    else
+      # Convert `msgstr " "` messages to `msgstr ""` bacause with a space,
+      #   the translations will not be updated from compendium at next execution
+      sed -i 's/^msgstr " "/msgstr ""/' "$dirpath/$lang.po"
+    fi;
   done;
 done;
 
