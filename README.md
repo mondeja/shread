@@ -3,7 +3,7 @@
 
 Bash Ubuntu/Debian readable scripts with localized, indented  and simple output.
 
-[![Build status](https://img.shields.io/github/workflow/status/mondeja/shread/Deploy%20to%20Github%20Pages)](https://github.com/mondeja/shread/actions) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
+[![Build status](https://img.shields.io/github/workflow/status/mondeja/shread/Deploy%20to%20Github%20Pages)](https://github.com/mondeja/shread/actions) [![TravisCI tests](https://img.shields.io/travis/mondeja/shread?label=tests)](https://travis-ci.com/github/mondeja/shread) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
 
 ## Scripts execution
 
