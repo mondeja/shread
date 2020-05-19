@@ -14,6 +14,9 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
+# Update (1) or not (0)
+_UPDATE=1
+
 _PREPEND_STDOUT_STRING=""
 for arg in "$@"
 do
@@ -21,6 +24,11 @@ do
         --prepend-stdout)
         shift
         _PREPEND_STDOUT_STRING=$1
+        shift
+        ;;
+
+        --no-update)
+        _UPDATE=0
         shift
         ;;
     esac
@@ -47,7 +55,6 @@ function getDropboxLastVersion() {
 }
 
 function downloadDropbox() {
-  # Descargamos la última version
   _DROPBOX_DOWNLOAD_URL="https://linux.dropbox.com/packages/debian/$_DROPBOX_LAST_DEB"
   curl -sL -o "$_DROPBOX_LAST_DEB" "$_DROPBOX_DOWNLOAD_URL"
 }
@@ -57,7 +64,6 @@ function installDropbox() {
   sudo rm -f "$_DROPBOX_LAST_DEB"
 }
 
-# Comprobamos si está instalado
 _DROPBOX_BINARY_PATH="$(command -v dropbox)"
 if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
   _DROPBOX_INSTALLED_VERSION=$(dropbox version | tail -n 1 | cut -d' ' -f5)
@@ -66,6 +72,9 @@ if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
     "$_DROPBOX_INSTALLED_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
+  if [ $_UPDATE -eq 0 ]; then
+    exit 0
+  fi;
   printPrependedStdout
   printf "  %s" "$_MSG_CHECKING_IF_IS_UPDATED"
   getDropboxLastVersion
