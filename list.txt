@@ -34,6 +34,8 @@ https://mondeja.github.io/shread/unix/debian/uninstall/nodejs/en.sh
 https://mondeja.github.io/shread/unix/debian/uninstall/nodejs/es.sh
 https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh
 https://mondeja.github.io/shread/unix/_/util/get-distro/es.sh
+https://mondeja.github.io/shread/unix/_/util/grub/timeout/set/en.sh
+https://mondeja.github.io/shread/unix/_/util/grub/timeout/set/es.sh
 https://mondeja.github.io/shread/unix/_/util/tcp/check-address/en.sh
 https://mondeja.github.io/shread/unix/_/util/tcp/check-address/es.sh
 https://mondeja.github.io/shread/unix/_/util/process/kill-running-on-ports/en.sh
