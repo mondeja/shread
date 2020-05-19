@@ -9,8 +9,8 @@
 '
 testUnixDistro() {
   . public/unix/_/util/get-distro/en.sh
-  assertEquals "$UNIX_DISTRO" "ubuntu"
-  assertEquals "$UNIX_DISTRO_CAPITALIZED" "Ubuntu"
+  assertEquals "ubuntu" "$UNIX_DISTRO"
+  assertEquals "Ubuntu" "$UNIX_DISTRO_CAPITALIZED"
 }
 
 . ./scripts/shunit2

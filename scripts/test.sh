@@ -12,13 +12,13 @@ SHUNIT_VERSION=$(cat scripts/shunit2 | grep "SHUNIT_VERSION=" | cut -d"'" -f2)
 printf "Using shunit2 v$SHUNIT_VERSION\n\n"
 
 _EXIT_CODE=0
-find src -iname "test.sh" | while read filepath; do
+printf "%s\n" "$(find src -iname "test.sh")" > /tmp/files-to-test.txt
+while read filepath; do
   printf "%s" "---------------------------------------------------------"
   printf "\n\$ bash $filepath\n\n"
   bash "$filepath"
   if [ $? -ne 0 ]; then
     _EXIT_CODE=1
   fi;
-done;
-
+done < /tmp/files-to-test.txt;
 exit $_EXIT_CODE
