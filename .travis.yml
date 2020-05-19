@@ -1,5 +1,4 @@
 language: minimal
-sudo: required
 
 branches:
   only:
@@ -53,7 +52,7 @@ jobs:
       - docker run -itd --name test debian:stretch
       - docker cp . test:/shread
     install:
-      - docker exec -w /shread test bash -c "apt-get update && apt-get install make"
+      - docker exec -w /shread test bash -c "apt-get update && apt-get install -y make"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
       - docker exec -w /shread test bash -c "bash scripts/test.sh"
