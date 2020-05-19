@@ -1,7 +1,7 @@
 #!/bin/bash
 
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
-_MSG_SETTING_NEW_GRUB_TIMEOUT="Setting new timeout for Grub"
+_MSG_SETTING_GRUB_TIMEOUT="Setting boot timeout for Grub"
 _MSG_GRUB_FILE_NOT_FOUND="Grub configuration file not found"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
@@ -52,7 +52,7 @@ function checkGrubFileExists() {
 
 function setNewGrubTimeout() {
   printPrependedStdout
-  printf "%s (%s)..." "$_MSG_SETTING_NEW_GRUB_TIMEOUT" "$_NEW_TIMEOUT"
+  printf "%s (%s)..." "$_MSG_SETTING_GRUB_TIMEOUT" "$_NEW_TIMEOUT"
   _GRUB_TIMEOUT_CONFIG_EXISTS="$( grep "GRUB_TIMEOUT=" < "$_CONFIG_FILEPATH")"
   if [ "$_GRUB_TIMEOUT_CONFIG_EXISTS" = "" ]; then
     printf "\nGRUB_TIMEOUT=%s\n" "$_NEW_TIMEOUT" >> "$_CONFIG_FILEPATH"
