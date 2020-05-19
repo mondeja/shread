@@ -1,13 +1,6 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
-
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
-  exit 1
-fi;
-
 # If is available, use LSB identification
 if [ -f /etc/lsb-release -o -d /etc/lsb-release.d ]; then
   UNIX_DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
