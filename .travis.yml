@@ -1,11 +1,5 @@
-language: bash
-
-install:
-  - bash scripts/build.sh
-
-script:
-  - printf "Testing on $TRAVIS_OS_NAME $TRAVIS_DIST.\n"
-  - bash scripts/test.sh
+language: minimal
+sudo: required
 
 branches:
   only:
@@ -15,8 +9,7 @@ jobs:
   include:
   - os: linux
     dist: bionic
-    name: bionic
-    language: minimal
+    name: Ubuntu 18.04 - Bionic
     before_install:
       - |
          sudo systemctl stop apt-daily.service &&
@@ -25,10 +18,16 @@ jobs:
            sleep 1
          done
       - sudo apt update
+    install:
+      - bash scripts/build.sh
+    script:
+      - bash scripts/test.sh
+    env:
+      - SHREAD_TEST__UNIX_DISTRO=ubuntu
+
   - os: linux
     dist: focal
-    name: focal
-    language: minimal
+    name: Ubuntu 20.04 - Focal
     before_install:
       - |
          sudo systemctl stop apt-daily.service &&
@@ -37,5 +36,29 @@ jobs:
            sleep 1
          done
       - sudo apt update
+    install:
+      - bash scripts/build.sh
+    script:
+      - bash scripts/test.sh
+    env:
+      - SHREAD_TEST__UNIX_DISTRO=ubuntu
+
+  - os: linux
+    dist: focal
+    name: Debian 9 - Stretch
+    services:
+      - docker
+    before_install:
+      - docker pull debian:stretch
+      - docker run -itd --name test debian:stretch
+      - docker cp . test:/shread
+    install:
+      - docker exec -w /shread test bash -c "apt-get update && apt-get install make"
+      - docker exec -w /shread test bash -c "bash scripts/build.sh"
+    script:
+      - docker exec -w /shread test bash -c "bash scripts/test.sh"
+    env:
+      - SHREAD_TEST__UNIX_DISTRO=debian
+
 notifications:
   email: false
