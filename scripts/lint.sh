@@ -7,8 +7,8 @@ if [[ "$(sudo dpkg -s shellcheck 2> /dev/null | grep Status)" != "Status: instal
 fi;
 
 function printSeparator() {
-  printf "%s" "---------------------------------------------------------"
-  printf "%s" "---------------------------------------------------------"
+  printf "%s" "------------------------------------------------------"
+  printf "%s" "------------------------------------------------------"
   printf "\n"
 }
 
@@ -16,7 +16,7 @@ function main() {
   printf "Linting files...\n\n"
 
   _NFILES_TOTAL=0
-  _NFILES_FAIL=0
+  _NFILES_LINTED=0
 
   _DIRECTORIES=$(
     "src"
@@ -30,8 +30,8 @@ function main() {
       shellcheck $filepath
       if [ $? -ne 0 ]; then
         _EXIT_CODE=1
-        ((_NFILES_FAIL++))
       else
+        ((_NFILES_LINTED++))
         printf "\e[92m\xE2\x9C\x94\e[39m\n"
       fi;
       ((_NFILES_TOTAL++))
@@ -40,8 +40,8 @@ function main() {
   done;
 
   printSeparator
-  printf "\nFiles failed/total: %d/%d" "$_NFILES_FAIL" "$_NFILES_TOTAL"
-  if [ "$_NFILES_FAIL" != "$_NFILES_TOTAL" ]; then
+  printf "\nFiles linted/total: %d/%d" "$_NFILES_LINTED" "$_NFILES_TOTAL"
+  if [ "$_NFILES_LINTED" != "$_NFILES_TOTAL" ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m" >&2
   fi;
   printf "\n\n"
