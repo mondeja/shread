@@ -52,13 +52,27 @@ jobs:
       - docker run -itd --name test debian:stretch
       - docker cp . test:/shread
     install:
+      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils"
+      - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
+      - docker exec -w /shread test bash -c "bash scripts/build.sh"
+    script:
+      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian test bash -c "bash scripts/test.sh"
+
+  - os: linux
+    dist: focal
+    name: Debian 10 - Buster
+    services:
+      - docker
+    before_install:
+      - docker pull debian:buster
+      - docker run -itd --name test debian:buster
+      - docker cp . test:/shread
+    install:
       - docker exec test bash -c "apt-get update && apt-get install -y make sudo"
       - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
-      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=$SHREAD_TEST__UNIX_DISTRO test bash -c "bash scripts/test.sh"
-    env:
-      - SHREAD_TEST__UNIX_DISTRO=debian
+      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian test bash -c "bash scripts/test.sh"
 
 notifications:
   email: false
