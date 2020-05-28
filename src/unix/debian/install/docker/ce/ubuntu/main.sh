@@ -37,52 +37,52 @@ export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 
 sudo printf ""
 printPrependedStdout
-printf "$_MSG_CHECKING_DOCKER_CE...\n"
+printf "%s...\n" "$_MSG_CHECKING_DOCKER_CE"
 
 printPrependedStdout
 # Comprobamos si ya tenemos la clave pública de los repositorios Docker
 _APT_KEY_FOUND=$(apt-key list | grep "Docker Release")
 # Si no tenemos la clave pública, la obtenemos
 if [ "$_APT_KEY_FOUND" = "" ]; then
-  printf "  $_MSG_SETTING_UP_PUBLIC_KEY"
+  printf "  %s" "$_MSG_SETTING_UP_PUBLIC_KEY"
   _GET_PUBLIC_GPG_KEY_STDERR=$(
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
     sudo apt-key add - 2>&1 > /dev/null)
   _GET_PUBLIC_GPG_KEY_EXIT_CODE=$?
   if [ $_GET_PUBLIC_GPG_KEY_EXIT_CODE -ne 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_RETRIEVING_PUBLIC_DOCKER_REPOS_KEY" >&2
+    printf "\n%s" "$_MSG_ERROR_RETRIEVING_PUBLIC_DOCKER_REPOS_KEY" >&2
     printf " (https://download.docker.com/linux/ubuntu/gpg):\n" >&2
-    printf "$_GET_PUBLIC_GPG_KEY_STDERR\n" >&2
+    printf "%s\n" "$_GET_PUBLIC_GPG_KEY_STDERR" >&2
     exit $_GET_PUBLIC_GPG_KEY_EXIT_CODE
   fi;
   sudo apt-key fingerprint 0EBFCD88
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
-  printf "  $_MSG_CONFIGURED_PUBLIC_KEY_FOUND"
+  printf "  %s" "$_MSG_CONFIGURED_PUBLIC_KEY_FOUND"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 fi;
 
-UBUNTU_RELEASE=$(lsb_release -cs)
+UBUNTU_RELEASE="$(lsb_release -cs)"
 # Para la versión eoan aún no está disponible en AMD64, tiramos de disco
 #   https://download.docker.com/linux/ubuntu/dists/
 if [ "$UBUNTU_RELEASE" = "eoan" ]; then
-  UBUNTU_RELEASE=disco
+  UBUNTU_RELEASE="disco"
 fi;
 
 _APT_REPO="deb [arch=amd64] https://download.docker.com/linux/ubuntu $UBUNTU_RELEASE stable"
 _REPO_FOUND_ON_SOURCES=$(
-  find /etc/apt/ -name *.list | \
-  xargs cat | \
-  grep ^[[:space:]]*deb | \
+  find /etc/apt/ -name "*.list" -print0 | \
+  xargs -0 cat | \
+  grep '^[[:space:]]*deb' | \
   grep "https://download.docker.com/linux/ubuntu")
 printPrependedStdout
 if [ "$_REPO_FOUND_ON_SOURCES" = "" ]; then
-  printf "  $_MSG_ADDING_DOCKER_REPO"
+  printf "  %s" "$_MSG_ADDING_DOCKER_REPO"
   sudo add-apt-repository "$_APT_REPO" > /dev/null
   sudo apt-get update -y -qqq > /dev/null
 else
-  printf "  $_MSG_DOCKER_REPO_FOUND"
+  printf "  %s" "$_MSG_DOCKER_REPO_FOUND"
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
@@ -93,11 +93,11 @@ INSTALLATION_PACKAGES=(
 )
 
 printPrependedStdout
-printf "  $_MSG_CHECKING_DOCKER_CE_PACKAGES\n"
+printf "  %s\n" "$_MSG_CHECKING_DOCKER_CE_PACKAGES"
 
 for DEP in "${INSTALLATION_PACKAGES[@]}"; do
   printPrependedStdout
-  printf "    $DEP"
+  printf "    %s" "$DEP"
   if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
