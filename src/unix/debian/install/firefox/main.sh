@@ -33,25 +33,29 @@ if [ -z "$UNIX_DISTRO" ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
+  #shellcheck disable=SC1090
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
 printPrependedStdout
-printf "$_MSG_CHECKING_MOZILLA_ECOSYSTEM\n"
+printf "%s\n" "$_MSG_CHECKING_MOZILLA_ECOSYSTEM"
 
 printPrependedStdout
 if command -v firefox &> /dev/null; then
-  _MOZILLA_FIREFOX_VERSION=$(sudo -u $SUDO_USER firefox --version | cut -d' ' -f3)
-  printf "  $_MSG_FOUND_MOZILLA_FIREFOX_INSTALLED (v$_MOZILLA_FIREFOX_VERSION)"
+  _MOZILLA_FIREFOX_VERSION=$(
+    sudo -u "$SUDO_USER" firefox --version | cut -d' ' -f3)
+  printf "  %s (v%s)" "$_MSG_FOUND_MOZILLA_FIREFOX_INSTALLED" "$_MOZILLA_FIREFOX_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
-  printf "  $_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES\n"
+  printf "  %s\n" "$_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES"
   if [ "$UNIX_DISTRO" = "debian" ]; then
-    _FIREFOX_LATEST_VERSION=$(sudo apt-cache policy firefox-esr | grep -Po "(\d+\.)+\d+" | head -n 1)
+    _FIREFOX_LATEST_VERSION=$(
+      sudo apt-cache policy firefox-esr | grep -Po '(\d+\.)+\d+' | head -n 1)
   else
-    _FIREFOX_LATEST_VERSION=$(sudo apt-cache policy firefox | grep -Po "(\d+\.)+\d+" | head -n 1)
+    _FIREFOX_LATEST_VERSION=$(
+      sudo apt-cache policy firefox | grep -Po '(\d+\.)+\d+' | head -n 1)
   fi;
-  printf " (v$_FIREFOX_LATEST_VERSION)..."
+  printf " (v%s)..." "$_FIREFOX_LATEST_VERSION"
   if [ "$UNIX_DISTRO" = "debian" ]; then
     _MOZILLA_FIREFOX_PACKAGES=(
       "firefox-esr"
@@ -63,24 +67,23 @@ else
     )
   fi;
 
-  for PACKAGE in "${_MOZILLA_FIREFOX_PACKAGES[@]}"
-  do
+  for PACKAGE in "${_MOZILLA_FIREFOX_PACKAGES[@]}"; do
     printPrependedStdout
-    printf "    $PACKAGE"
-    if [[ "$(sudo dpkg -s $PACKAGE 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo apt-get install -y -qqq $PACKAGE > /dev/null || exit $?
+    printf "    %s" "$PACKAGE"
+    if [[ "$(sudo dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo apt-get install -y -qqq "$PACKAGE" > /dev/null || exit $?
     fi;
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   done
 fi;
 
 printPrependedStdout
-_GECKODRIVER_PATH=$(command -v geckodriver)
+_GECKODRIVER_PATH="$(command -v geckodriver)"
 if [ "$_GECKODRIVER_PATH" != "" ]; then
-  printf "  $_MSG_FOUND_CHECKODRIVER_INSTALLED"
-  printf " (v$(geckodriver --version | head -n1 | cut -d' ' -f2))"
+  printf "  %s" "$_MSG_FOUND_CHECKODRIVER_INSTALLED"
+  printf " (v%s)" "$(geckodriver --version | head -n1 | cut -d' ' -f2)"
 else
-  printf "  $_MSG_INSTALLING_GECKODRIVER"
+  printf "  %s" "$_MSG_INSTALLING_GECKODRIVER"
   sudo apt-get install -y -qqq firefox-geckodriver > /dev/null
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
