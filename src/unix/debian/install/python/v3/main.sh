@@ -116,10 +116,10 @@ printf "  $_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES\n"
 for DEP in "${INSTALLATION_PACKAGES[@]}"; do
   printPrependedStdout
   printf "    $DEP"
-  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
-  _DEP_VERSION=$(apt-cache policy $DEP | grep -Po "(\d+\.)+\d+" | head -n 1)
+  _DEP_VERSION=$(apt-cache policy "$DEP" | grep -Po "(\d+\.)+\d+" | head -n 1)
   if [ "$_DEP_VERSION" != "" ]; then
     printf " (v$_DEP_VERSION)"
   fi;

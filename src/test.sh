@@ -26,8 +26,8 @@ function testDependentAptPackages {
     "tcl"
   )
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-    if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      _APTITUDE_SEARCH="$(sudo aptitude search $DEP 2> /dev/null)"
+    if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      _APTITUDE_SEARCH="$(sudo aptitude search "$DEP" 2> /dev/null)"
       assertNotEquals "$DEP not found on public APT repositories ->" "$_APTITUDE_SEARCH" ""
     fi;
   done;

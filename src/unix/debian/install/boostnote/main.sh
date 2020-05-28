@@ -54,8 +54,8 @@ INSTALLATION_DEPENDENCIES=(
 )
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -189,8 +189,8 @@ INSTALLATION_DEPENDENCIES=(
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"
 do
-  if [[ "$(sudo dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
 done
 

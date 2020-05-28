@@ -38,16 +38,15 @@ function printPrependedStdout() {
 }
 
 printPrependedStdout
-printf "$_MSG_CHECKING_PANDOC\n"
+printf "%s\n" "$_MSG_CHECKING_PANDOC"
 
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "jq"
 )
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"
-do
-  if [[ "$(sudo dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq $DEP > /dev/null || exit $?
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
 done
 
@@ -66,17 +65,17 @@ function checkPandocVersionToDownloadExists() {
 
 _GET_PANDOC_LATEST_VERSION_ATTEMPTS=0
 _GET_PANDOC_LATEST_VERSION_MAX_ATTEMPTS=5
-_GET_PANDOC_LATEST_VERSION_URL=https://api.github.com/repos/jgm/pandoc/releases
+_GET_PANDOC_LATEST_VERSION_URL="https://api.github.com/repos/jgm/pandoc/releases"
 function getPandocLatestVersion() {
-  _PANDOC_RELEASES_INFO=$(curl -s $_GET_PANDOC_LATEST_VERSION_URL 2>&1)
-  _PANDOC_RELEASES_INFO_MESSAGE=$(echo $_PANDOC_RELEASES_INFO | jq -r '.message' 2>&1)
+  _PANDOC_RELEASES_INFO="$(curl -s "$_GET_PANDOC_LATEST_VERSION_URL" 2>&1)"
+  _PANDOC_RELEASES_INFO_MESSAGE="$(echo "$_PANDOC_RELEASES_INFO" | jq -r '.message' 2>&1)"
   _PANDOC_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_PANDOC_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_RETRIEVING_PANDOC_RELEASES\n" >&2
-    printf "$_MSG_URL: $_GET_PANDOC_LATEST_VERSION_URL\n" >&2
-    printf "$_MSG_ERROR: $_PANDOC_RELEASES_INFO_MESSAGE\n" >&2
-    exit $_PANDOC_RELEASES_INFO_EXIT_CODE
+    printf "\n%s\n" "$_MSG_ERROR_RETRIEVING_PANDOC_RELEASES" >&2
+    printf "%s: %s\n" "$_MSG_URL" "$_GET_PANDOC_LATEST_VERSION_URL" >&2
+    printf "%s: %s\n" "$_MSG_ERROR" "$_PANDOC_RELEASES_INFO_MESSAGE" >&2
+    exit "$_PANDOC_RELEASES_INFO_EXIT_CODE"
   fi;
 
   # Obtenemos la penúltima release de Pandoc
@@ -84,18 +83,18 @@ function getPandocLatestVersion() {
   #   al momento de ser publicada, los binarios aún no
   #   están disponibles en el repositorio
   _PANDOC_LASTEST_VERSION=$(
-    echo $_PANDOC_RELEASES_INFO | \
+    echo "$_PANDOC_RELEASES_INFO" | \
     jq -r ".[$_GET_PANDOC_VERSION_INDEX].tag_name" 2>&1
   )
   _GET_PANDOC_LATEST_VERSION_EXIT_CODE=$?
   if [ $_GET_PANDOC_LATEST_VERSION_EXIT_CODE -ne 0 ]; then
-    let "_GET_PANDOC_LATEST_VERSION_ATTEMPTS++"
+    (( _GET_PANDOC_LATEST_VERSION_ATTEMPTS++ ))
     if [ $_GET_PANDOC_LATEST_VERSION_ATTEMPTS -ge $_GET_PANDOC_LATEST_VERSION_MAX_ATTEMPTS ]; then
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-      print "\n$_MSG_ERROR_RETRIEVING_LASTEST_PANDOC_VERSION\n" >&2
-      printf "$_MSG_URL: $_GET_PANDOC_LATEST_VERSION_URL\n" >&2
-      printf "$_MSG_ERROR_CODE: $_GET_PANDOC_LATEST_VERSION_EXIT_CODE\n" >&2
-      printf "$_MSG_ERROR: $_PANDOC_LASTEST_VERSION"
+      print "\n%s\n" "$_MSG_ERROR_RETRIEVING_LASTEST_PANDOC_VERSION" >&2
+      printf "%s: %s\n" "$_MSG_URL" "$_GET_PANDOC_LATEST_VERSION_URL" >&2
+      printf "%s: %s\n" "$_MSG_ERROR_CODE" "$_GET_PANDOC_LATEST_VERSION_EXIT_CODE" >&2
+      printf "%s: %s" "$_MSG_ERROR" "$_PANDOC_LASTEST_VERSION" >&2
       exit $_GET_PANDOC_LATEST_VERSION_EXIT_CODE
     else
       getPandocLatestVersion
@@ -104,20 +103,20 @@ function getPandocLatestVersion() {
 
   checkPandocVersionToDownloadExists
   if [ $_DOWNLOAD_PANDOC_URL_EXISTS -ne 1 ]; then
-    let "_GET_PANDOC_VERSION_404_ATTEMPTS++"
-    let "_GET_PANDOC_VERSION_INDEX++"
+    (( _GET_PANDOC_VERSION_404_ATTEMPTS++ ))
+    (( _GET_PANDOC_VERSION_INDEX++ ))
     getPandocLatestVersion
   else
-    printf " (v$_PANDOC_LASTEST_VERSION) \e[92m\xE2\x9C\x94\e[39m\n"
+    printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_PANDOC_LASTEST_VERSION"
   fi;
 }
 
 printPrependedStdout
-printf "  $_MSG_RETRIEVING_LASTEST_AVAILABLE_VERSION"
+printf "  %s" "$_MSG_RETRIEVING_LASTEST_AVAILABLE_VERSION"
 getPandocLatestVersion
 
 # Comprobamos si Pandoc está instalado
-_PANDOC_FILEPATH=$(command -v pandoc)
+_PANDOC_FILEPATH="$(command -v pandoc)"
 _PANDOC_FILEPATH_EXIT_CODE=$?
 if [ $_PANDOC_FILEPATH_EXIT_CODE -ne 0 ]; then
   _PANDOC_FILEPATH=""
@@ -125,48 +124,48 @@ fi;
 
 function downloadPandoc() {
   printPrependedStdout
-  printf "  $_MSG_DOWNLOADING_PACKAGE"
+  printf "  %s" "$_MSG_DOWNLOADING_PACKAGE"
   _DOWNLOAD_PANDOC_URL="https://github.com/jgm/pandoc/releases/download/$_PANDOC_LASTEST_VERSION/pandoc-$_PANDOC_LASTEST_VERSION-1-amd64.deb"
-  _DOWNLOAD_PANDOC_OUTPUT=$(sudo curl -sL $_DOWNLOAD_PANDOC_URL -o $1 2>&1)
+  _DOWNLOAD_PANDOC_OUTPUT="$(sudo curl -sL "$_DOWNLOAD_PANDOC_URL" -o "$1" 2>&1)"
   _DOWNLOAD_PANDOC_EXIT_CODE=$?
   if  [ $_DOWNLOAD_PANDOC_EXIT_CODE -ne 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_DOWNLOADING_PANDOC (v$_PANDOC_LASTEST_VERSION)\n" >&2
-    printf "$_MSG_URL: $_DOWNLOAD_PANDOC_URL\n" >&2
-    printf "$_MSG_ERROR: $_DOWNLOAD_PANDOC_OUTPUT\n" >&2
+    printf "\n%s (v%s)\n" "$_MSG_ERROR_DOWNLOADING_PANDOC" "$_PANDOC_LASTEST_VERSION" >&2
+    printf "%s: %s\n" "$_MSG_URL" "$_DOWNLOAD_PANDOC_URL" >&2
+    printf "%s: %s\n" "$_MSG_ERROR" "$_DOWNLOAD_PANDOC_OUTPUT" >&2
     exit $_DOWNLOAD_PANDOC_EXIT_CODE
   fi;
 
-  _PANDOC_BINARY_CONTENT=$(sudo cat $1 | tr -d '\0')
+  _PANDOC_BINARY_CONTENT="$(sudo cat "$1" | tr -d '\0')"
   if [ "$_PANDOC_BINARY_CONTENT" = "Not Found" ]; then
     # Ocurrió un error 404 en la descarga
     #   ¿Seguimos intentándolo con otras versiones?
     if [ $_GET_PANDOC_VERSION_404_ATTEMPTS -ge $_GET_PANDOC_VERSION_404_MAX_ATTEMPTS ]; then
-      sudo rm -f $1
+      sudo rm -f "$1"
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-      printf "\n$_MSG_ERROR_DOWNLOADING_PANDOC (v$_PANDOC_LASTEST_VERSION)\n" >&2
-      printf "$_MSG_URL: $_DOWNLOAD_PANDOC_URL\n" >&2
-      printf "$_MSG_ERROR_CODE: 404\n" >&2
-      printf "$_MSG_ERROR: $_PANDOC_BINARY_CONTENT\n" >&2
-      exit 404
+      printf "\n%s (v%s)\n" "$_MSG_ERROR_DOWNLOADING_PANDOC" "$_PANDOC_LASTEST_VERSION" >&2
+      printf "%s: %s\n" "$_MSG_URL" "$_DOWNLOAD_PANDOC_URL" >&2
+      printf "%s: 404\n" "$_MSG_ERROR_CODE" >&2
+      printf "%s: %s\n" "$_MSG_ERROR" "$_PANDOC_BINARY_CONTENT" >&2
+      exit 1
     else
-      printf " ($_MSG_NOT_FOUND) \e[91m\xE2\x9C\x95\e[39m\n"
-      let "_GET_PANDOC_VERSION_404_ATTEMPTS++"
-      let "_GET_PANDOC_VERSION_INDEX++"
+      printf " (%s) \e[91m\xE2\x9C\x95\e[39m\n" "$_MSG_NOT_FOUND"
+      (( _GET_PANDOC_VERSION_404_ATTEMPTS++ ))
+      (( _GET_PANDOC_VERSION_INDEX++ ))
       getPandocLatestVersion
-      downloadPandoc $1
+      downloadPandoc "$1"
     fi;
   fi;
-  sudo chmod +x $1
+  sudo chmod +x "$1"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
 function installPandoc() {
   printPrependedStdout
-  printf "  $_MSG_INSTALLING"
-  sudo dpkg -i $1 > /dev/null || exit $?
+  printf "  %s" "$_MSG_INSTALLING"
+  sudo dpkg -i "$1" > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
-  rm -f $1
+  rm -f "$1"
 }
 
 if [ "$_PANDOC_FILEPATH" = "" ]; then
@@ -175,23 +174,22 @@ if [ "$_PANDOC_FILEPATH" = "" ]; then
   installPandoc ~/pandoc.deb
 else
   # Pero si ya está instalado
-  _PANDOC_VERSION_OUTPUT=$(pandoc --version | head -n 1 | cut -d' ' -f2)
+  _PANDOC_VERSION_OUTPUT="$(pandoc --version | head -n 1 | cut -d' ' -f2)"
   _PANDOC_VERSION_OUTPUT_EXIT_CODE=$?
   if [ $_PANDOC_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
-    sudo rm -f $(command -v pandoc)
+    sudo rm -f "$(command -v pandoc)"
     downloadPandoc ~/pandoc.deb
     installPandoc ~/pandoc.deb
   else
-    _PANDOC_INSTALLED_VERSION=$(pandoc --version | head -n 1 | cut -d' ' -f2)
     printPrependedStdout
-  	printf "  $_MSG_PANDOC_FOUND_INSTALLED (v$_PANDOC_INSTALLED_VERSION)"
+  	printf "  %s (v%s)" "$_MSG_PANDOC_FOUND_INSTALLED" "$_PANDOC_VERSION_OUTPUT"
 
     # Si no está actualizado a la última versión
-    if [ "$_PANDOC_INSTALLED_VERSION" != "$_PANDOC_LASTEST_VERSION" ]; then
+    if [ "$_PANDOC_VERSION_OUTPUT" != "$_PANDOC_LASTEST_VERSION" ]; then
       printf " \e[92m\xE2\x9C\x94\e[39m\n"
       printPrependedStdout
-      printf "  $_MSG_UPDATING_PANDOC (v$_PANDOC_INSTALLED_VERSION"
-      printf " -> v$_PANDOC_LASTEST_VERSION)...\n"
+      printf "  %s (v%s" "$_MSG_UPDATING_PANDOC" "$_PANDOC_VERSION_OUTPUT"
+      printf " -> v%s)...\n" "$_PANDOC_LASTEST_VERSION"
       _PREPEND_STDOUT_STRING="  $_PREPEND_STDOUT_STRING"
       sudo rm -f $_PANDOC_FILEPATH
       downloadPandoc ~/pandoc.deb
