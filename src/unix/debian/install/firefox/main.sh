@@ -75,7 +75,7 @@ else
 fi;
 
 printPrependedStdout
-_GECKODRIVER_PATH=$(which geckodriver)
+_GECKODRIVER_PATH=$(command -v geckodriver)
 if [ "$_GECKODRIVER_PATH" != "" ]; then
   printf "  $_MSG_FOUND_CHECKODRIVER_INSTALLED"
   printf " (v$(geckodriver --version | head -n1 | cut -d' ' -f2))"

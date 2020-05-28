@@ -32,7 +32,7 @@ if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok i
   sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
 
-_CIRCLECI_BINARY_PATH=$(which circleci)
+_CIRCLECI_BINARY_PATH=$(command -v circleci)
 _CIRCLECI_LATEST_RELEASE_VERSION=$(
   curl -sLI -o /dev/null -w '%{url_effective}' \
     https://github.com/CircleCI-Public/circleci-cli/releases/latest/  | \

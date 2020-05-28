@@ -117,7 +117,7 @@ printf "  $_MSG_RETRIEVING_LASTEST_AVAILABLE_VERSION"
 getPandocLatestVersion
 
 # Comprobamos si Pandoc está instalado
-_PANDOC_FILEPATH=$(which pandoc)
+_PANDOC_FILEPATH=$(command -v pandoc)
 _PANDOC_FILEPATH_EXIT_CODE=$?
 if [ $_PANDOC_FILEPATH_EXIT_CODE -ne 0 ]; then
   _PANDOC_FILEPATH=""
@@ -178,7 +178,7 @@ else
   _PANDOC_VERSION_OUTPUT=$(pandoc --version | head -n 1 | cut -d' ' -f2)
   _PANDOC_VERSION_OUTPUT_EXIT_CODE=$?
   if [ $_PANDOC_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
-    sudo rm -f $(which pandoc)
+    sudo rm -f $(command -v pandoc)
     downloadPandoc ~/pandoc.deb
     installPandoc ~/pandoc.deb
   else

@@ -33,7 +33,7 @@ function printPrependedStdout() {
 if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq debconf-utils > /dev/null
 fi;
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
     grep debconf/frontend | \
@@ -46,13 +46,13 @@ if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok i
 fi;
 
 printPrependedStdout
-printf "$_MSG_CHECKING_ECOSYSTEM\n"
+printf "%s\n" "$_MSG_CHECKING_ECOSYSTEM"
 
 _GOOGLE_CHROME_BINARY_PATH=""
 function cacheGoogleChromeBinaryPath() {
-  _GOOGLE_CHROME_BINARY_PATH=$(which google-chrome)
+  _GOOGLE_CHROME_BINARY_PATH="$(command -v google-chrome)"
   if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
-    _GOOGLE_CHROME_BINARY_PATH=$(which google-chrome-stable)
+    _GOOGLE_CHROME_BINARY_PATH="$(command -v google-chrome-stable)"
   fi;
 }
 
@@ -62,11 +62,11 @@ if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
   # Si no está instalado Google Chrome
   #   Si estamos en una arquitectura de 32 bits
   if [[ "$(uname -m)" != "x86_64" ]]; then
-    printf "  $_MSG_UNABLE_TO_INSTALL_32" >&2
+    printf "  %s" "$_MSG_UNABLE_TO_INSTALL_32" >&2
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
     exit 1
   fi;
-  printf "  $_MSG_INSTALLING_GOOGLE_CHROME"
+  printf "  %s" "$_MSG_INSTALLING_GOOGLE_CHROME"
   # Descargamos el paquete estable de Google Chrome
   curl -sL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
     --output google-chrome-stable_current_amd64.deb
@@ -79,16 +79,16 @@ if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
   # Eliminamos el paquete descargado
   sudo rm -f google-chrome-stable_current_amd64.deb
   cacheGoogleChromeBinaryPath
-  printf " (v$($_GOOGLE_CHROME_BINARY_PATH --version | cut -d' ' -f3))"
+  printf " (v%s)" "$($_GOOGLE_CHROME_BINARY_PATH --version | cut -d' ' -f3)"
 else
-  printf "  $_MSG_FOUND_CHROME_INSTALLED"
-  printf " (v$($_GOOGLE_CHROME_BINARY_PATH --version | cut -d' ' -f3))"
+  printf "  %s" "$_MSG_FOUND_CHROME_INSTALLED"
+  printf " (v%s)" "$($_GOOGLE_CHROME_BINARY_PATH --version | cut -d' ' -f3)"
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
 
 # Comprobamos la versión major de Google Chrome instalada
-GOOGLE_CHROME_MAJOR_VERSION=$($_GOOGLE_CHROME_BINARY_PATH --version | cut -d' ' -f3 | cut -d'.' -f1)
+GOOGLE_CHROME_MAJOR_VERSION="$("$_GOOGLE_CHROME_BINARY_PATH" --version | cut -d' ' -f3 | cut -d'.' -f1)"
 
 # Obtenemos el archivo XML de control de versiones de ChromeDriver
 curl -sL https://chromedriver.storage.googleapis.com/ \
@@ -103,7 +103,7 @@ sudo rm -f chromedriver-versions.xml
 installChromeDriver() {
   # Descargamos el driver de Chrome que corresponde a la versión
   #   del navegador instalada
-  wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+  wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
 
   # Descomprimimos el driver
   unzip -q chromedriver_linux64.zip
@@ -119,24 +119,24 @@ installChromeDriver() {
 }
 
 printPrependedStdout
-_CHROMEDRIVER_BINARY_PATH=$(which chromedriver)
+_CHROMEDRIVER_BINARY_PATH="$(command -v chromedriver)"
 if [ "$_CHROMEDRIVER_BINARY_PATH" = "" ]; then
-  printf "  $_MSG_INSTALLING_CHROMEDRIVER (v$CHROMEDRIVER_VERSION)..."
+  printf "  %s (v%s)..." "$_MSG_INSTALLING_CHROMEDRIVER" "$CHROMEDRIVER_VERSION"
   installChromeDriver
 else
   # Chromedriver está instalado, comprobamos si podemos actualizarlo
-  _CHROMEDRIVER_INSTALLED_VERSION=$($_CHROMEDRIVER_BINARY_PATH --version | cut -d' ' -f2)
+  _CHROMEDRIVER_INSTALLED_VERSION="$("$_CHROMEDRIVER_BINARY_PATH" --version | cut -d' ' -f2)"
 
   if [ "$_CHROMEDRIVER_INSTALLED_VERSION" != "$CHROMEDRIVER_VERSION" ]; then
-    printf "  $_MSG_UPDATING_CHROMEDRIVER (v$_CHROMEDRIVER_INSTALLED_VERSION"
-    printf " -> v$CHROMEDRIVER_VERSION)..."
+    printf "  %s (v%s" "$_MSG_UPDATING_CHROMEDRIVER" "$_CHROMEDRIVER_INSTALLED_VERSION"
+    printf " -> v%s)..." "$CHROMEDRIVER_VERSION"
     installChromeDriver
   else
-    printf "  $_MSG_FOUND_CHROMEDRIVER_INSTALLED (v$_CHROMEDRIVER_INSTALLED_VERSION)"
+    printf "  %s (v%s)" "$_MSG_FOUND_CHROMEDRIVER_INSTALLED" "$_CHROMEDRIVER_INSTALLED_VERSION"
   fi
 fi
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
 fi;

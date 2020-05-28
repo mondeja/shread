@@ -45,7 +45,7 @@ function printPrependedStdout() {
 if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq debconf-utils > /dev/null
 fi;
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
     grep debconf/frontend | \
@@ -65,7 +65,7 @@ printf "$_MSG_SETTING_UP_PY3_ECOSYSTEM\n"
 
 printPrependedStdout
 # Python3 binary exists?
-PY3_BINARY_FILEPATH=$(which python3)
+PY3_BINARY_FILEPATH=$(command -v python3)
 if [ "$PY3_BINARY_FILEPATH" = "" ]; then
   # If not, Python might not be installed
   _PYTHON_STABLE_PACKAGE_VERSION=$(apt-cache policy python3-dev | grep -Po "(\d+\.)+\d+" | head -n 1)
@@ -137,7 +137,7 @@ if [ -d "~/.cache/pip/" ]; then
 fi;
 
 # Update PIP for Python2 to latest compatible version
-if [ "$(which python2)" != "" ]; then
+if [ "$(command -v python2)" != "" ]; then
   sudo python2 -m pip install -qq pip==20.0.2
 fi;
 
@@ -195,6 +195,6 @@ print(l.__version__ if isinstance(l.__version__, str) else \
   done
 fi;
 
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
 fi;

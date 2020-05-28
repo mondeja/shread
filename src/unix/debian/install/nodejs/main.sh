@@ -65,7 +65,7 @@ if [ -z "$UNIX_DISTRO" ]; then
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
     grep debconf/frontend | \
@@ -171,7 +171,7 @@ printPrependedStdout
 printf "  $_MSG_CHECKING_NPM\n"
 printPrependedStdout
 printf "    $_MSG_ITS_INSTALLED"
-NPM_BINARY_FILEPATH=$(which npm)
+NPM_BINARY_FILEPATH=$(command -v npm)
 if [ "$NPM_BINARY_FILEPATH" != "" ]; then
   NPM_LATEST_VERSION=$(npm show npm dist-tags.latest --json | cut -d'"' -f2)
   NPM_INSTALLED_VERSION=$(npm --version)
@@ -237,6 +237,6 @@ else
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 fi;
 
-if [ "$(which debconf-get-selections)" != "" ]; then
+if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
 fi;

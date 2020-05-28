@@ -195,7 +195,7 @@ do
 done
 
 # Comprobamos si Boostnote está instalado
-_BOOSTNOTE_BINARY_PATH=$(which boostnote)
+_BOOSTNOTE_BINARY_PATH=$(command -v boostnote)
 _BOOSTNOTE_BINARY_PATH_EXIT_CODE=$?
 if [ $_BOOSTNOTE_BINARY_PATH_EXIT_CODE -ne 0 ]; then
   _BOOSTNOTE_BINARY_PATH=""

@@ -34,7 +34,7 @@ function printPrependedStdout() {
 }
 
 printPrependedStdout
-ATOM_BINARY_PATH=$(which atom)
+ATOM_BINARY_PATH=$(command -v atom)
 if [ "$ATOM_BINARY_PATH" != "" ]; then
   ATOM_VERSION=$(
     apm -v | \

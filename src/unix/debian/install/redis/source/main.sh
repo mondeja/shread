@@ -350,7 +350,7 @@ cd /tmp
 getRedisServerLastestStableVersion
 
 # Comprobamos si se encuentra instalado
-_REDIS_BINARY_FILEPATH=$(which redis-server)
+_REDIS_BINARY_FILEPATH=$(command -v redis-server)
 if [ "$_REDIS_BINARY_FILEPATH" = "" ]; then
   downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
   printPrependedStdout

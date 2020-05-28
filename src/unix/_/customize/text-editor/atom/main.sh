@@ -25,7 +25,7 @@ if [ ! -d ~/.atom ]; then
   exit 1
 fi;
 
-if [ "$(which node)" = "" ]; then
+if [ "$(command -v node)" = "" ]; then
   printf "$_MSG_NODEJS_MUST_BE_INSTALLED\n" >&2
   exit 1
 fi;

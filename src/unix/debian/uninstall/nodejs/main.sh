@@ -48,7 +48,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printf "$_MSG_UNINSTALLING_NODEJS_ECOSYSTEM\n"
 
   printPrependedStdout
-  NODE_JS_BINARY_PATH=$(which node)
+  NODE_JS_BINARY_PATH=$(command -v node)
   if [ "$NODE_JS_BINARY_PATH" = "" ]; then
     printf "  $_MSG_NODEJS_IS_NOT_INSTALLED"
   else
@@ -67,7 +67,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
-  NPM_BINARY_PATH=$(which npm)
+  NPM_BINARY_PATH=$(command -v npm)
   if [ "$NPM_BINARY_PATH" = "" ]; then
     printf "  $_MSG_NPM_IS_NOT_INSTALLED"
   else
@@ -77,7 +77,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
-  YARN_BINARY_PATH=$(which npm)
+  YARN_BINARY_PATH=$(command -v npm)
   if [ "$YARN_BINARY_PATH" = "" ]; then
     printf "  $_MSG_YARN_IS_NOT_INSTALLED"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"

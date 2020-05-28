@@ -171,7 +171,7 @@ function createSourcesList() {
 }
 
 function checkPsqlInstalled() {
-  _PSQL_BINARY_FILEPATH=$(which plsql)
+  _PSQL_BINARY_FILEPATH=$(command -v plsql)
   _PSQL_INSTALLED=0
   if [ "$_PSQL_BINARY_FILEPATH" != "" ]; then
     _PSQL_INSTALLED=1
