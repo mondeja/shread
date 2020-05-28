@@ -123,28 +123,28 @@ function checkDebianVersionSupported() {
 
 function signSources() {
   printPrependedStdout
-  printf "    $_MSG_ADDING_REPO"
+  printf "    %s" "$_MSG_ADDING_REPO"
   SIGN_PGDG_GPG_KEY_STDERR=$(
     wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
     sudo apt-key add - 2>&1 > /dev/null)
   SIGN_PGDG_GPG_KEY_EXIT_CODE=$?
   if [ $SIGN_PGDG_GPG_KEY_EXIT_CODE -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_RETRIEVING_POSTGRESQL_PUBLIC_KEY:\n" >&2
-    printf "$SIGN_PGDG_GPG_KEY_STDERR\n" >&2
+    printf "\n%s:\n" "$_MSG_ERROR_RETRIEVING_POSTGRESQL_PUBLIC_KEY" >&2
+    printf "%s\n" "$SIGN_PGDG_GPG_KEY_STDERR" >&2
     exit $SIGN_PGDG_GPG_KEY_EXIT_CODE
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
-  printf "    $_MSG_UPDATING_PACKAGES"
+  printf "    %s" "$_MSG_UPDATING_PACKAGES"
   sudo apt-get update -qqq > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
 function purgePreviousPackages() {
   printPrependedStdout
-  printf "    $_MSG_REMOVING_PREVIOUS_PACKAGES"
+  printf "    %s" "$_MSG_REMOVING_PREVIOUS_PACKAGES"
   sudo apt-get purge -y postgresql > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
@@ -166,22 +166,13 @@ function cleanPreviousSources() {
 
 function createSourcesList() {
   touch "$_PGDG_SOURCES_LIST_FILEPATH.list"
-  printf "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIAN_VERSION-pgdg main\n" > \
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ $DEBIAN_VERSION-pgdg main" > \
     "$_PGDG_SOURCES_LIST_FILEPATH.list"
-}
-
-function checkPsqlInstalled() {
-  _PSQL_BINARY_FILEPATH=$(command -v plsql)
-  _PSQL_INSTALLED=0
-  if [ "$_PSQL_BINARY_FILEPATH" != "" ]; then
-    _PSQL_INSTALLED=1
-  fi;
 }
 
 function checkPostgresqlServiceExists() {
   _POSTGRESQL_SERVICE_EXISTS=1
-  sudo systemctl status postgresql > /dev/null 2>&1
-  if [ $? -ne 0 ]; then
+  if ! sudo systemctl status postgresql > /dev/null 2>&1; then
     _POSTGRESQL_SERVICE_EXISTS=0
   fi;
 }
@@ -202,14 +193,14 @@ _POSTGRES_VERSION_TO_INSTALL=""
 function getPostgresVersionToInstall() {
   if [ "$_VERSION" = "" ]; then
     printPrependedStdout
-    printf "  $_MSG_RETRIEVING_LASTEST_STABLE_VERSION"
+    printf "  %s" "$_MSG_RETRIEVING_LASTEST_STABLE_VERSION"
     # Obtenemos la úlima versión
     getLastestStablePostgresVersion
-    _POSTGRES_VERSION_TO_INSTALL=$_LASTEST_STABLE_POSTGRES_VERSION
-    printf " (v$_POSTGRES_VERSION_TO_INSTALL)"
+    _POSTGRES_VERSION_TO_INSTALL="$_LASTEST_STABLE_POSTGRES_VERSION"
+    printf " (v%s)" "$_POSTGRES_VERSION_TO_INSTALL"
   else
     printPrependedStdout
-    printf "  $_MSG_CHECKING_AVAILABLE_VERSION ($_VERSION)..."
+    printf "  %s (%s)..." "$_MSG_CHECKING_AVAILABLE_VERSION" "$_VERSION"
     # Comprobamos si la versión a instalar se encuentra entre las disponibles
     _POSTGRES_VERSION_TO_INSTALL=$(
       sudo aptitude search "~n ^postgresql" | \
@@ -220,7 +211,7 @@ function getPostgresVersionToInstall() {
     )
     if [ "$_POSTGRES_VERSION_TO_INSTALL" = "" ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-      printf "    $_MSG_VERSION_NOT_OFFICIALLY_AVAILABLE ($_VERSION).\n" >&2
+      printf "    %s (%s).\n" "$_MSG_VERSION_NOT_OFFICIALLY_AVAILABLE" "$_VERSION" >&2
       exit 1
     fi;
   fi;
@@ -259,11 +250,11 @@ function installPostgresPackages() {
         sudo aptitude search "~n ^postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis-${_POSTGIS_VERSION}"
       )
       if [ "$_POSTGIS_PACKAGE_EXISTS" = "" ]; then
-        printf "\n$_MSG_VERSION_OF_POSTGIS_TRYING_TO_INSTALL (v$_POSTGIS_VERSION)" >&2
-        printf " $_MSG_DOESNT_EXISTS_AS_APT_PG_PACKAGE v$_POSTGRES_VERSION_TO_INSTALL" >&2
-        printf " ($_MSG_THE_PACKAGE 'postgresql-$_POSTGRES_VERSION_TO_INSTALL-postgis$_POSTGIS_VERSION')" >&2
-        printf " $_MSG_DOESNT_EXISTS_IN_PG_OFFICIAL_REPOS\n" >&2
-        printf "$_MSG_SPECIFY_AN_EXISTENT_VERSION\n" >&2
+        printf "\n%s (v%s)" "$_MSG_VERSION_OF_POSTGIS_TRYING_TO_INSTALL" "$_POSTGIS_VERSION" >&2
+        printf " %s v%s" "$_MSG_DOESNT_EXISTS_AS_APT_PG_PACKAGE" "$_POSTGRES_VERSION_TO_INSTALL" >&2
+        printf " (%s 'postgresql-%s-postgis%s')" "$_MSG_THE_PACKAGE" "$_POSTGRES_VERSION_TO_INSTALL" "$_POSTGIS_VERSION" >&2
+        printf " %s\n" "$_MSG_DOESNT_EXISTS_IN_PG_OFFICIAL_REPOS" >&2
+        printf "%s\n" "$_MSG_SPECIFY_AN_EXISTENT_VERSION" >&2
         sudo aptitude search "~n ^postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis" >&2
         exit 1
       fi;
@@ -300,18 +291,17 @@ function installPostgresPackages() {
   fi;
 
   printPrependedStdout
-  printf "  $1\n"
-  for PACKAGE in "${POSTGRES_PACKAGES[@]}"
-  do
+  printf "  %s\n" "$1"
+  for PACKAGE in "${POSTGRES_PACKAGES[@]}"; do
     printPrependedStdout
-    printf "    $PACKAGE"
-    if [[ "$(dpkg -s $PACKAGE 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    printf "    %s" "$PACKAGE"
+    if [[ "$(dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APT_INSTALL_STDERR=$(
-        sudo apt-get install -y -qqq $PACKAGE 2>&1
+        sudo apt-get install -y -qqq "$PACKAGE" 2>&1
       )
       _APT_INSTALL_EXIT_CODE=$?
       if [ $_APT_INSTALL_EXIT_CODE -ne 0 ]; then
-        printf "$_APT_INSTALL_STDERR" >&2
+        printf "%s" "$_APT_INSTALL_STDERR" >&2
         exit $_APT_INSTALL_EXIT_CODE
       fi;
     fi;
@@ -321,7 +311,7 @@ function installPostgresPackages() {
 
 function checkPostgresqlServiceConfig() {
   printPrependedStdout
-  printf "  $_MSG_CHECKING_PG_SERVICE_CONFIG\n"
+  printf "  %s\n" "$_MSG_CHECKING_PG_SERVICE_CONFIG"
   printPrependedStdout
 
   _POSTGRESQL_SERVICE_ENABLED_FOUND=$(
@@ -329,54 +319,53 @@ function checkPostgresqlServiceConfig() {
     grep enabled | \
     grep postgresql)
   if [ "$_POSTGRESQL_SERVICE_ENABLED_FOUND" = "" ]; then
-    printf "    $_MSG_ENABLING"
+    printf "    %s" "$_MSG_ENABLING"
     _ENABLE_POSTGRESQL_SERVER_OUTPUT=$(
       sudo systemctl enable postgresql.service 2>&1 > /dev/null
     )
     _ENABLE_POSTGRESQL_SERVER_EXIT_CODE=$?
     if [ $_ENABLE_POSTGRESQL_SERVER_EXIT_CODE -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-      printf "$_MSG_ERROR_ENABLING_PG_SERVICE\n" >&2
-      printf "$_MSG_EXIT_CODE: $_ENABLE_POSTGRESQL_SERVER_EXIT_CODE\n" >&2
-      printf "$_MSG_ERROR: $_ENABLE_POSTGRESQL_SERVER_OUTPUT\n" >&2
+      printf "%s\n" "$_MSG_ERROR_ENABLING_PG_SERVICE" >&2
+      printf "%s: %d\n" "$_MSG_EXIT_CODE" "$_ENABLE_POSTGRESQL_SERVER_EXIT_CODE" >&2
+      printf "%s: %s\n" "$_MSG_ERROR" "$_ENABLE_POSTGRESQL_SERVER_OUTPUT" >&2
       exit $_ENABLE_POSTGRESQL_SERVER_EXIT_CODE
     fi;
   else
-    printf "    $_MSG_ITS_ENABLED"
+    printf "    %s" "$_MSG_ITS_ENABLED"
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
-
   _POSTGRESQL_SERVICE_STATUS=$(
     sudo systemctl show -p ActiveState postgresql | \
     cut -d'=' -f2 | \
     tr -d '\n')
-  if [ $_POSTGRESQL_SERVICE_STATUS != "active" ]; then
-    printf "    $_MSG_LAUNCHING"
+  if [ "$_POSTGRESQL_SERVICE_STATUS" != "active" ]; then
+    printf "    %s" "$_MSG_LAUNCHING"
     sudo systemctl start postgresql > /dev/null
     _POSTGRESQL_SERVICE_STARTED=$?
     if [ $_POSTGRESQL_SERVICE_STARTED -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-      printf "$_MSG_PG_SERVICE_COULDNT_BE_STARTED\n" >&2
-      printf "$_MSG_ITS_IN_STATE '$_POSTGRESQL_SERVICE_STATUS'.\n" >&2
+      printf "%s\n" "$_MSG_PG_SERVICE_COULDNT_BE_STARTED" >&2
+      printf "%s '%s'.\n" "$_MSG_ITS_IN_STATE" "$_POSTGRESQL_SERVICE_STATUS" >&2
       exit $_POSTGRESQL_SERVICE_STARTED
     fi;
   else
-    printf "    $_MSG_ITS_RUNNING"
+    printf "    %s" "$_MSG_ITS_RUNNING"
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
 function installPostgreSQL() {
   printPrependedStdout
-  printf "  $_MSG_INSTALLING_PG\n"
+  printf "  %s\n" "$_MSG_INSTALLING_PG"
 
   # Comprobamos si la versión de Debian se encuentra
   #   disponible en los repositorios oficiales de PostreSQL
   checkDebianVersionSupported
   if [ $DEBIAN_VERSION_SUPPORTED -eq 0 ]; then
-    printf "$_MSG_DISTRO_VERSION_NOT_SUPPORTED ($DEBIAN_VERSION)." >&2
+    printf "%s (%s)." "$_MSG_DISTRO_VERSION_NOT_SUPPORTED" "$DEBIAN_VERSION" >&2
     exit 1
   fi;
 
@@ -391,7 +380,7 @@ function installPostgreSQL() {
 
 function main() {
   printPrependedStdout
-  printf "$_MSG_CHEKING_PG_ENV\n"
+  printf "%s\n" "$_MSG_CHEKING_PG_ENV"
 
   # Comprobamos si existe el servicio PostgreSQL
   checkPostgresqlServiceExists
