@@ -70,7 +70,7 @@ function getGoogleDriveLatestVersion() {
     printf "\n%s\n" "$_MSG_ERROR_RETRIEVING_GDRIVE_RELEASES" >&2
     printf "%s: %s\n" "$_MSG_URL" "$_GET_GDRIVE_LATEST_VERSION_URL" >&2
     printf "%s: %s\n" "$_MSG_ERROR" "$_GDRIVE_RELEASES_INFO_MESSAGE" >&2
-    exit "$_GDRIVE_RELEASES_INFO_EXIT_CODE"
+    exit $_GDRIVE_RELEASES_INFO_MESSAGE_EXIT_CODE
   fi;
 
   _PARSE_GDRIVE_LASTEST_VERSION=$(
@@ -83,7 +83,7 @@ function getGoogleDriveLatestVersion() {
     printf "%s: %s\n" "$_MSG_URL" "$_GET_GDRIVE_LATEST_VERSION_URL" >&2
     printf "%s: %s\n" "$_MSG_ERROR_CODE" "$_PARSE_GDRIVE_LASTEST_VERSION_EXIT_CODE" >&2
     printf "%s: %s" "$_MSG_ERROR" "$_PARSE_GDRIVE_LASTEST_VERSION" >&2
-    exit "$_PARSE_GDRIVE_LASTEST_VERSION_EXIT_CODE"
+    exit $_PARSE_GDRIVE_LASTEST_VERSION_EXIT_CODE
   fi;
 
   _GDRIVE_LASTEST_VERSION=$(echo "$_PARSE_GDRIVE_LASTEST_VERSION" | cut -d'v' -f2 2>&1)

@@ -82,17 +82,17 @@ function checkBoostnoteVersionToDownloadExists() {
 
 _GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS=0
 _GET_BOOSTNOTE_LATEST_VERSION_MAX_ATTEMPTS=5
-_GET_BOOSTNOTE_LATEST_VERSION_URL=https://api.github.com/repos/BoostIO/boost-releases/releases
+_GET_BOOSTNOTE_LATEST_VERSION_URL="https://api.github.com/repos/BoostIO/boost-releases/releases"
 function getBoostnoteLatestVersion() {
-  _BOOSTNOTE_RELEASES_INFO=$(curl -sL $_GET_BOOSTNOTE_LATEST_VERSION_URL 2>&1)
-  _BOOSTNOTE_RELEASES_INFO_MESSAGE=$(echo $_BOOSTNOTE_RELEASES_INFO | jq -r '.message' 2>&1)
+  _BOOSTNOTE_RELEASES_INFO="$(curl -sL "$_GET_BOOSTNOTE_LATEST_VERSION_URL" 2>&1)"
+  _BOOSTNOTE_RELEASES_INFO_MESSAGE="$(echo "$_BOOSTNOTE_RELEASES_INFO" | jq -r '.message' 2>&1)"
   _BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_RETRIEVING_BOOSTNOTE_RELEASES_INFO\n" >&2
-    printf "$_MSG_URL: $_GET_BOOSTNOTE_LATEST_VERSION_URL\n" >&2
-    printf "$_MSG_ERROR: $_BOOSTNOTE_RELEASES_INFO_MESSAGE\n" >&2
-    exit $_BOOSTNOTE_RELEASES_INFO_EXIT_CODE
+    printf "\n%s\n" "$_MSG_ERROR_RETRIEVING_BOOSTNOTE_RELEASES_INFO" >&2
+    printf "%s: %s\n" "$_MSG_URL" "$_GET_BOOSTNOTE_LATEST_VERSION_URL" >&2
+    printf "%s: %s\n" "$_MSG_ERROR" "$_BOOSTNOTE_RELEASES_INFO_MESSAGE" >&2
+    exit $_BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE
   fi;
 
   # Obtenemos la penúltima release de Boostnote
@@ -100,29 +100,29 @@ function getBoostnoteLatestVersion() {
   #   al momento de ser publicada, los binarios aún no
   #   están disponibles en el repositorio
   _PARSE_BOOSTNOTE_LASTEST_VERSION=$(
-    echo $_BOOSTNOTE_RELEASES_INFO | \
+    echo "$_BOOSTNOTE_RELEASES_INFO" | \
     jq -r ".[$_GET_BOOSTNOTE_VERSION_INDEX].name" 2>&1
   )
   _PARSE_BOOSTNOTE_LASTEST_VERSION_EXIT_CODE=$?
   if [ $_PARSE_BOOSTNOTE_LASTEST_VERSION_EXIT_CODE -ne 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_PARSING_PENULTIMATE_BOOSTNOTE_RELEASE\n" >&2
-    printf "$_MSG_URL: $_GET_BOOSTNOTE_LATEST_VERSION_URL\n"
-    printf "$_MSG_ERROR_CODE: $_PARSE_BOOSTNOTE_LASTEST_VERSION_EXIT_CODE\n" >&2
-    printf "$_MSG_ERROR: $_PARSE_BOOSTNOTE_LASTEST_VERSION"
+    printf "\n%s\n" "$_MSG_ERROR_PARSING_PENULTIMATE_BOOSTNOTE_RELEASE" >&2
+    printf "%s: %s\n" "$_MSG_URL" "$_GET_BOOSTNOTE_LATEST_VERSION_URL" >&2
+    printf "%s: %d\n" "$_MSG_ERROR_CODE" "$_PARSE_BOOSTNOTE_LASTEST_VERSION_EXIT_CODE" >&2
+    printf "%s: %s" "$_MSG_ERROR" "$_PARSE_BOOSTNOTE_LASTEST_VERSION" >&2
     exit $_PARSE_BOOSTNOTE_LASTEST_VERSION_EXIT_CODE
   fi;
 
-  _BOOSTNOTE_LASTEST_VERSION=$(echo $_PARSE_BOOSTNOTE_LASTEST_VERSION | cut -d'v' -f2 2>&1)
+  _BOOSTNOTE_LASTEST_VERSION="$(echo "$_PARSE_BOOSTNOTE_LASTEST_VERSION" | cut -d'v' -f2 2>&1)"
   _GET_BOOSTNOTE_LATEST_VERSION_EXIT_CODE=$?
   if [ $_GET_BOOSTNOTE_LATEST_VERSION_EXIT_CODE -ne 0 ]; then
-    let "_GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS++"
+    (( _GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS++ ))
     if [ $_GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS -ge $_GET_BOOSTNOTE_LATEST_VERSION_MAX_ATTEMPTS ]; then
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-      print "\n$_MSG_ERROR_RETRIEVING_LAST_BOOSTNOTE_VERSION\n" >&2
-      printf "$_MSG_URL: $_GET_BOOSTNOTE_LATEST_VERSION_URL\n" >&2
-      printf "$_MSG_ERROR_CODE: $_GET_BOOSTNOTE_LATEST_VERSION_EXIT_CODE\n" >&2
-      printf "$_MSG_ERROR: $_BOOSTNOTE_LASTEST_VERSION"
+      print "\n%s\n" "$_MSG_ERROR_RETRIEVING_LAST_BOOSTNOTE_VERSION" >&2
+      printf "%s: %s\n" "$_MSG_URL" "$_GET_BOOSTNOTE_LATEST_VERSION_URL" >&2
+      printf "%s: %s\n" "$_MSG_ERROR_CODE" "$_GET_BOOSTNOTE_LATEST_VERSION_EXIT_CODE" >&2
+      printf "%s: %s" "$_MSG_ERROR" "$_BOOSTNOTE_LASTEST_VERSION" >&2
       exit $_GET_BOOSTNOTE_LATEST_VERSION_EXIT_CODE
     else
       getBoostnoteLatestVersion
@@ -131,11 +131,11 @@ function getBoostnoteLatestVersion() {
 
   checkBoostnoteVersionToDownloadExists
   if [ $_DOWNLOAD_BOOSTNOTE_URL_EXISTS -ne 1 ]; then
-    let "_GET_BOOSTNOTE_VERSION_404_ATTEMPTS++"
-    let "_GET_BOOSTNOTE_VERSION_INDEX++"
+    (( _GET_BOOSTNOTE_VERSION_404_ATTEMPTS++ ))
+    (( _GET_BOOSTNOTE_VERSION_INDEX++ ))
     getBoostnoteLatestVersion
   else
-    printf " (v$_BOOSTNOTE_LASTEST_VERSION)"
+    printf " (v%s)" "$_BOOSTNOTE_LASTEST_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 }
@@ -143,61 +143,58 @@ function getBoostnoteLatestVersion() {
 function downloadBoostnote() {
   printPrependedStdout
   _DOWNLOAD_BOOSTNOTE_URL="https://github.com/BoostIO/boost-releases/releases/download/v$_BOOSTNOTE_LASTEST_VERSION/boostnote_${_BOOSTNOTE_LASTEST_VERSION}_$ARCH.deb"
-  _DOWNLOAD_BOOSTNOTE_OUTPUT=$(sudo curl -sL $_DOWNLOAD_BOOSTNOTE_URL -o $1 2>&1)
+  _DOWNLOAD_BOOSTNOTE_OUTPUT="$(sudo curl -sL "$_DOWNLOAD_BOOSTNOTE_URL" -o "$1" 2>&1)"
   _DOWNLOAD_BOOSTNOTE_EXIT_CODE=$?
   if  [ $_DOWNLOAD_BOOSTNOTE_EXIT_CODE -ne 0 ]; then
     printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_DOWNLOADING_BOOSTNOTE v$_BOOSTNOTE_LASTEST_VERSION\n" >&2
-    printf "$_MSG_URL: $_DOWNLOAD_BOOSTNOTE_URL\n" >&2
-    printf "$_MSG_ERROR: $_DOWNLOAD_BOOSTNOTE_OUTPUT\n" >&2
+    printf "\n%s v%s\n" "$_MSG_ERROR_DOWNLOADING_BOOSTNOTE" "$_BOOSTNOTE_LASTEST_VERSION" >&2
+    printf "%s: %s\n" "$_MSG_URL" "$_DOWNLOAD_BOOSTNOTE_URL" >&2
+    printf "%s: %s\n" "$_MSG_ERROR" "$_DOWNLOAD_BOOSTNOTE_OUTPUT" >&2
     exit $_DOWNLOAD_BOOSTNOTE_EXIT_CODE
   fi;
 
-  _BOOSTNOTE_BINARY_CONTENT=$(sudo cat $1 | tr -d '\0')
+  _BOOSTNOTE_BINARY_CONTENT="$(sudo cat "$1" | tr -d '\0')"
   if [ "$_BOOSTNOTE_BINARY_CONTENT" = "Not Found" ]; then
     # Ocurrió un error 404 en la descarga
     #   ¿Seguimos intentándolo con otras versiones?
     if [ $_GET_BOOSTNOTE_VERSION_404_ATTEMPTS -ge $_GET_BOOSTNOTE_VERSION_404_MAX_ATTEMPTS ]; then
-      sudo rm -f $1
+      sudo rm -f "$1"
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
-      printf "\n$_MSG_ERROR_DOWNLOADING_BOOSTNOTE v$_BOOSTNOTE_LASTEST_VERSION\n" >&2
-      printf "$_MSG_URL: $_DOWNLOAD_BOOSTNOTE_URL\n" >&2
-      printf "$_MSG_ERROR_CODE: 404\n" >&2
-      printf "$_MSG_ERROR: $_BOOSTNOTE_BINARY_CONTENT\n" >&2
-      exit 404
+      printf "\n%s v%s\n" "$_MSG_ERROR_DOWNLOADING_BOOSTNOTE" "$_BOOSTNOTE_LASTEST_VERSION" >&2
+      printf "%s: %s\n" "$_MSG_URL" "$_DOWNLOAD_BOOSTNOTE_URL" >&2
+      printf "%s: 404\n" "$_MSG_ERROR_CODE" >&2
+      printf "%s: %s\n" "$_MSG_ERROR" "$_BOOSTNOTE_BINARY_CONTENT" >&2
+      exit 1
     else
-      printf " ($_MSG_NOT_FOUND) \e[91m\xE2\x9C\x95\e[39m\n"
-      let "_GET_BOOSTNOTE_VERSION_404_ATTEMPTS++"
-      let "_GET_BOOSTNOTE_VERSION_INDEX++"
+      printf " (%s) \e[91m\xE2\x9C\x95\e[39m\n" "$_MSG_NOT_FOUND"
+      (( _GET_BOOSTNOTE_VERSION_404_ATTEMPTS++ ))
+      (( _GET_BOOSTNOTE_VERSION_INDEX++ ))
       getBoostnoteLatestVersion
-      downloadBoostnote $1
+      downloadBoostnote "$1"
     fi;
   fi;
 }
 
 function installBoostnote() {
-  sudo dpkg -i $1 > /dev/null
-  sudo rm -f $1
+  sudo dpkg -i "$1" > /dev/null
+  sudo rm -f "$1"
 }
 
 printPrependedStdout
-printf "$_MSG_CHECKING_BOOSTNOTE\n"
+printf "%s\n" "$_MSG_CHECKING_BOOSTNOTE"
 
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "jq"
 )
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"
-do
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
 done
 
 # Comprobamos si Boostnote está instalado
-_BOOSTNOTE_BINARY_PATH=$(command -v boostnote)
-_BOOSTNOTE_BINARY_PATH_EXIT_CODE=$?
-if [ $_BOOSTNOTE_BINARY_PATH_EXIT_CODE -ne 0 ]; then
+if ! _BOOSTNOTE_BINARY_PATH="$(command -v boostnote)"; then
   _BOOSTNOTE_BINARY_PATH=""
 fi;
 
@@ -209,40 +206,40 @@ fi;
 if [ "$_BOOSTNOTE_BINARY_PATH" = "" ] || [ ! -f "$_BOOSTNOTE_PACKAGE_JSON_FILEPATH" ]; then
   # Si no está instalado
   printPrependedStdout
-  printf "  $_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
+  printf "  %s" "$_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
   getBoostnoteLatestVersion
 
   printPrependedStdout
-  printf "  $_MSG_DOWNLOADING_BOOSTNOTE (v${_BOOSTNOTE_LASTEST_VERSION})..."
-  downloadBoostnote /tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb
+  printf "  %s (v%s)..." "$_MSG_DOWNLOADING_BOOSTNOTE" "${_BOOSTNOTE_LASTEST_VERSION}"
+  downloadBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
   printPrependedStdout
-  printf "  $_MSG_INSTALLING_BOOSTNOTE (v${_BOOSTNOTE_LASTEST_VERSION})..."
-  installBoostnote /tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb
+  printf "  %s (v%s)..." "$_MSG_INSTALLING_BOOSTNOTE" "$_BOOSTNOTE_LASTEST_VERSION"
+  installBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
   # Pero si ya está instalado
   _BOOSTNOTE_INSTALLED_VERSION=$(
-    sudo cat $_BOOSTNOTE_PACKAGE_JSON_FILEPATH | \
+    sudo cat "$_BOOSTNOTE_PACKAGE_JSON_FILEPATH" | \
     grep '"version": ' | \
     cut -d'"' -f4
   )
   printPrependedStdout
-	printf "  $_MSG_BOOSTNOTE_FOUND_INSTALLED (v$_BOOSTNOTE_INSTALLED_VERSION)"
+	printf "  %s (v%s)" "$_MSG_BOOSTNOTE_FOUND_INSTALLED" "$_BOOSTNOTE_INSTALLED_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
   # Si no está actualizado a la última versión
   if [ "$_BOOSTNOTE_INSTALLED_VERSION" != "$_BOOSTNOTE_LASTEST_VERSION" ]; then
     if [ $_UPDATE -eq 1 ]; then
       printPrependedStdout
-      printf "  $_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
+      printf "  %s" "$_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
       getBoostnoteLatestVersion
 
       printPrependedStdout
-      printf "  $_MSG_UPDATING_BOOSTNOTE (v$_BOOSTNOTE_INSTALLED_VERSION"
-      printf " -> v$_BOOSTNOTE_LASTEST_VERSION)..."
-      sudo rm -f $_BOOSTNOTE_BINARY_PATH
-      downloadBoostnote /tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb
-      installBoostnote /tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb
+      printf "  %s (v%s" "$_MSG_UPDATING_BOOSTNOTE" "$_BOOSTNOTE_INSTALLED_VERSION"
+      printf " -> v%s)..." "$_BOOSTNOTE_LASTEST_VERSION"
+      sudo rm -f "$_BOOSTNOTE_BINARY_PATH"
+      downloadBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
+      installBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
       printf " \e[92m\xE2\x9C\x94\e[39m\n"
     fi;
   fi;

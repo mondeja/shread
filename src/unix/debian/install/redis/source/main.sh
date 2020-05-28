@@ -158,12 +158,12 @@ function testRedisBuild() {
             printf "$_TEST_NUMBER_TOTAL "
             printf "$line" | cut -d' ' -f3 | tr -d '\n'
             printf " \e[92m\xE2\x9C\x94\e[39m\n"
-            let "_TESTS_PASSED++"
+            (( _TESTS_PASSED++ ))
           elif [ "$(echo ${line:3:1})" = "/" ]; then
             printf "      ${line:1:5} "
             printf "$line" | cut -d' ' -f3 | tr -d '\n'
             printf " \e[92m\xE2\x9C\x94\e[39m\n"
-            let "_TESTS_PASSED++"
+            (( _TESTS_PASSED++ ))
           else
             # Útil para debuging
             #echo "DEBUG: $line"

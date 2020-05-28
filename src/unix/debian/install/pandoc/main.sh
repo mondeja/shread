@@ -75,7 +75,7 @@ function getPandocLatestVersion() {
     printf "\n%s\n" "$_MSG_ERROR_RETRIEVING_PANDOC_RELEASES" >&2
     printf "%s: %s\n" "$_MSG_URL" "$_GET_PANDOC_LATEST_VERSION_URL" >&2
     printf "%s: %s\n" "$_MSG_ERROR" "$_PANDOC_RELEASES_INFO_MESSAGE" >&2
-    exit "$_PANDOC_RELEASES_INFO_EXIT_CODE"
+    exit $_PANDOC_RELEASES_INFO_MESSAGE_EXIT_CODE
   fi;
 
   # Obtenemos la penúltima release de Pandoc

@@ -75,7 +75,7 @@ function getDockerComposeLatestVersion() {
     printf "\n%s\n" "$_MSG_ERROR_RETRIEVING_DOCKER_COMPOSE_RELEASES" >&2
     printf "%s: %s\n" "$_MSG_URL" "$_GET_DOCKER_COMPOSE_LATEST_VERSION_URL" >&2
     printf "%s: %s\n" "$_MSG_ERROR" "$_DOCKER_COMPOSE_RELEASES_INFO_MESSAGE" >&2
-    exit "$_DOCKER_COMPOSE_RELEASES_INFO_EXIT_CODE"
+    exit $_DOCKER_COMPOSE_RELEASES_INFO_MESSAGE_EXIT_CODE
   fi;
 
   # Obtenemos la penúltima release de Docker Compose
@@ -93,7 +93,7 @@ function getDockerComposeLatestVersion() {
     printf "%s: %s\n" "$_MSG_URL" "$_GET_DOCKER_COMPOSE_LATEST_VERSION_URL" >&2
     printf "%s: %s\n" "$_MSG_ERROR_CODE" "$_PARSE_DOCKER_COMPOSE_LASTEST_VERSION_EXIT_CODE" >&2
     printf "%s: %s" "$_MSG_ERROR" "$_PARSE_DOCKER_COMPOSE_LASTEST_VERSION" >&2
-    exit "$_PARSE_DOCKER_COMPOSE_LASTEST_VERSION_EXIT_CODE"
+    exit $_PARSE_DOCKER_COMPOSE_LASTEST_VERSION_EXIT_CODE
   fi;
 
   _DOCKER_COMPOSE_LASTEST_VERSION="$(echo "$_PARSE_DOCKER_COMPOSE_LASTEST_VERSION" | cut -d'v' -f2 2>&1)"
@@ -106,7 +106,7 @@ function getDockerComposeLatestVersion() {
       printf "%s: %s\n" "$_MSG_URL" "$_GET_DOCKER_COMPOSE_LATEST_VERSION_URL" >&2
       printf "%s: %s\n" "$_MSG_ERROR_CODE" "$_GET_DOCKER_COMPOSE_LATEST_VERSION_EXIT_CODE" >&2
       printf "%s: %s" "$_MSG_ERROR" "$_DOCKER_COMPOSE_LASTEST_VERSION" >&2
-      exit "$_GET_DOCKER_COMPOSE_LATEST_VERSION_EXIT_CODE"
+      exit $_GET_DOCKER_COMPOSE_LATEST_VERSION_EXIT_CODE
     else
       getDockerComposeLatestVersion
     fi;

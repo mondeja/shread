@@ -88,7 +88,7 @@ find src -iname "*.sh" | while read filepath; do
         #   compendium. At the end of the translation file loop will empty
         printf "\nmsgid \"$MSGID\"\nmsgstr \" \"" >> "$dirpath/$lang.pot"
 
-        let "_N_STRINGS_EXTRACTED++"
+        (( _N_STRINGS_EXTRACTED++ ))
       fi;
     done < $filepath
 
