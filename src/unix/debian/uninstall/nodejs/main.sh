@@ -60,13 +60,9 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
       "nodesource.list.distUpgrade"
       "nodesource.list.save"
     )
-    for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"
-      do
-        sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null
-        if [ $? -ne 0 ]; then
-          exit $?
-        fi;
-      done
+    for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"; do
+      sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null || exit $?
+    done
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 

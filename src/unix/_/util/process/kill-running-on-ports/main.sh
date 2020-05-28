@@ -32,17 +32,13 @@ function printPrependedStdout() {
 }
 
 if [[ "$(sudo dpkg -s net-tools 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq net-tools > /dev/null
-  if [ $? -ne 0 ]; then
-    exit $?
-  fi;
+  sudo apt-get install -y -qqq net-tools > /dev/null || exit $?
 fi;
 
 printPrependedStdout
 printf "$_MSG_LEAVING_PORTS_FREE...\n"
 _PORTS=$(echo $_PORTS_STRING | tr "," "\n")
-for PORT in $_PORTS
-do
+for PORT in $_PORTS; do
   printPrependedStdout
   printf "  $PORT"
   UNKNOWN_SERVICE_PID=$(

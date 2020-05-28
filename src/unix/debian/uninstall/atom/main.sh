@@ -51,12 +51,8 @@ if [ "$ATOM_BINARY_PATH" != "" ]; then
     "atom.list.distUpgrade"
     "atom.list.save"
   )
-  for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"
-  do
-    sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null
-    if [ $? -ne 0 ]; then
-      exit $?
-    fi;
+  for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"; do
+    sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null || exit $?
   done
 else
   printf "$_MSG_ATOM_IS_NOT_INSTALLED"

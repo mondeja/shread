@@ -95,15 +95,11 @@ INSTALLATION_PACKAGES=(
 printPrependedStdout
 printf "  $_MSG_CHECKING_DOCKER_CE_PACKAGES\n"
 
-for DEP in "${INSTALLATION_PACKAGES[@]}"
-do
+for DEP in "${INSTALLATION_PACKAGES[@]}"; do
   printPrependedStdout
   printf "    $DEP"
-  if [[ "$(dpkg -s $DEP 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq $DEP > /dev/null
-    if [ $? -ne 0 ]; then
-      exit $?
-    fi;
+  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 done
