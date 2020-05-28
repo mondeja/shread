@@ -57,28 +57,30 @@ if [ -z "$UNIX_DISTRO" ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
+  #shellcheck disable=SC1090
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
 printPrependedStdout
-printf "$_MSG_SETTING_UP_PY3_ECOSYSTEM\n"
+printf "%s\n" "$_MSG_SETTING_UP_PY3_ECOSYSTEM"
 
 printPrependedStdout
 # Python3 binary exists?
 PY3_BINARY_FILEPATH=$(command -v python3)
 if [ "$PY3_BINARY_FILEPATH" = "" ]; then
   # If not, Python might not be installed
-  _PYTHON_STABLE_PACKAGE_VERSION=$(apt-cache policy python3-dev | grep -Po "(\d+\.)+\d+" | head -n 1)
-  printf "  $_MSG_INSTALLING_BASE_PACKAGE"
+  _PYTHON_STABLE_PACKAGE_VERSION=$(
+    apt-cache policy python3-dev | grep -Po '(\d+\.)+\d+' | head -n 1)
+  printf "  %s" "$_MSG_INSTALLING_BASE_PACKAGE"
   if [ "$_PYTHON_STABLE_PACKAGE_VERSION" != "" ]; then
-	  printf " (v$_PYTHON_STABLE_PACKAGE_VERSION)"
+	  printf " (v%s)" "$_PYTHON_STABLE_PACKAGE_VERSION"
   fi;
   printf "..."
 	sudo apt-get install -y -qqq python3-dev > /dev/null
-  _PYTHON_VERSION=$(echo $($PY3_BINARY_FILEPATH --version | cut -c7-12))
+  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12)"
 else
-  _PYTHON_VERSION=$(echo $($PY3_BINARY_FILEPATH --version | cut -c7-12))
-	printf "  $_MSG_FOUND_PY3_INSTALLED (v$_PYTHON_VERSION)"
+  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12)"
+	printf "  %s (v%s)" "$_MSG_FOUND_PY3_INSTALLED" "$_PYTHON_VERSION"
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
@@ -96,43 +98,42 @@ INSTALLATION_PACKAGES=(
   "python3-numpy"
 )
 if [ "$UNIX_DISTRO" = "ubuntu" ]; then
-  UBUNTU_VERSION_CODENAME=$(printf \"$(lsb_release -rs | tr -d '\n'),$(lsb_release -cs | tr -d '\n')\" 2>&1)
-  UBUNTU_VERSION=$(printf "$UBUNTU_VERSION_CODENAME" | cut -d',' -f1 | tr -d '"')
-  UBUNTU_VERSION_MAJOR=$(printf "$UBUNTU_VERSION" | cut -d'.' -f1)
-  UBUNTU_VERSION_MINOR=$(printf "$UBUNTU_VERSION" | cut -d'.' -f2)
-  UBUNTU_VERSION_MINOR_LEADING_ZERO_STRIPPED=$(printf "$UBUNTU_VERSION_MINOR" | sed 's/^0*//')
-  UBUNTU_CODENAME=$(printf "$UBUNTU_VERSION_CODENAME" | cut -d',' -f2)
-  if [ $UBUNTU_VERSION_MAJOR -ge 18 ]; then
+  UBUNTU_VERSION_CODENAME=$(printf "%s" "$(lsb_release -rs | tr -d '\n'),$(lsb_release -cs | tr -d '\n')" 2>&1)
+  UBUNTU_VERSION=$(printf "%s" "$UBUNTU_VERSION_CODENAME" | cut -d',' -f1 | tr -d '"')
+  UBUNTU_VERSION_MAJOR=$(printf "%s" "$UBUNTU_VERSION" | cut -d'.' -f1)
+  #UBUNTU_VERSION_MINOR=$(printf "%s" "$UBUNTU_VERSION" | cut -d'.' -f2)
+  #UBUNTU_VERSION_MINOR_LEADING_ZERO_STRIPPED=$(printf "%s" "$UBUNTU_VERSION_MINOR" | sed 's/^0*//')
+  #UBUNTU_CODENAME=$(printf "%s" "$UBUNTU_VERSION_CODENAME" | cut -d',' -f2)
+  if [ "$UBUNTU_VERSION_MAJOR" -ge 18 ]; then
     INSTALLATION_PACKAGES+=(
       "python3-distutils"
     )
   fi;
 fi;
 
-
 printPrependedStdout
-printf "  $_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES\n"
+printf "  %s\n" "$_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES"
 
 for DEP in "${INSTALLATION_PACKAGES[@]}"; do
   printPrependedStdout
-  printf "    $DEP"
+  printf "    %s" "$DEP"
   if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
   fi;
   _DEP_VERSION=$(apt-cache policy "$DEP" | grep -Po "(\d+\.)+\d+" | head -n 1)
   if [ "$_DEP_VERSION" != "" ]; then
-    printf " (v$_DEP_VERSION)"
+    printf " (v%s)" "$_DEP_VERSION"
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 done
 
-USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
+USER_HOME="$(getent passwd "$SUDO_USER" | cut -d: -f6)"
 
 # Damos permisos al directorio de caché de Pypi
-if [ -d "~/.cache/pip/" ]; then
+if [ -d "$HOME/.cache/pip/" ]; then
   _PIP_CACHE_FILEPATH="$USER_HOME/.cache/pip/"
   if [ -f "$_PIP_CACHE_FILEPATH" ]; then
-    sudo chown -R $SUDO_USER $_PIP_CACHE_FILEPATH
+    sudo chown -R "$SUDO_USER" "$_PIP_CACHE_FILEPATH"
   fi;
 fi;
 
@@ -142,9 +143,8 @@ if [ "$(command -v python2)" != "" ]; then
 fi;
 
 if [ $_UPGRADE_PY3_GLOBAL_LIBS -eq 1 ]; then
-
   printPrependedStdout
-  printf "  $_MSG_UPDATING_GLOBAL_PY3_LIBRARIES\n"
+  printf "  %s\n" "$_MSG_UPDATING_GLOBAL_PY3_LIBRARIES"
 
   GLOBAL_RECOMMENDED_LIBRARIES=(
     "pip"
@@ -153,10 +153,9 @@ if [ $_UPGRADE_PY3_GLOBAL_LIBS -eq 1 ]; then
     "testresources"
   )
 
-  for LIB in "${GLOBAL_RECOMMENDED_LIBRARIES[@]}"
-  do
+  for LIB in "${GLOBAL_RECOMMENDED_LIBRARIES[@]}"; do
     printPrependedStdout
-    printf "    $LIB"
+    printf "    %s" "$LIB"
 
     # Check if it's installed locally
     _GET_VERSION_EXEC_STR="
@@ -166,27 +165,28 @@ except ImportError as err: sys.exit(777);
 print(l.__version__ if isinstance(l.__version__, str) else \
   '.'.join([str(v) for v in l.__version__][:3]), end='');
 "
-    _LIB_LOCAL_VERSION=$($PY3_BINARY_FILEPATH -c "$_GET_VERSION_EXEC_STR")
+    _LIB_LOCAL_VERSION="$("$PY3_BINARY_FILEPATH" -c "$_GET_VERSION_EXEC_STR")"
     _LIB_LOCAL_VERSION_EXIT_CODE=$?
     if [ $_LIB_LOCAL_VERSION_EXIT_CODE -eq 777 ]; then
       # If not, install it
-    	sudo -H $PY3_BINARY_FILEPATH -m pip install -U --quiet $LIB
+    	sudo -H "$PY3_BINARY_FILEPATH" -m pip install -U --quiet "$LIB"
     else
       printf " ("
       if [ "$_LIB_LOCAL_VERSION" != "" ]; then
-        printf "v$_LIB_LOCAL_VERSION"
+        printf "v%s" "$_LIB_LOCAL_VERSION"
       fi;
       # If it's intalled, get latest version
       _LIB_LAST_PYPI_VERSION=$(
         xmllint --html --xpath "//a[last()]/text() " \
-          <(curl -sL https://pypi.org/simple/$LIB/) | \
+          <(curl -sL "https://pypi.org/simple/$LIB/") | \
           grep -Po "(\d+\.)+\d+\w*")
         if [ "$_LIB_LAST_PYPI_VERSION" != "$_LIB_LOCAL_VERSION" ]; then
           if [ "$_LIB_LOCAL_VERSION" != "" ]; then
             printf " -> "
           fi;
-          printf "v$_LIB_LAST_PYPI_VERSION)..."
-          sudo -H $PY3_BINARY_FILEPATH -m pip install -U -qq $LIB==$_LIB_LAST_PYPI_VERSION
+          printf "v%s)..." "$_LIB_LAST_PYPI_VERSION"
+          _lib_equal_version="$LIB==$_LIB_LAST_PYPI_VERSION"
+          sudo -H "$PY3_BINARY_FILEPATH" -m pip install -U -qq "$_lib_equal_version"
         else
           printf ")"
         fi;
