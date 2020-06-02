@@ -66,7 +66,7 @@ printf "%s\n" "$_MSG_SETTING_UP_PY3_ECOSYSTEM"
 
 printPrependedStdout
 # Python3 binary exists?
-PY3_BINARY_FILEPATH=$(command -v python3)
+PY3_BINARY_FILEPATH="$(command -v python3)"
 if [ "$PY3_BINARY_FILEPATH" = "" ]; then
   # If not, Python might not be installed
   _PYTHON_STABLE_PACKAGE_VERSION=$(
@@ -77,9 +77,9 @@ if [ "$PY3_BINARY_FILEPATH" = "" ]; then
   fi;
   printf "..."
 	sudo apt-get install -y -qqq python3-dev > /dev/null
-  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12)"
+  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12 | tr -d ' ')"
 else
-  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12)"
+  _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12 | tr -d ' ')"
 	printf "  %s (v%s)" "$_MSG_FOUND_PY3_INSTALLED" "$_PYTHON_VERSION"
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
