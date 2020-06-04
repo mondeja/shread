@@ -135,6 +135,7 @@ function testRedisBuild() {
   printf "    %s\n" "$_MSG_TESTING_BUILD"
   stdbuf -oL make test 2>&1 |
     while IFS= read -r line; do
+      printPrependedStdout
       printf "%s" "$line"
     done
 }
