@@ -7,7 +7,7 @@ _MSG_ERROR_UNINSTALLING_ATOM="An error happen uninstalling Atom"
 _MSG_ATOM_IS_NOT_INSTALLED="Atom is not installed"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

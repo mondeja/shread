@@ -31,7 +31,7 @@ _MSG_CHECKING_PACKAGES="Checking packages..."
 _MSG_DISTRO_VERSION_NOT_SUPPORTED="Your version of Debian/Ubuntu is not supported by official PostgreSQL repositories"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

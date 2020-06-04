@@ -11,7 +11,7 @@ _MSG_DOCKER_REPO_FOUND="Docker repository configured found"
 _MSG_CHECKING_DOCKER_CE_PACKAGES="Checking Docker CE packages..."
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

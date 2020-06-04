@@ -17,7 +17,7 @@ _MSG_PANDOC_FOUND_INSTALLED="Pandoc found installed in the system"
 _MSG_UPDATING_PANDOC="Updating Pandoc"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

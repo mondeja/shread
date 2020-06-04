@@ -10,7 +10,7 @@ _MSG_UNINSTALLING_NPM="Uninstalling NPM..."
 _MSG_YARN_IS_NOT_INSTALLED="Yarn is not installed"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

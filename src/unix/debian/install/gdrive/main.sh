@@ -17,7 +17,7 @@ _MSG_UPDATING_GDRIVE="Updating Google Drive"
 _MSG_FOUND_GDRIVE_INSTALLED="Google Drive found installed in the system"
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s" "$_MSG_EXECUTED_AS_SUPERUSER\n" >&2
+  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
   exit 1
 fi;
 

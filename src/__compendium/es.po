@@ -447,9 +447,6 @@ msgstr "Construyendo el código fuente..."
 msgid "Testing build..."
 msgstr "Testeando la construcción..."
 
-msgid "An error happen running build tests."
-msgstr "Ocurrió un error ejecutando los tests de construcción."
-
 msgid "Checking 'redis' service configuration..."
 msgstr "Comprobando configuración del servicio 'redis'..."
 
