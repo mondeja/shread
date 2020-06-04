@@ -40,14 +40,14 @@ function printPrependedStdout() {
 
 function updatePackages() {
   printPrependedStdout
-  printf "$_MSG_UPDATING_SYSTEM_PACKAGES"
+  printf "%s" "$_MSG_UPDATING_SYSTEM_PACKAGES"
   sudo apt-get update -y -qqq || exit $?
   if [ $_UPDATE -eq 1 ]; then
     sudo apt-get upgrade -y -qqq > /dev/null
     _UPGRADE_COMMAND_EXIT_CODE=$?
     if [ $_UPGRADE_COMMAND_EXIT_CODE -ne 0 ]; then
-      printf "$_MSG_ERROR_UPDATING_SYSTEM_PACKAGES\n" >&2
-      printf "$_MSG_RELAUNCHING_WITH_STDOUT\n" >&2
+      printf "%s\n" "$_MSG_ERROR_UPDATING_SYSTEM_PACKAGES" >&2
+      printf "%s\n" "$_MSG_RELAUNCHING_WITH_STDOUT" >&2
       sudo apt-get upgrade -y
       exit $_UPGRADE_COMMAND_EXIT_CODE
     fi;
