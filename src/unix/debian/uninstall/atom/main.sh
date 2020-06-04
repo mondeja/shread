@@ -37,12 +37,12 @@ if [ "$ATOM_BINARY_PATH" != "" ]; then
     cut -d' ' -f2 | \
     sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g")
 
-  printf "$_MSG_UNINSTALLING_ATOM (v$ATOM_VERSION)..."
-  UNINSTALL_ATOM_STDERR=$(sudo apt-get purge atom -y -qqq 2>&1 > /dev/null)
+  printf "%s (v%s)..." "$_MSG_UNINSTALLING_ATOM" "$ATOM_VERSION"
+  UNINSTALL_ATOM_STDERR="$(sudo apt-get purge atom -y -qqq 2>&1 > /dev/null)"
   UNINSTALL_ATOM_EXIT_CODE=$?
   if [ $UNINSTALL_ATOM_EXIT_CODE -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n$_MSG_ERROR_UNINSTALLING_ATOM:\n $UNINSTALL_ATOM_STDERR\n" >&2
+    printf "\n%s:\n %s\n" "$_MSG_ERROR_UNINSTALLING_ATOM" "$UNINSTALL_ATOM_STDERR" >&2
     exit $UNINSTALL_ATOM_EXIT_CODE
   fi;
 
@@ -52,9 +52,9 @@ if [ "$ATOM_BINARY_PATH" != "" ]; then
     "atom.list.save"
   )
   for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"; do
-    sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null || exit $?
+    sudo rm -f "/etc/apt/sources.list.d/$APT_SOURCE_FILENAME" > /dev/null || exit $?
   done
 else
-  printf "$_MSG_ATOM_IS_NOT_INSTALLED"
+  printf "%s" "$_MSG_ATOM_IS_NOT_INSTALLED"
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
