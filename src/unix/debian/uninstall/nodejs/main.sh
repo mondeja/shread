@@ -36,23 +36,24 @@ function printPrependedStdout() {
   printf "%s" "$_PREPEND_STDOUT_STRING"
 }
 
-if [ -z $UNIX_DISTRO ]; then
+if [ -z "$UNIX_DISTRO" ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
+  # shellcheck disable=SC1090
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
 if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printPrependedStdout
-  printf "$_MSG_UNINSTALLING_NODEJS_ECOSYSTEM\n"
+  printf "%s\n" "$_MSG_UNINSTALLING_NODEJS_ECOSYSTEM"
 
   printPrependedStdout
   NODE_JS_BINARY_PATH=$(command -v node)
   if [ "$NODE_JS_BINARY_PATH" = "" ]; then
-    printf "  $_MSG_NODEJS_IS_NOT_INSTALLED"
+    printf "  %s" "$_MSG_NODEJS_IS_NOT_INSTALLED"
   else
-    printf "  $_MSG_UNINSTALLING_NODEJS (v$(echo $(node -v) | cut -c2-15))..."
+    printf "  %s (v%s)..." "$_MSG_UNINSTALLING_NODEJS" "$(node -v | cut -c2-15)"
     sudo apt-get purge nodejs -y -qqq > /dev/null
 
     APT_SOURCE_FILES_TO_DELETE=(
@@ -61,7 +62,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
       "nodesource.list.save"
     )
     for APT_SOURCE_FILENAME in "${APT_SOURCE_FILES_TO_DELETE[@]}"; do
-      sudo rm -f /etc/apt/sources.list.d/$APT_SOURCE_FILENAME > /dev/null || exit $?
+      sudo rm -f "/etc/apt/sources.list.d/$APT_SOURCE_FILENAME" > /dev/null || exit $?
     done
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -69,9 +70,9 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printPrependedStdout
   NPM_BINARY_PATH=$(command -v npm)
   if [ "$NPM_BINARY_PATH" = "" ]; then
-    printf "  $_MSG_NPM_IS_NOT_INSTALLED"
+    printf "  %s" "$_MSG_NPM_IS_NOT_INSTALLED"
   else
-    printf "  $_MSG_UNINSTALLING_NPM"
+    printf "  %s" "$_MSG_UNINSTALLING_NPM"
     npm uninstall npm -g --quiet
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -79,7 +80,6 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   printPrependedStdout
   YARN_BINARY_PATH=$(command -v npm)
   if [ "$YARN_BINARY_PATH" = "" ]; then
-    printf "  $_MSG_YARN_IS_NOT_INSTALLED"
-    printf " \e[92m\xE2\x9C\x94\e[39m\n"
+    printf "  %s \e[92m\xE2\x9C\x94\e[39m\n" "$_MSG_YARN_IS_NOT_INSTALLED"
   fi;
 fi;
