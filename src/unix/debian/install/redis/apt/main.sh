@@ -35,21 +35,21 @@ function printPrependedStdout() {
 }
 
 printPrependedStdout
-printf "$_MSG_SETTING_REDIS_ECOSYSTEM\n"
+printf "%s\n" "$_MSG_SETTING_REDIS_ECOSYSTEM"
 printPrependedStdout
-printf "  $_MSG_CHECKING_PACKAGES\n"
+printf "  %s\n" "$_MSG_CHECKING_PACKAGES"
 printPrependedStdout
 printf "    redis-server"
 if [[ "$(sudo dpkg -s redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq redis-server > /dev/null || exit $?
 fi;
 _REDIS_SERVER_VERSION=$(redis-server --version | cut -d'=' -f2 | cut -d' ' -f1)
-printf " (v$_REDIS_SERVER_VERSION) \e[92m\xE2\x9C\x94\e[39m\n"
+printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_REDIS_SERVER_VERSION"
 
 printPrependedStdout
-printf "  $_MSG_CHECKING_SERVICE_CONFIG\n"
+printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
 printPrependedStdout
-printf "    $_MSG_ITS_ENABLED"
+printf "    %s" "$_MSG_ITS_ENABLED"
 _REDIS_SERVICE_ENABLED_FOUND=$(systemctl list-unit-files | grep enabled | grep redis-server)
 if [ "$_REDIS_SERVICE_ENABLED_FOUND" = "" ]; then
   _ENABLE_REDIS_SERVER_OUTPUT=$(
@@ -58,27 +58,27 @@ if [ "$_REDIS_SERVICE_ENABLED_FOUND" = "" ]; then
   _ENABLE_REDIS_SERVER_EXIT_CODE=$?
   if [ $_ENABLE_REDIS_SERVER_EXIT_CODE -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "$_MSG_ERROR_ENABLING_SERVICE\n" >&2
-    printf "$_MSG_EXIT_CODE: $_ENABLE_REDIS_SERVER_EXIT_CODE\n" >&2
-    printf "$_MSG_ERROR: $_ENABLE_REDIS_SERVER_OUTPUT\n" >&2
+    printf "%s\n" "$_MSG_ERROR_ENABLING_SERVICE" >&2
+    printf "%s: %s\n" "$_MSG_EXIT_CODE" "$_ENABLE_REDIS_SERVER_EXIT_CODE" >&2
+    printf "%s: %s\n" "$_MSG_ERROR" "$_ENABLE_REDIS_SERVER_OUTPUT" >&2
     exit $_ENABLE_REDIS_SERVER_EXIT_CODE
   fi;
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
 printPrependedStdout
-printf "    $_MSG_ITS_RUNNING"
+printf "    %s" "$_MSG_ITS_RUNNING"
 _REDIS_SERVICE_STATUS=$(
   sudo systemctl show -p ActiveState redis-server | \
   cut -d'=' -f2 | \
   tr -d '\n')
-if [ $_REDIS_SERVICE_STATUS != "active" ]; then
+if [ "$_REDIS_SERVICE_STATUS" != "active" ]; then
   sudo systemctl start redis-server > /dev/null
   _REDIS_SERVICE_STARTED=$?
   if [ $_REDIS_SERVICE_STARTED -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "$_MSG_SERVICE_COULDNT_BE_STARTED\n" >&2
-    printf "$_MSG_ITS_ON_STATE '$_REDIS_SERVICE_STATUS'.\n" >&2
+    printf "%s\n" "$_MSG_SERVICE_COULDNT_BE_STARTED" >&2
+    printf "%s '%s'.\n" "$_MSG_ITS_ON_STATE" "$_REDIS_SERVICE_STATUS" >&2
     exit $_REDIS_SERVICE_STARTED
   fi;
 fi;
