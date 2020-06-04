@@ -36,18 +36,18 @@ if [[ "$(sudo dpkg -s net-tools 2> /dev/null | grep Status)" != "Status: install
 fi;
 
 printPrependedStdout
-printf "$_MSG_LEAVING_PORTS_FREE...\n"
-_PORTS=$(echo $_PORTS_STRING | tr "," "\n")
+printf "%s...\n" "$_MSG_LEAVING_PORTS_FREE"
+_PORTS=$(echo "$_PORTS_STRING" | tr "," "\n")
 for PORT in $_PORTS; do
   printPrependedStdout
-  printf "  $PORT"
+  printf "  %s" "$PORT"
   UNKNOWN_SERVICE_PID=$(
     sudo netstat -nlp | grep -E "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:$PORT|\:\:\:$PORT" | \
     awk '{print $7}' | \
     sed -e "s/\/.*//g")
-  if [[ ! -z "$UNKNOWN_SERVICE_PID" ]]; then
+  if [[ -n "$UNKNOWN_SERVICE_PID" ]]; then
     # lo detenemos
-    sudo kill $UNKNOWN_SERVICE_PID
+    sudo kill "$UNKNOWN_SERVICE_PID"
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 done
