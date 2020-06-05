@@ -57,7 +57,7 @@ if [ -z "$UNIX_DISTRO" ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
-  #shellcheck disable=SC1090
+  # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 

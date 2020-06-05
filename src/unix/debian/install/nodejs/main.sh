@@ -62,7 +62,7 @@ for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
 done;
 
 if [ -z "$UNIX_DISTRO" ]; then
-  # shellcheck disable=SC1090
+  # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
 fi;
 
