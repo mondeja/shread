@@ -27,7 +27,7 @@ function main() {
     while read -r filepath; do
       printSeparator
       printf "$filepath "
-      shellcheck $filepath
+      shellcheck -x "$filepath"
       if [ $? -ne 0 ]; then
         _EXIT_CODE=1
       else
