@@ -543,9 +543,6 @@ msgstr ""
 msgid "Checking shunit2..."
 msgstr "Comprobando shunit2..."
 
-msgid "Binary not found in PATH"
-msgstr "Binario no encontrado en PATH"
-
 msgid "Retrieving lastest version..."
 msgstr "Obteniendo la última version..."
 
