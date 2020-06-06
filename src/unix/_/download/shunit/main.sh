@@ -16,6 +16,11 @@ _MSG_INDICATE_ANOTHER_DEST_WITH_PARAM="Indicate another destination for shunit2 
 _PREPEND_STDOUT_STRING=""
 _DEST_PATH="$PWD/shunit2"
 
+GITHUB_API_CURL_AUTH=""
+if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
+  GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
+fi;
+
 for arg in "$@"
 do
     case $arg in
@@ -53,7 +58,7 @@ done;
 
 _GET_SHUNIT_RELEASES_URL=https://api.github.com/repos/kward/shunit2/releases
 function getShunitLastestVersion() {
-  _SHUNIT_RELEASES_INFO="$(curl -sL "$_GET_SHUNIT_RELEASES_URL" 2>&1)"
+  _SHUNIT_RELEASES_INFO="$(curl -sL "$GITHUB_API_CURL_AUTH" "$_GET_SHUNIT_RELEASES_URL" 2>&1)"
   _SHUNIT_RELEASES_INFO_MESSAGE="$(echo "$_SHUNIT_RELEASES_INFO" | jq -r '.message' 2>&1)"
   _SHUNIT_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_SHUNIT_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then

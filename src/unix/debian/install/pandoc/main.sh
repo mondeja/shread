@@ -22,6 +22,12 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
 fi;
 
 _PREPEND_STDOUT_STRING=""
+
+GITHUB_API_CURL_AUTH=""
+if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
+  GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
+fi;
+
 for arg in "$@"
 do
     case $arg in
@@ -50,8 +56,6 @@ for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   fi;
 done
 
-# Si suceden errrores 404 con las últimas versiones de Pandoc,
-#   intentamos obtener las anteriores
 _GET_PANDOC_VERSION_INDEX=0
 _GET_PANDOC_VERSION_404_ATTEMPTS=0
 _GET_PANDOC_VERSION_404_MAX_ATTEMPTS=10
@@ -67,7 +71,7 @@ _GET_PANDOC_LATEST_VERSION_ATTEMPTS=0
 _GET_PANDOC_LATEST_VERSION_MAX_ATTEMPTS=5
 _GET_PANDOC_LATEST_VERSION_URL="https://api.github.com/repos/jgm/pandoc/releases"
 function getPandocLatestVersion() {
-  _PANDOC_RELEASES_INFO="$(curl -s "$_GET_PANDOC_LATEST_VERSION_URL" 2>&1)"
+  _PANDOC_RELEASES_INFO="$(curl -sL "$GITHUB_API_CURL_AUTH" "$_GET_PANDOC_LATEST_VERSION_URL" 2>&1)"
   _PANDOC_RELEASES_INFO_MESSAGE="$(echo "$_PANDOC_RELEASES_INFO" | jq -r '.message' 2>&1)"
   _PANDOC_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_PANDOC_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then

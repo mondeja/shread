@@ -23,9 +23,14 @@ fi;
 
 _PREPEND_STDOUT_STRING=""
 
-# Indica si debemos actualizar (por defecto, no, hasta que
-#   Boostnote no llegue a la versión 1.0.0)
+# We need to update or not? (not by default, until
+#   Boostnote doesn't reach 1.0.0 version)
 _UPDATE=0
+
+GITHUB_API_CURL_AUTH=""
+if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
+  GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
+fi;
 
 for arg in "$@"
 do
@@ -67,8 +72,6 @@ case $(uname -m) in
     arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
 esac
 
-# Si suceden errrores 404 con las últimas versiones de Docker,
-#   intentamos obtener las anteriores
 _GET_BOOSTNOTE_VERSION_INDEX=0
 _GET_BOOSTNOTE_VERSION_404_ATTEMPTS=0
 _GET_BOOSTNOTE_VERSION_404_MAX_ATTEMPTS=10
@@ -84,7 +87,7 @@ _GET_BOOSTNOTE_LATEST_VERSION_ATTEMPTS=0
 _GET_BOOSTNOTE_LATEST_VERSION_MAX_ATTEMPTS=5
 _GET_BOOSTNOTE_LATEST_VERSION_URL="https://api.github.com/repos/BoostIO/boost-releases/releases"
 function getBoostnoteLatestVersion() {
-  _BOOSTNOTE_RELEASES_INFO="$(curl -sL "$_GET_BOOSTNOTE_LATEST_VERSION_URL" 2>&1)"
+  _BOOSTNOTE_RELEASES_INFO="$(curl -sL "$GITHUB_API_CURL_AUTH" "$_GET_BOOSTNOTE_LATEST_VERSION_URL" 2>&1)"
   _BOOSTNOTE_RELEASES_INFO_MESSAGE="$(echo "$_BOOSTNOTE_RELEASES_INFO" | jq -r '.message' 2>&1)"
   _BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE=$?
   if [ $_BOOSTNOTE_RELEASES_INFO_MESSAGE_EXIT_CODE -eq 0 ]; then
