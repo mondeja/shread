@@ -6,6 +6,19 @@ branches:
 
 jobs:
   include:
+    - os: linux
+      dist: bionic
+      name: Lint
+      before_install:
+        - |
+           sudo systemctl stop apt-daily.service &&
+           sudo systemctl kill --kill-who=all apt-daily.service &&
+           while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+             sleep 1
+           done
+        - sudo apt update
+      script:
+        - bash scripts/lint.sh
   - os: linux
     dist: bionic
     name: Ubuntu 18.04 - Bionic
