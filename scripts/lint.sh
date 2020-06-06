@@ -19,8 +19,8 @@ function main() {
   _NFILES_LINTED=0
 
   _DIRECTORIES=(
-    "src"
     "scripts"
+    "src"
   )
   for _DIR in "${_DIRECTORIES[@]}"; do
     find "$_DIR" -name "*.sh" > /tmp/files-to-lint.txt
