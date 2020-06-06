@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 # shellcheck source=scripts/constants.sh
 source scripts/constants.sh

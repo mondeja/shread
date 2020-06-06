@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 : '
   Test if the distribution of linux is sourced on environment variables:

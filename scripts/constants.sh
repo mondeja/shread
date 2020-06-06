@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 PUBLIC_URL="https://mondeja.github.io/shread"
 
@@ -13,6 +14,11 @@ _MAINTAINER_EMAIL="mondejar1994@gmail.com"
 
 _YEAR_NOW=$(date +%Y)
 _DATE_UTC_FORMAT=$(date "+%F %T%z")
+
+SCRIPTS_SHEBANGS=(
+  "#!/bin/bash"
+  ""
+)
 
 export PUBLIC_URL
 export SHREAD_VERSION

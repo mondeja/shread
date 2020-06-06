@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 if [ ! -d public ]; then
   bash scripts/build.sh

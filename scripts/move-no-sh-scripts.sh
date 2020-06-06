@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 # Move files that are not Bash scripts to public directory
 find src -type f -not -name '*.sh' -not -name '*.po' -not -name '*.mo' | while read -r file; do

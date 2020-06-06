@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 : '
   Test if APT packages dependencies for all scripts are reachable

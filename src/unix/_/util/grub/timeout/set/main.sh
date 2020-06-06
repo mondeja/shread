@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_SETTING_GRUB_TIMEOUT="Setting boot timeout for Grub"

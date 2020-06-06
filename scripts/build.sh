@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 rm -rf public
 if [ ! -d "public" ]; then

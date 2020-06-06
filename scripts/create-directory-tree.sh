@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 find src -type d | while read -r line; do
   relative_path_to_folder_from_src="${line:4:${#line}}"
