@@ -1,35 +1,36 @@
 #!/bin/bash
 
+# shellcheck source=scripts/constants.sh
 source scripts/constants.sh
 
 COMPENDIUM_DIRPATH="src/__compendium/"
 
-: '
+: "
   $1 - Directory path.
   $2 - Language code.
   $3 - Script filename.
   $4 - Created file extension.
-  $5 - "1" if compendium, "0" if not.
-'
+  $5 - 1 if compendium, 0 if not.
+"
 function createPoLanguageFile() {
   if [ "$5" = "1" ]; then
     PO_FIRST_LINE="# $2 compedium of shread."
   else
     PO_FIRST_LINE="# $2 translation of shread '$1/$2.sh' file."
   fi
-  cat << EOF > $1/$2.$4
+  cat << EOF > "$1/$2.$4"
 $PO_FIRST_LINE
 # Copyright © $_YEAR_NOW shread.
 # This file is distributed under the same license as shread.
-# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+# $_MAINTAINER_NAME <$_MAINTAINER_EMAIL>, $_YEAR_NOW.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: $SHREAD_VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: $_MAINTAINER_NAME <$_MAINTAINER_EMAIL>\n"
 "POT-Creation-Date: $_DATE_UTC_FORMAT\n"
 "PO-Revision-Date: $_DATE_UTC_FORMAT\n"
-"Last-Translator: \n"
+"Last-Translator: $_MAINTAINER_NAME <$_MAINTAINER_EMAIL>\n"
 "Language-Team: $2\n"
 "Language: $2\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +40,7 @@ msgstr ""
 EOF
 }
 
-find src -iname "*.sh" | while read filepath; do
+find src -iname "*.sh" | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
 
@@ -73,24 +74,27 @@ find src -iname "*.sh" | while read filepath; do
       # If we've found a message
       if [[ $line = _MSG* ]]; then
         # Extract msgid
+        # shellcheck disable=SC2206
         MSG_VARIABLE_SPLIT=(${line//\"/ })
         MSG_SPLITTED_LENGTH="${#MSG_VARIABLE_SPLIT[@]}"
         MSGID=""
-        for i in `seq 1 $MSG_SPLITTED_LENGTH`; do
+        # shellcheck disable=SC2006
+        for i in `seq 1 "$MSG_SPLITTED_LENGTH"`; do
           MSGID="${MSGID} ${MSG_VARIABLE_SPLIT[$i]}"
         done
         # Trim spaces at the beggining and the end
-        MSGID="$(echo $MSGID | sed 's/^ | *$//')"
+        # shellcheck disable=SC2001
+        MSGID="$(echo "$MSGID" | sed 's/^ | *$//')"
 
         # Insert msgid into .pot file
         #   msgstr is initialized with a space because, if initialized
         #   without content, there not will be included merging in
         #   compendium. At the end of the translation file loop will empty
-        printf "\nmsgid \"$MSGID\"\nmsgstr \" \"" >> "$dirpath/$lang.pot"
+        printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" >> "$dirpath/$lang.pot"
 
         (( _N_STRINGS_EXTRACTED++ ))
       fi;
-    done < $filepath
+    done < "$filepath"
 
     if [ $_N_STRINGS_EXTRACTED -gt 0 ]; then
       # Merge new messages into .po file
@@ -105,7 +109,7 @@ find src -iname "*.sh" | while read filepath; do
           2>&1 > /dev/null)
       _MSGMERGE_EXIT_CODE=$?
       if [ $_MSGMERGE_EXIT_CODE -ne 0 ]; then
-        printf "$_MSGMERGE_OUTPUT" >&2
+        printf "%s" "$_MSGMERGE_OUTPUT" >&2
         exit $_MSGMERGE_EXIT_CODE
       fi;
     else
@@ -122,7 +126,7 @@ find src -iname "*.sh" | while read filepath; do
         2>&1 > /dev/null)
     _MSGMERGE_EXIT_CODE=$?
     if [ $_MSGMERGE_EXIT_CODE -ne 0 ]; then
-      printf "$_MSGMERGE_OUTPUT" >&2
+      printf "%s" "$_MSGMERGE_OUTPUT" >&2
       exit $_MSGMERGE_EXIT_CODE
     fi;
     sed -i 's/^\#~ //' "$COMPENDIUM_DIRPATH/$lang.po"
