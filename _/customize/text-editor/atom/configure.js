@@ -11,55 +11,50 @@ const path = require("path");
 const CSON = require("cson");
 
 const main = () => {
-  // Obtenemos el directorio del usuario
   const homeDirectory = os.homedir();
-
-  // Obtenemos la ruta al archivo de configuración de Atom
   const atomConfigFilePath = path.join(homeDirectory, ".atom", "config.cson");
-
-  // Obtenemos el contenido del archivo como un JSON
   const atomConfig = CSON.parseCSONFile(atomConfigFilePath);
 
-  // Configuración global del editor
-
+  // Editor global config
   if (atomConfig["*"].core === undefined) {
     atomConfig["*"].core = {};
   }
-  //   No envíes datos a los desarrolladores
+  //   Don't send telemetry data to developers
   atomConfig["*"].core.telemetryConsent = "no";
 
   if (atomConfig["*"].welcome === undefined) {
     atomConfig["*"].welcome = {};
   }
-  //   No muestres el mensaje de bienvenida al arrancar
+  // Doesn't show welcome screen
   atomConfig["*"].welcome.showOnStartup = false;
+
 
   if (atomConfig["*"].editor === undefined) {
     atomConfig["*"].editor = {};
   }
-  //   Muestra la guía de indentación
+  //   Show indent guide
   atomConfig["*"].editor.showIndentGuide = true;
-  //   Muestra los números de línea
+  //   Show line numbers
   atomConfig["*"].editor.showLineNumbers = true;
-  //   Identación de 4 espacios por defecto
+  //   Indentation of 4 spaces by default
   atomConfig["*"].editor.tabLength = 4;
 
   if (atomConfig["*"].editor.whitespace === undefined) {
     atomConfig["*"].editor.whitespace = {};
   }
-  //   Elimina múltiples líneas a final de archivo
+  //   Remove multiple lines at the end of the files
   atomConfig["*"].editor.whitespace.ensureSingleTrailingNewline = true;
-  //   Elimina espacios en blanco a final de línea
+  //   Remove blank spaces at the end of the lines
   atomConfig["*"].editor.whitespace.removeTrailingWhitespace = true;
 
-  // Configuración para archivos Javascript
+  // JS files configuration
   if (atomConfig[".source.js"] === undefined) {
     atomConfig[".source.js"] = {};
   }
   if (atomConfig[".source.js"].editor === undefined) {
     atomConfig[".source.js"].editor = {};
   }
-  //   Indentación de 2 espacios
+  //   2 spaces indentation
   atomConfig[".source.js"].editor.tabLength = 2;
 
   // Configuración para archivos JSON
@@ -69,7 +64,6 @@ const main = () => {
   if (atomConfig[".source.json"].editor === undefined) {
     atomConfig[".source.json"].editor = {};
   }
-  //   Indentación de 2 espacios
   atomConfig[".source.json"].editor.tabLength = 2;
 
   const atomConfigCSONString = CSON.createCSONString(
