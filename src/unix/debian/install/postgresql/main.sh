@@ -54,42 +54,41 @@ _INCLUDE_PGADMIN=0
 # Indica si debemos incliur Plpython3
 _INCLUDE_PLPYTHON3=0
 
-for arg in "$@"
-do
-    case $arg in
-        --version)
-        shift
-        _VERSION=$1
-        shift
-        ;;
+for arg in "$@"; do
+  case $arg in
+    --version)
+    shift
+    _VERSION=$1
+    shift
+    ;;
 
-        --install-postgis)
-        _INCLUDE_POSTGIS=1
-        shift
-        ;;
+    --install-postgis)
+    _INCLUDE_POSTGIS=1
+    shift
+    ;;
 
-        --postgis-version)
-        shift
-        _POSTGIS_VERSION=$1
-        shift
-        ;;
+    --postgis-version)
+    shift
+    _POSTGIS_VERSION=$1
+    shift
+    ;;
 
-        --install-pgadmin)
-        _INCLUDE_PGADMIN=1
-        shift
-        ;;
+    --install-pgadmin)
+    _INCLUDE_PGADMIN=1
+    shift
+    ;;
 
-        --install-plpython3)
-        _INCLUDE_PLPYTHON3=1
-        shift
-        ;;
+    --install-plpython3)
+    _INCLUDE_PLPYTHON3=1
+    shift
+    ;;
 
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-    esac
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

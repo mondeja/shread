@@ -38,26 +38,20 @@ function testDependentAptPackages {
 }
 
 : '
-  Test if all scripts of the repository contains shebangs defined at
+  Test that all scripts of the repository contains shebangs defined at
     SCRIPTS_SHEBANGS variable of scripts/constants file.
 '
 function testScriptsShebangs {
-  _DIRECTORIES=(
-    "scripts"
-    "src"
-  )
-  for _DIR in "${_DIRECTORIES[@]}"; do
+  for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
     while IFS= read -r filepath; do
-      _SCRIPT_TO_FIRST_LINES="$(< "$filepath" head -n 2)"
-      assertEquals \
-        "Shebang '${SCRIPTS_SHEBANGS[0]}' not properly defined at file '$filepath'\n   " \
-        "${SCRIPTS_SHEBANGS[0]}" \
-        "$(echo "$_SCRIPT_TO_FIRST_LINES" | head -n 1)"
+      _SCRIPT_TO_FIRST_LINES="$(< "$filepath" head -n ${#SCRIPTS_SHEBANGS[@]})"
 
-      assertEquals \
-        "Shebang '${SCRIPTS_SHEBANGS[1]}' not properly defined at file '$filepath'\n   " \
-        "${SCRIPTS_SHEBANGS[1]}" \
-        "$(echo "$_SCRIPT_TO_FIRST_LINES" | head -n 2 | tail -n 1)"
+      for i in "${!SCRIPTS_SHEBANGS[@]}"; do
+        assertEquals \
+          "Shebang '${SCRIPTS_SHEBANGS[$i]}' not properly defined at file '$filepath'\n   " \
+          "${SCRIPTS_SHEBANGS[$i]}" \
+          "$(echo "$_SCRIPT_TO_FIRST_LINES" | head -n $((i+1)) | tail -n 1)"
+      done
     done < <(find "$_DIR" -name "*.sh")
   done
 }

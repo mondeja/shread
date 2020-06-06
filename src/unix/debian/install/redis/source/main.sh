@@ -40,20 +40,19 @@ _ORIGIN_PWD=$PWD
 _TEST=0
 
 _PREPEND_STDOUT_STRING=""
-for arg in "$@"
-do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
+for arg in "$@"; do
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
 
-        --test)
-        _TEST=1
-        shift
-        ;;
-    esac
+    --test)
+    _TEST=1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

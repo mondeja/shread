@@ -18,15 +18,14 @@ fi;
 
 _PREPEND_STDOUT_STRING=""
 
-for arg in "$@"
-do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-    esac
+for arg in "$@"; do
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

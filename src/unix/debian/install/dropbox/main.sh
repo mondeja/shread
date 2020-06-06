@@ -19,20 +19,20 @@ fi;
 _UPDATE=1
 
 _PREPEND_STDOUT_STRING=""
-for arg in "$@"
-do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
 
-        --no-update)
-        _UPDATE=0
-        shift
-        ;;
-    esac
+for arg in "$@"; do
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+
+    --no-update)
+    _UPDATE=0
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

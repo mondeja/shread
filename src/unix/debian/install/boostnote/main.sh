@@ -33,21 +33,20 @@ if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
   GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
 fi;
 
-for arg in "$@"
-do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
+for arg in "$@"; do
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
 
-        --update)
-        shift
-        _UPDATE=1
-        shift
-        ;;
-    esac
+    --update)
+    shift
+    _UPDATE=1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

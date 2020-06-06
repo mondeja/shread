@@ -11,20 +11,20 @@ fi;
 
 _PREPEND_STDOUT_STRING=""
 _PORTS_STRING=""
-for arg in "$@"
-do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-        --ports)
-        shift
-        _PORTS_STRING=$1
-        shift
-        ;;
-    esac
+
+for arg in "$@"; do
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+    --ports)
+    shift
+    _PORTS_STRING=$1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

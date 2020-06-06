@@ -22,20 +22,19 @@ _UPGRADE_PY3_GLOBAL_LIBS=1
 
 _PREPEND_STDOUT_STRING=""
 
-for arg in "$@"
-do
-    case $arg in
-        --no-upgrade-py3-global-libs)
-        _UPGRADE_PY3_GLOBAL_LIBS=0
-        shift
-        ;;
+for arg in "$@"; do
+  case $arg in
+    --no-upgrade-py3-global-libs)
+    _UPGRADE_PY3_GLOBAL_LIBS=0
+    shift
+    ;;
 
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-    esac
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

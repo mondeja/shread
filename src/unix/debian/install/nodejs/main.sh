@@ -29,21 +29,20 @@ fi;
 _VERSION=""
 
 _PREPEND_STDOUT_STRING=""
-for arg in "$@"
-do
-    case $arg in
-        --version)
-        shift
-        _VERSION=$1
-        shift
-        ;;
+for arg in "$@"; do
+  case $arg in
+    --version)
+    shift
+    _VERSION=$1
+    shift
+    ;;
 
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-    esac
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+  esac
 done
 
 function printPrependedStdout() {

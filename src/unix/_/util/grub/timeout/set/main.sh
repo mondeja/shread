@@ -15,24 +15,24 @@ _NEW_TIMEOUT="10"
 _CONFIG_FILEPATH="/etc/default/grub"
 
 for arg in "$@"; do
-    case $arg in
-        --prepend-stdout)
-        shift
-        _PREPEND_STDOUT_STRING=$1
-        shift
-        ;;
-        --timeout)
-        shift
-        _NEW_TIMEOUT=$1
-        shift
-        ;;
+  case $arg in
+    --prepend-stdout)
+    shift
+    _PREPEND_STDOUT_STRING=$1
+    shift
+    ;;
+    --timeout)
+    shift
+    _NEW_TIMEOUT=$1
+    shift
+    ;;
 
-        --config-filepath)
-        shift
-        _CONFIG_FILEPATH=$1
-        shift
-        ;;
-    esac
+    --config-filepath)
+    shift
+    _CONFIG_FILEPATH=$1
+    shift
+    ;;
+  esac
 done
 
 # Remove spaces

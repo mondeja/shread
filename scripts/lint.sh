@@ -1,6 +1,9 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+# shellcheck source=scripts/constants.sh
+source scripts/constants.sh
+
 _EXIT_CODE=0
 
 # Download shunit2 binary to follow sources properly
@@ -25,11 +28,7 @@ function main() {
   _NFILES_TOTAL=0
   _NFILES_LINTED=0
 
-  _DIRECTORIES=(
-    "scripts"
-    "src"
-  )
-  for _DIR in "${_DIRECTORIES[@]}"; do
+  for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
     find "$_DIR" -name "*.sh" > /tmp/files-to-lint.txt
     while read -r filepath; do
       printSeparator
