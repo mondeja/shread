@@ -2,6 +2,12 @@
 
 _EXIT_CODE=0
 
+# Download shunit2 binary to follow sources properly
+if [ ! -f scripts/shunit2 ]; then
+  bash src/unix/_/download/shunit/main.sh \
+    --dest-path "scripts/shunit2" > /dev/null || exit $?
+fi;
+
 if [[ "$(sudo dpkg -s shellcheck 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq shellcheck > /dev/null || exit $?
 fi;
