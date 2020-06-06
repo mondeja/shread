@@ -71,6 +71,10 @@ find src -type f -name '*.sh' | while read -r script_filepath; do
     sed -i '/^[[:blank:]]*#/d;s/#.*//' "$temp_localized_script"
     sed -i '/^$/d' "$temp_localized_script"
 
+    # Add shebangs
+    sed -i '1s/^/#!\/bin\/bash\n# -*- ENCODING: UTF-8 -*-\n/' \
+      "$temp_localized_script"
+
     path_to_script_dest="public/$relative_path_to_script_dir_from_src/$lang.sh"
     rm -f "$path_to_script_dest"
     touch "$path_to_script_dest"
