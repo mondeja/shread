@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 # Executes `sudo apt-get update` and `sudo apt-get upgrade -y`
 #   if not was executed today at last time:

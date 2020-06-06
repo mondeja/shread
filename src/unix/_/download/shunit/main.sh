@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _MSG_URL="URL"
 _MSG_ERROR="Error"

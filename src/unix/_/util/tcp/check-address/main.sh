@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _MSG_MUST_SPECIFY_ADDRESS="You must specify an address with the parameter"
 

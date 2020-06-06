@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_ERROR_RETRIEVING_BOOSTNOTE_RELEASES_INFO="An error happen retrieving Boostnote releases info from Github API."

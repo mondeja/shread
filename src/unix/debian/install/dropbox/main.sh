@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_CHECKING_DROPBOX_ENV="Checking Dropbox environment..."
