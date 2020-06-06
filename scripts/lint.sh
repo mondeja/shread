@@ -18,17 +18,18 @@ function main() {
   _NFILES_TOTAL=0
   _NFILES_LINTED=0
 
-  _DIRECTORIES=$(
+  _DIRECTORIES=(
     "src"
     "scripts"
   )
   for _DIR in "${_DIRECTORIES[@]}"; do
-    echo "$(find $_DIR -name "*.sh")" > /tmp/files-to-lint.txt
+    find "$_DIR" -name "*.sh" > /tmp/files-to-lint.txt
     while read -r filepath; do
       printSeparator
-      printf "$filepath "
+      printf "%s" "$filepath "
       shellcheck -x "$filepath"
-      if [ $? -ne 0 ]; then
+      _SHELLCHECK_EXIT_CODE=$?
+      if [ $_SHELLCHECK_EXIT_CODE -ne 0 ]; then
         _EXIT_CODE=1
       else
         ((_NFILES_LINTED++))
