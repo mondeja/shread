@@ -22,7 +22,7 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 # We need to update or not? (not by default, until
 #   Boostnote doesn't reach 1.0.0 version)
@@ -35,9 +35,9 @@ fi;
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
 
@@ -50,7 +50,7 @@ for arg in "$@"; do
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 INSTALLATION_DEPENDENCIES=(

@@ -28,7 +28,7 @@ fi;
 #   se instalará la versión más reciente disponible
 _VERSION=""
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 for arg in "$@"; do
   case $arg in
     --version)
@@ -37,16 +37,16 @@ for arg in "$@"; do
     shift
     ;;
 
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
   esac
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 INSTALLATION_DEPENDENCIES=(

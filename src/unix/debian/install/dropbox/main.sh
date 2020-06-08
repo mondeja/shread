@@ -18,13 +18,13 @@ fi;
 # Update (1) or not (0)
 _UPDATE=1
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
 
@@ -36,7 +36,7 @@ for arg in "$@"; do
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 printPrependedStdout

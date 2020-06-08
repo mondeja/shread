@@ -10,15 +10,15 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 _NEW_TIMEOUT="10"
 _CONFIG_FILEPATH="/etc/default/grub"
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
     --timeout)
@@ -39,7 +39,7 @@ done
 _NEW_TIMEOUT="$(printf "%s" "$_NEW_TIMEOUT" | sed -e 's/[[:space:]]*//g')"
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 function checkGrubFileExists() {

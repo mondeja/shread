@@ -21,7 +21,7 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 GITHUB_API_CURL_AUTH=""
 if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
@@ -30,16 +30,16 @@ fi;
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
   esac
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 function installScriptDependencies() {

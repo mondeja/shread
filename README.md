@@ -10,7 +10,7 @@ Bash Ubuntu/Debian public scripts with localized and indented output.
 ### With arguments
 ```bash
 curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
-    | sudo bash -s -- --prepend-stdout '  '
+    | sudo bash -s -- --indent '  '
 ```
 
 ### Without arguments
@@ -86,9 +86,9 @@ _____________________________________________________________
 ### Common parameters
 All scripts take an optional parameter:
 
-<a name="prepend-stdout" href="#prepend-stdout">#</a> <b>--prepend-stdout</b> *string*
+<a name="indent" href="#indent">#</a> <b>--indent</b> *string*
 
-Every line of output will be preceded with the string passed on this parameter. As default an empty string.
+Each line of the script output will be preceded with the string defined in this parameter. As default an empty string.
 
 
 ### Installation / upgrade

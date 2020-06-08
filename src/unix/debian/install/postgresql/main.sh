@@ -35,7 +35,7 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 # Indica la versión a instalar. Si es una cadena vacía, se obtendrá
 #   la última versión disponible de los repositorios de PostgreSQL
@@ -83,16 +83,16 @@ for arg in "$@"; do
     shift
     ;;
 
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
   esac
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 INSTALLATION_DEPENDENCIES=(

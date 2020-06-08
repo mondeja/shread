@@ -14,7 +14,7 @@ _MSG_UNZIPPING_SHUNIT="Unzipping..."
 _MSG_DEST_EXISTS="Destination file exists"
 _MSG_INDICATE_ANOTHER_DEST_WITH_PARAM="Indicate another destination for shunit2 with parameter"
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 _DEST_PATH="$PWD/shunit2"
 
 GITHUB_API_CURL_AUTH=""
@@ -24,9 +24,9 @@ fi;
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
 
@@ -41,7 +41,7 @@ done
 _DEST_DIRPATH="$(dirname "$_DEST_PATH")"
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 INSTALLATION_DEPENDENCIES=(

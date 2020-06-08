@@ -14,13 +14,13 @@ if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   exit 1
 fi;
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 for arg in "$@"; do
   case $arg in
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
     --distro)
@@ -32,7 +32,7 @@ for arg in "$@"; do
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 if [ -z "$UNIX_DISTRO" ]; then

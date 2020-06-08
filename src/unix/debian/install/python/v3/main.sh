@@ -20,7 +20,7 @@ fi;
 #   - testresources
 _UPGRADE_PY3_GLOBAL_LIBS=1
 
-_PREPEND_STDOUT_STRING=""
+INDENT_STRING=""
 
 for arg in "$@"; do
   case $arg in
@@ -29,16 +29,16 @@ for arg in "$@"; do
     shift
     ;;
 
-    --prepend-stdout)
+    --indent)
     shift
-    _PREPEND_STDOUT_STRING=$1
+    INDENT_STRING=$1
     shift
     ;;
   esac
 done
 
 function printPrependedStdout() {
-  printf "%s" "$_PREPEND_STDOUT_STRING"
+  printf "%s" "$INDENT_STRING"
 }
 
 if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
