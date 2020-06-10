@@ -131,6 +131,4 @@ function main() {
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
-if [ -z "$SHREAD_TEST" ]; then
-  main
-fi;
+! (return 0 2>/dev/null) && main
