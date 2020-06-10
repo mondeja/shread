@@ -89,7 +89,6 @@ function installMainPython3AptPackage {
 
 function discoverInstallationAptPackages {
   INSTALLATION_PACKAGES=(
-    "python-dev"
     "python3-dev"
     "python3-pip"
     "python3-setuptools"
@@ -112,6 +111,11 @@ function discoverInstallationAptPackages {
     if [ "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" -lt 20 ]; then
       INSTALLATION_PACKAGES+=(
         "python-pip"
+        "python-dev"
+      )
+    else
+      INSTALLATION_PACKAGES+=(
+        "python-dev-is-python2"
       )
     fi;
   fi;
