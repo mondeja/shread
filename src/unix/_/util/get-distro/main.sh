@@ -18,11 +18,11 @@ fi;
 UNIX_DISTRO_VERSION_NAME="$(lsb_release -cs)"
 UNIX_DISTRO_VERSION_NUMBER="$(lsb_release -rs)"
 UNIX_DISTRO_VERSION_NUMBER_MAJOR=$(
-  printf "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f1)
+  printf "%s" "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f1)
 UNIX_DISTRO_VERSION_NUMBER_MINOR=""
 if [[ $UNIX_DISTRO_VERSION_NUMBER == *"."* ]]; then
   UNIX_DISTRO_VERSION_NUMBER_MINOR=$(
-    printf "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f2)
+    printf "%s" "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f2)
 fi;
 
 UNIX_DISTRO_CAPITALIZED="$(tr '[:lower:]' '[:upper:]' <<< ${UNIX_DISTRO:0:1})${UNIX_DISTRO:1}"

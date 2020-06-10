@@ -58,7 +58,7 @@ jobs:
     env:
       - SHREAD_TEST__UNIX_DISTRO=ubuntu
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=focal
-      - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=24.04
+      - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=20.04
 
   - os: linux
     dist: focal
@@ -91,12 +91,7 @@ jobs:
       - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
-      - >
-        docker exec -w /shread \
-        -e SHREAD_TEST__UNIX_DISTRO=debian \
-        -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=buster \
-        -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=10 \
-        test bash -c "bash scripts/test.sh"
+      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=buster -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=10 test bash -c "bash scripts/test.sh"
 
 notifications:
   email: false

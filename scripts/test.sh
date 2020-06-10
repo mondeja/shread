@@ -27,11 +27,11 @@ function main {
   exit $_EXIT_CODE
 }
 
-# If the script is not being sourced, run `main` function
-if [[ $_ = $0 ]]; then
-  main
-fi;
 
+# If the script is not being sourced, run `main` function
+! (return 0 2>/dev/null) && main
+
+# shellcheck disable=SC2016
 : '
   Checks that passed APT packages are available as APT sources.
   You need to manually update the sources before run this test.
@@ -54,7 +54,6 @@ function assertAptPackagesAvailable {
 
   DEPENDENCIES=("$@")
   for DEP in "${DEPENDENCIES[@]}"; do
-    echo "$DEP"
     if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APTITUDE_SEARCH="$(sudo aptitude search "$DEP" 2> /dev/null)"
       assertNotEquals "$DEP not found on public APT repositories ->" "$_APTITUDE_SEARCH" ""

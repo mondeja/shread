@@ -8,14 +8,14 @@ _MSG_FOUND_PY3_INSTALLED="Found Python3 installed in the system"
 _MSG_CHECKING_ADDITIONAL_PY3_PACKAGES="Checking additional Python packages..."
 _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
 
-if [[ $_ = $0 ]]; then
+if [[ $_ = "$0" ]]; then
   if [[ $(/usr/bin/id -u) -ne 0 ]]; then
     printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
     exit 1
   fi;
 fi;
 
-# We must update global libraries recommended for Python:
+# We must update global libraries recommended for Python?
 #   - pip
 #   - virtualenv
 #   - setuptools
@@ -54,14 +54,13 @@ if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
 fi;
 
-if [ -z "$UNIX_DISTRO" ]; then
+if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
   if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
-echo "$UNIX_DISTRO_VERSION_NAME"
 
 function installMainPython3AptPackage {
   printPrependedStdout
@@ -216,9 +215,12 @@ function main {
   upgradeGlobalLibraries
 }
 
-if [[ $_ = $0 ]]; then
-  main
-fi;
+function exportVariables {
+  discoverInstallationAptPackages
+  export INSTALLATION_PACKAGES
+}
+
+! (return 0 2>/dev/null) && main || exportVariables
 
 if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
