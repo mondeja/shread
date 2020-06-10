@@ -2,13 +2,12 @@
 # -*- ENCODING: UTF-8 -*-
 
 _MSG_CHECKING_PACAPT="Checking pacapt"
-_MSG_RETRIEVING_PACAPT_LASTEST_VERSION="Retrieving latest version"
+_MSG_RETRIEVING_LASTEST_VERSION="Retrieving latest version"
 _MSG_INSTALLED="Installed"
 _MSG_FOUND_INSTALLED="Found installed"
 _MSG_UPDATED="Updated"
 _MSG_DEST_EXISTS="Destination file exists"
 _MSG_INDICATE_ANOTHER_DEST_WITH_PARAM="Indicate another destination for pacapt with parameter"
-_MSG_RETRIEVING_LASTEST_VERSION="Retrieving lastest version"
 
 INDENT_STRING=""
 _DEST_PATH="/usr/local/bin/pacapt"
@@ -58,7 +57,7 @@ function getPacAptCurrentVersion {
     PACAPT_BINARY_PATH="$(command -v pacman)"
   fi;
 
-  if [ ! -z "$PACAPT_BINARY_PATH" ]; then
+  if [ -n "$PACAPT_BINARY_PATH" ]; then
     _PACAPT_CURRENT_VERSION=$(
       < "$PACAPT_BINARY_PATH" grep "Version:" | cut -d' ' -f3)
   fi;

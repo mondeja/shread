@@ -1,0 +1,39 @@
+# es translation of shread 'src/unix/_/download/pacapt/es.sh' file.
+# Copyright © 2020 shread.
+# This file is distributed under the same license as shread.
+# Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.1\n"
+"Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
+"POT-Creation-Date: 2020-06-10 14:45:26+0200\n"
+"PO-Revision-Date: 2020-06-10 14:43:36+0200\n"
+"Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
+"Language-Team: es\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Checking pacapt"
+msgstr "Comprobando pacapt"
+
+msgid "Retrieving latest version"
+msgstr "Obteniendo última versión"
+
+msgid "Installed"
+msgstr "Instalado"
+
+msgid "Found installed"
+msgstr "Encontrado instalado"
+
+msgid "Updated"
+msgstr "Actualizado"
+
+msgid "Destination file exists"
+msgstr "El archivo de destino ya existe"
+
+msgid "Indicate another destination for pacapt with parameter"
+msgstr "Indica otro destino para pacapt con el parámetro"

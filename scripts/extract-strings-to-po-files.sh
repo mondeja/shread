@@ -45,6 +45,8 @@ find src -iname "*.sh" | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
 
+  echo "$dirpath"
+
   if [ "$filename" != "main.sh" ]; then
     continue
   fi;
@@ -76,16 +78,21 @@ find src -iname "*.sh" | while read -r filepath; do
       if [[ $line = _MSG* ]]; then
         # Extract msgid
         # shellcheck disable=SC2206
-        MSG_VARIABLE_SPLIT=(${line//\"/ })
-        MSG_SPLITTED_LENGTH="${#MSG_VARIABLE_SPLIT[@]}"
+        MSG_VARIABLE_SPLIT="${line//\"/ }"
         MSGID=""
-        # shellcheck disable=SC2006
-        for i in `seq 1 "$MSG_SPLITTED_LENGTH"`; do
-          MSGID="${MSGID} ${MSG_VARIABLE_SPLIT[$i]}"
-        done
+
+        for word in $MSG_VARIABLE_SPLIT; do
+          if [[ $word != _MSG* ]]; then
+            if [ "$MSGID" = "" ]; then
+              MSGID="$word"
+            else
+              MSGID="${MSGID} $word"
+            fi;
+          fi;
+        done;
         # Trim spaces at the beggining and the end
         # shellcheck disable=SC2001
-        MSGID="$(echo "$MSGID" | sed 's/^ | *$//')"
+        MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
 
         # Insert msgid into .pot file
         #   msgstr is initialized with a space because, if initialized
