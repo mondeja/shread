@@ -118,7 +118,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
       LATEST_NODEJS_MAJOR_VERSION="$(echo "$LATEST_NODEJS_VERSION" | cut -d"." -f1)"
       re='^[0-9]+$'
       if [[ $LATEST_NODEJS_MAJOR_VERSION =~ $re ]]; then
-        url"=https://deb.nodesource.com/setup_$LATEST_NODEJS_MAJOR_VERSION.x"
+        url="https://deb.nodesource.com/setup_$LATEST_NODEJS_MAJOR_VERSION.x"
         if curl --output /dev/null --silent --fail -r 0-0 "$url"; then
           NODEJS_VERSION_TO_INSTALL=$LATEST_NODEJS_VERSION
           NODEJS_VERSION_TO_INSTALL_MAJOR=$LATEST_NODEJS_MAJOR_VERSION
