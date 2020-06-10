@@ -8,7 +8,9 @@ _MSG_FOUND_PY3_INSTALLED="Found Python3 installed in the system"
 _MSG_CHECKING_ADDITIONAL_PY3_PACKAGES="Checking additional Python packages..."
 _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
 
-if [[ $_ = "$0" ]]; then
+if ! (return 0 2>/dev/null); then
+  # Script not sourced
+
   if [[ $(/usr/bin/id -u) -ne 0 ]]; then
     printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
     exit 1
@@ -168,11 +170,11 @@ function upgradeGlobalLibraries {
 
       # Check if it's installed locally
       _GET_VERSION_EXEC_STR="
-  import sys;
-  try: import $LIB as l;
-  except ImportError as err: sys.exit(777);
-  print(l.__version__ if isinstance(l.__version__, str) else \
-    '.'.join([str(v) for v in l.__version__][:3]), end='');
+import sys;
+try: import $LIB as l;
+except ImportError as err: sys.exit(777);
+print(l.__version__ if isinstance(l.__version__, str) else \
+  '.'.join([str(v) for v in l.__version__][:3]), end='');
   "
       _LIB_LOCAL_VERSION="$("$PY3_BINARY_FILEPATH" -c "$_GET_VERSION_EXEC_STR")"
       _LIB_LOCAL_VERSION_EXIT_CODE=$?
@@ -220,7 +222,12 @@ function exportVariables {
   export INSTALLATION_PACKAGES
 }
 
-! (return 0 2>/dev/null) && main || exportVariables
+# If script being sourced, export variables, else run `main` function
+if (return 0 2>/dev/null); then
+  exportVariables
+else
+  main
+fi;
 
 if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
