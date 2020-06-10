@@ -62,7 +62,7 @@ jobs:
 
   - os: linux
     dist: focal
-    name: Debian 9 - Stretch
+    name: Debian 9.12 - Stretch
     services:
       - docker
     before_install:
