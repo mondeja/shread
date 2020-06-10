@@ -11,5 +11,4 @@ testUnixDistro() {
   assertEquals "$SHREAD_TEST__UNIX_DISTRO" "$UNIX_DISTRO"
 }
 
-# shellcheck source=scripts/shunit2
 . ./scripts/shunit2
