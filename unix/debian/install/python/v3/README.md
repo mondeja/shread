@@ -13,9 +13,9 @@ Installs Python3 (and some Python2) related APT packages if are not installed:
 - `python-numpy`
 - `python3-numpy`
 
-> In Ubuntu>=18 `python3-distutils` is installed also.
-> In Ubuntu<20 `python-pip` and `python-dev` are installed also.
-> In Ubuntu>=20 `python-dev-is-python2` is installed instead.
+> - In Ubuntu>=18 `python3-distutils` is installed also.
+> - In Ubuntu<20 `python-pip` and `python-dev` are installed also.
+> - In Ubuntu>=20 `python-dev-is-python2` is installed instead.
 
 Also, installs or upgrade globally using PIP some Python3 packages. This step can be ignored using the parámeter [--no-upgrade-py3-global-libs](#no-upgrade-py3-global-libs):
 
