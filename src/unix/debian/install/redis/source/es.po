@@ -78,7 +78,7 @@ msgid "Creating 'redis' service..."
 msgstr "Creando servicio 'redis'..."
 
 msgid "Creating 'redis' user..."
-msgstr "Creando usuarios 'redis'..."
+msgstr "Creando usuario 'redis'..."
 
 msgid "Unzipping..."
 msgstr "Descomprimiendo"
