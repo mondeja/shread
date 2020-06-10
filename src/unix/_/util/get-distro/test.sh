@@ -13,4 +13,5 @@ testUnixDistro() {
   assertEquals "$SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER" "$UNIX_DISTRO_VERSION_NUMBER"
 }
 
+# shellcheck disable=SC1091
 . ./scripts/shunit2
