@@ -11,13 +11,25 @@ fi
 
 if [ "$(echo "$UNIX_DISTRO" | head -n 1)" = "debian" ]; then
   UNIX_DISTRO="debian"
+elif [ "$UNIX_DISTRO" = "Ubuntu" ]; then
+  UNIX_DISTRO="ubuntu"
 fi;
 
-if [ "$UNIX_DISTRO" = "Ubuntu" ]; then
-  UNIX_DISTRO="ubuntu"
-fi
+UNIX_DISTRO_VERSION_NAME="$(lsb_release -cs)"
+UNIX_DISTRO_VERSION_NUMBER="$(lsb_release -rs)"
+UNIX_DISTRO_VERSION_NUMBER_MAJOR=$(
+  printf "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f1)
+UNIX_DISTRO_VERSION_NUMBER_MINOR=""
+if [[ $UNIX_DISTRO_VERSION_NUMBER == *"."* ]]; then
+  UNIX_DISTRO_VERSION_NUMBER_MINOR=$(
+    printf "$UNIX_DISTRO_VERSION_NUMBER" | cut -d'.' -f2)
+fi;
 
 UNIX_DISTRO_CAPITALIZED="$(tr '[:lower:]' '[:upper:]' <<< ${UNIX_DISTRO:0:1})${UNIX_DISTRO:1}"
 
 export UNIX_DISTRO
 export UNIX_DISTRO_CAPITALIZED
+export UNIX_DISTRO_VERSION_NAME
+export UNIX_DISTRO_VERSION_NUMBER
+export UNIX_DISTRO_VERSION_NUMBER_MAJOR
+export UNIX_DISTRO_VERSION_NUMBER_MINOR

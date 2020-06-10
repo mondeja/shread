@@ -62,7 +62,7 @@ done;
 
 if [ -z "$UNIX_DISTRO" ]; then
   # shellcheck source=src/unix/_/util/get-distro/main.sh
-  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
+  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
 
 if [ "$(command -v debconf-get-selections)" != "" ]; then

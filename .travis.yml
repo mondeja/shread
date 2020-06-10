@@ -13,7 +13,7 @@ jobs:
       - |
          sudo systemctl stop apt-daily.service &&
          sudo systemctl kill --kill-who=all apt-daily.service &&
-         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do
            sleep 1
          done
       - sudo apt-get update
@@ -27,7 +27,7 @@ jobs:
       - |
          sudo systemctl stop apt-daily.service &&
          sudo systemctl kill --kill-who=all apt-daily.service &&
-         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do
            sleep 1
          done
       - sudo apt-get update
@@ -37,6 +37,8 @@ jobs:
       - bash scripts/test.sh
     env:
       - SHREAD_TEST__UNIX_DISTRO=ubuntu
+      - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=bionic
+      - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=18.04
 
   - os: linux
     dist: focal
@@ -45,7 +47,7 @@ jobs:
       - |
          sudo systemctl stop apt-daily.service &&
          sudo systemctl kill --kill-who=all apt-daily.service &&
-         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead) ; do
+         while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do
            sleep 1
          done
       - sudo apt-get update
@@ -55,6 +57,8 @@ jobs:
       - bash scripts/test.sh
     env:
       - SHREAD_TEST__UNIX_DISTRO=ubuntu
+      - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=focal
+      - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=24.04
 
   - os: linux
     dist: focal
@@ -71,7 +75,7 @@ jobs:
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
       - docker exec test bash -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
-      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian test bash -c "bash scripts/test.sh"
+      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=stretch -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=9 test bash -c "bash scripts/test.sh"
 
   - os: linux
     dist: focal
@@ -87,7 +91,12 @@ jobs:
       - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
-      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian test bash -c "bash scripts/test.sh"
+      - >
+        docker exec -w /shread \
+        -e SHREAD_TEST__UNIX_DISTRO=debian \
+        -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=buster \
+        -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=10 \
+        test bash -c "bash scripts/test.sh"
 
 notifications:
   email: false

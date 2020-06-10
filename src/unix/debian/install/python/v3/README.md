@@ -5,7 +5,6 @@ Installs Python3 (and some Python2) related APT packages if are not installed:
 - `curl`
 - `python-dev`
 - `python3-dev`
-- `python-pip`
 - `python3-pip`
 - `python3-setuptools`
 - `python3-testresources`
@@ -15,7 +14,8 @@ Installs Python3 (and some Python2) related APT packages if are not installed:
 - `python-numpy`
 - `python3-numpy`
 
-> In Ubuntu 18 and higher versions, also `python3-distutils` will be installed.
+> In Ubuntu>=18 `python3-distutils` is installed also.
+> In Ubuntu<20 `python-pip` is installed also.
 
 Also, installs or upgrade globally using PIP some Python3 packages. This step can be ignored using the parámeter [--no-upgrade-py3-global-libs](#no-upgrade-py3-global-libs):
 

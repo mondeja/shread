@@ -33,7 +33,7 @@ if [ -z "$UNIX_DISTRO" ]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh
-  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro.sh)
+  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
 
 printPrependedStdout
