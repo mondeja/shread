@@ -1,6 +1,10 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+if [ "$(command -v lsb_release)" = "" ]; then
+  sudo apt-get install -y -qqq lsb-release > /dev/null
+fi;
+
 # If is available, use LSB identification
 if [ -f /etc/lsb-release ] || [ -d /etc/lsb-release.d ]; then
   UNIX_DISTRO=$(lsb_release -i | cut -d: -f2 | sed s/'^\t'//)
