@@ -86,7 +86,6 @@ printf " \e[92m\xE2\x9C\x94\e[39m\n"
 INSTALLATION_PACKAGES=(
   "python-dev"
   "python3-dev"
-  "python-pip"
   "python3-pip"
   "python3-setuptools"
   "python3-testresources"
@@ -103,9 +102,18 @@ if [ "$UNIX_DISTRO" = "ubuntu" ]; then
   #UBUNTU_VERSION_MINOR=$(printf "%s" "$UBUNTU_VERSION" | cut -d'.' -f2)
   #UBUNTU_VERSION_MINOR_LEADING_ZERO_STRIPPED=$(printf "%s" "$UBUNTU_VERSION_MINOR" | sed 's/^0*//')
   #UBUNTU_CODENAME=$(printf "%s" "$UBUNTU_VERSION_CODENAME" | cut -d',' -f2)
+
+  # python3-distutils is installed from bionic
   if [ "$UBUNTU_VERSION_MAJOR" -ge 18 ]; then
     INSTALLATION_PACKAGES+=(
       "python3-distutils"
+    )
+  fi;
+
+  # python-pip is not included from focal
+  if [ "$UBUNTU_VERSION_MAJOR" -lt 20 ]; then
+    INSTALLATION_PACKAGES+=(
+      "python-pip"
     )
   fi;
 fi;
