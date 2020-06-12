@@ -31,19 +31,34 @@ function printPrependedStdout() {
   printf "%s" "$INDENT_STRING"
 }
 
-if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq debconf-utils > /dev/null
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
 fi;
+
+INSTALLATION_DEPENDENCIES=(
+  "debconf-utils"
+  "curl"
+)
+
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
+  fi;
+done;
+
 if [ "$(command -v debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
     grep debconf/frontend | \
     awk '{print $4}')
   sudo sh -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
-fi;
-
-if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
 
 printPrependedStdout
@@ -73,9 +88,7 @@ if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
     --output google-chrome-stable_current_amd64.deb
 
   # Instalamos el paquete
-  sudo apt-get install -y -qqq \
-    ./google-chrome-stable_current_amd64.deb > \
-    /dev/null
+  sudo pacman -S ./google-chrome-stable_current_amd64.deb > /dev/null
 
   # Eliminamos el paquete descargado
   sudo rm -f google-chrome-stable_current_amd64.deb
@@ -104,7 +117,9 @@ sudo rm -f chromedriver-versions.xml
 installChromeDriver() {
   # Descargamos el driver de Chrome que corresponde a la versión
   #   del navegador instalada
-  wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+  curl -sL \
+    "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip" \
+    --output "chromedriver_linux64.zip"
 
   # Descomprimimos el driver
   unzip -q chromedriver_linux64.zip
