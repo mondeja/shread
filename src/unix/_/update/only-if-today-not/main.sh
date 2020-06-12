@@ -38,19 +38,23 @@ function printPrependedStdout() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 function updatePackages() {
   printPrependedStdout
   printf "%s" "$_MSG_UPDATING_SYSTEM_PACKAGES"
   sudo apt-get update -y -qqq || exit $?
   if [ $_UPDATE -eq 1 ]; then
-    sudo apt-get upgrade -y -qqq > /dev/null
-    _UPGRADE_COMMAND_EXIT_CODE=$?
-    if [ $_UPGRADE_COMMAND_EXIT_CODE -ne 0 ]; then
-      printf "%s\n" "$_MSG_ERROR_UPDATING_SYSTEM_PACKAGES" >&2
-      printf "%s\n" "$_MSG_RELAUNCHING_WITH_STDOUT" >&2
-      sudo apt-get upgrade -y
-      exit $_UPGRADE_COMMAND_EXIT_CODE
-    fi;
+    sudo pacman -Syu -y >&2 > /dev/null || exit $?
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
