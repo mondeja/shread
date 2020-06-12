@@ -86,9 +86,9 @@ else
       x86_64) ARCH="amd64" ;;
       arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
   esac
-  sudo echo \
+  echo \
     "deb [arch=${ARCH}] https://packagecloud.io/AtomEditor/atom/any/ any main" \
-    > /etc/apt/sources.list.d/atom.list
+    | sudo tee /etc/apt/sources.list.d/atom.list
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printIndent
