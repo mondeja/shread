@@ -6,6 +6,7 @@ _MSG_URL="URL"
 _MSG_ERROR="Error"
 _MSG_ERROR_CODE="Error code"
 _MSG_NOT_FOUND="Not found"
+_MSG_CHECKING_DOCKER_COMPOSE="Checking Docker Compose"
 _MSG_ERROR_RETRIEVING_DOCKER_COMPOSE_RELEASES="An error happen retrieving Docker Compose releases info from Github API."
 _MSG_ERROR_PARSING_PENULTIMATE_DOCKER_COMPOSE_RELEASES_VERSION="An error happen parsing the penultimate Docker Compose releases version from Github API."
 _MSG_ERROR_RETRIEVING_LAST_DOCKER_COMPOSE_VERSION="An error happen retrieving last Docker Compose version from Github API."
@@ -42,15 +43,26 @@ function printIndent() {
 }
 
 printIndent
-printf "Comprobando Docker Compose...\n"
+printf "%s...\n" "$_MSG_CHECKING_DOCKER_COMPOSE"
+
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
 
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "jq"
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
 done
 

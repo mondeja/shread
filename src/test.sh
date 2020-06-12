@@ -33,7 +33,7 @@ function testDependentAptPackages {
 
 : '
   Test that all scripts of the repository contains shebangs defined at
-    SCRIPTS_SHEBANGS variable of scripts/constants file.
+    SCRIPTS_SHEBANGS variable of scripts/constants.sh file.
 '
 function testScriptsShebangs {
   for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
