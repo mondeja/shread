@@ -25,6 +25,3 @@ msgstr "Actualizando paquetes del sistema..."
 
 msgid "An error happen updating system packages."
 msgstr "Ocurrió un error actualizando los paquetes del sistema."
-
-msgid "Relaunching with standard output and canceling the installation..."
-msgstr "Relanzando con salida estándar y cancelando la instalación..."

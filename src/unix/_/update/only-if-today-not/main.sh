@@ -7,8 +7,6 @@
 
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_UPDATING_SYSTEM_PACKAGES="Updating system packages..."
-_MSG_ERROR_UPDATING_SYSTEM_PACKAGES="An error happen updating system packages."
-_MSG_RELAUNCHING_WITH_STDOUT="Relaunching with standard output and canceling the installation..."
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
