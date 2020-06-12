@@ -49,16 +49,27 @@ fi;
     ```
 '
 function assertAptPackagesAvailable {
+  if [ "$(command -v pacman)" = "" ]; then
+    SCRIPT_FILENAME="$(basename "$0")"
+    if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+      filepath="src/unix/_/download/pacapt/main.sh"
+      bash "$filepath" > /dev/null
+    else
+      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+      curl -sL "$url" | sudo bash - > /dev/null
+    fi;
+  fi;
+
   # aptitude is required to search packages
-  if [[ "$(sudo dpkg -s aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq aptitude > /dev/null
+  if [[ "$(sudo pacman -Qi aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S aptitude > /dev/null || exit $?
   fi;
 
   DEPENDENCIES=("$@")
   for DEP in "${DEPENDENCIES[@]}"; do
     if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APTITUDE_SEARCH="$(sudo aptitude search "$DEP" 2> /dev/null)"
-      assertNotEquals "$DEP not found on public APT repositories ->" "$_APTITUDE_SEARCH" ""
+      assertNotEquals "$DEP not found on public in repositories ->" "$_APTITUDE_SEARCH" ""
     fi;
   done;
 }
