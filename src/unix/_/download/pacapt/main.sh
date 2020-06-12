@@ -32,15 +32,9 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-INSTALLATION_DEPENDENCIES=(
-  "curl"
-)
-
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
-  fi;
-done;
+if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  sudo apt-get install -y -qqq curl > /dev/null || exit $?
+fi;
 
 
 PACAPT_DOWNLOAD_LINK="https://raw.githubusercontent.com/icy/pacapt/ng/pacapt"
@@ -53,7 +47,8 @@ function getPacAptLastestVersion {
 function getPacAptCurrentVersion {
   _PACAPT_CURRENT_VERSION=""
   PACAPT_BINARY_PATH="$(command -v pacapt)"
-  if [ -z "$PACAPT_BINARY_PATH" ]; then
+  if [ "$(command -v pacman)" = "" ] && [ "$(command -v pacapt)" != "" ]; then
+    sudo cp "$(command -v pacapt)" "$(command -v pacman)"
     PACAPT_BINARY_PATH="$(command -v pacman)"
   fi;
 

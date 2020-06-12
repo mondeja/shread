@@ -49,7 +49,7 @@ if [ "$(command -v pacman)" = "" ]; then
   SCRIPT_FILENAME="$(basename "$0")"
   if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
     filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
+    bash "$filepath"
   else
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
@@ -61,7 +61,7 @@ INSTALLATION_DEPENDENCIES=(
   "curl"
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  if [[ "$(pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
 done;
