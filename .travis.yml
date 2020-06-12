@@ -1,4 +1,5 @@
-language: minimal
+os: linux
+language: shell
 
 branches:
   only:
@@ -6,8 +7,7 @@ branches:
 
 jobs:
   include:
-  - os: linux
-    dist: bionic
+  - dist: focal
     name: Lint
     before_install:
       - |
@@ -20,8 +20,7 @@ jobs:
     script:
       - bash scripts/lint.sh
 
-  - os: linux
-    dist: bionic
+  - dist: bionic
     name: Ubuntu 18.04 - Bionic
     before_install:
       - |
@@ -40,8 +39,7 @@ jobs:
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=bionic
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=18.04
 
-  - os: linux
-    dist: focal
+  - dist: focal
     name: Ubuntu 20.04 - Focal
     before_install:
       - |
@@ -60,8 +58,7 @@ jobs:
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=focal
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=20.04
 
-  - os: linux
-    dist: focal
+  - dist: focal
     name: Debian 9.12 - Stretch
     services:
       - docker
