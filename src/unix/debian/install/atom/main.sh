@@ -45,6 +45,17 @@ if [ "$ATOM_BINARY_PATH" != "" ]; then
 else
   printf "%s\n" "$_MSG_CHECKING_ATOM"
 
+  if [ "$(command -v pacman)" = "" ]; then
+    SCRIPT_FILENAME="$(basename "$0")"
+    if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+      filepath="src/unix/_/download/pacapt/main.sh"
+      bash "$filepath" > /dev/null
+    else
+      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+      curl -sL "$url" | sudo bash - > /dev/null
+    fi;
+  fi;
+
   INSTALLATION_DEPENDENCIES=(
     "wget"
     "jq"
@@ -67,13 +78,22 @@ else
     printf "%s\n" "$SIGN_ATOM_GPG_KEY_STDERR" >&2
     exit $SIGN_ATOM_GPG_KEY_EXIT_CODE
   fi;
-  sudo sh -c \
-    'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+
+  ARCH="amd64"
+  case $(uname -m) in
+      i386)   ARCH="386" ;;
+      i686)   ARCH="386" ;;
+      x86_64) ARCH="amd64" ;;
+      arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
+  esac
+  sudo echo \
+    "deb [arch=${ARCH}] https://packagecloud.io/AtomEditor/atom/any/ any main" \
+    > /etc/apt/sources.list.d/atom.list
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
   printf "  %s" "$_MSG_UPDATING_PACKAGES"
-  sudo apt-get update -qqq > /dev/null
+  sudo pacman update > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   ATOM_VERSION="$(pacman -Qi atom | grep Version | cut -d' ' -f2)"
