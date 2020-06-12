@@ -45,15 +45,26 @@ function printIndent() {
 printIndent
 printf "%s\n" "$_MSG_CHECKING_PANDOC"
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "jq"
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
-done
+done;
 
 _GET_PANDOC_VERSION_INDEX=0
 _GET_PANDOC_VERSION_404_ATTEMPTS=0

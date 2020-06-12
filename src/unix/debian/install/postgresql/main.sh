@@ -95,14 +95,24 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 INSTALLATION_DEPENDENCIES=(
   "wget"
   "aptitude"
 )
-
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -137,14 +147,14 @@ function signSources() {
 
   printIndent
   printf "    %s" "$_MSG_UPDATING_PACKAGES"
-  sudo apt-get update -qqq > /dev/null
+  sudo pacman update > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
 function purgePreviousPackages() {
   printIndent
   printf "    %s" "$_MSG_REMOVING_PREVIOUS_PACKAGES"
-  sudo apt-get purge -y postgresql > /dev/null || exit $?
+  sudo pacman -Rns postgresql > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
@@ -155,8 +165,7 @@ function cleanPreviousSources() {
     "save"
   )
 
-  for EXT in "${_PGDG_SOURCES_EXTS[@]}"
-  do
+  for EXT in "${_PGDG_SOURCES_EXTS[@]}"; do
     if [ -f "${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}" ]; then
       sudo rm -f "${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}" > /dev/null || exit $?
     fi;
