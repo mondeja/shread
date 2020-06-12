@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-06-10 14:43:36+0200\n"
+"POT-Creation-Date: 2020-06-13 01:35:47+0200\n"
 "PO-Revision-Date: 2020-05-01 15:48:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: es\n"
@@ -31,6 +31,9 @@ msgstr "Código de error"
 
 msgid "Not found"
 msgstr "No encontrado"
+
+msgid "Checking Docker Compose"
+msgstr ""
 
 msgid "An error happen retrieving Docker Compose releases info from Github API."
 msgstr "Ocurrió un error obteniendo la información de las releases de Docker de la API de Github."

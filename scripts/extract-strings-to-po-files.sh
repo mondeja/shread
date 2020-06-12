@@ -45,8 +45,6 @@ find src -iname "*.sh" | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
 
-  echo "$dirpath"
-
   if [ "$filename" != "main.sh" ]; then
     continue
   fi;
