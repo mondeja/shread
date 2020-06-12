@@ -52,7 +52,7 @@ fi;
 function updatePackages() {
   printPrependedStdout
   printf "%s" "$_MSG_UPDATING_SYSTEM_PACKAGES"
-  sudo apt-get update -y -qqq || exit $?
+  sudo pacman update > /dev/null || exit $?
   if [ $_UPDATE -eq 1 ]; then
     sudo pacman -Syu -y >&2 > /dev/null || exit $?
   fi;

@@ -50,8 +50,8 @@ else
     "jq"
   )
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-    if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S "$DEP" > /dev/null || exit $?
     fi;
   done;
 
@@ -67,7 +67,8 @@ else
     printf "%s\n" "$SIGN_ATOM_GPG_KEY_STDERR" >&2
     exit $SIGN_ATOM_GPG_KEY_EXIT_CODE
   fi;
-  sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+  sudo sh -c \
+    'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printPrependedStdout
@@ -75,12 +76,7 @@ else
   sudo apt-get update -qqq > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-
-  ATOM_VERSION=$(
-    apt-cache show atom | \
-    grep Version | \
-    head -n 1 | \
-    cut -d' ' -f2)
+  ATOM_VERSION="$(pacman -Qi atom | grep Version | cut -d' ' -f2)"
   if [ "$ATOM_VERSION" != "" ]; then
     printPrependedStdout
     printf "  %s (v%s)" "$_MSG_ATOM_FOUND" "$ATOM_VERSION"
@@ -89,8 +85,7 @@ else
 
   printPrependedStdout
   printf "  %s" "$_MSG_RUNNING_INSTALLATION_SCRIPT"
-  INSTALL_ATOM_STDERR=$(
-    sudo apt-get install atom -y -qqq 2>&1 > /dev/null)
+  INSTALL_ATOM_STDERR="$(sudo pacman -S atom > /dev/null)"
   INSTALL_ATOM_EXIT_CODE=$?
   if [ "$INSTALL_ATOM_EXIT_CODE" -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2

@@ -57,8 +57,8 @@ if [ "$(command -v pacman)" = "" ]; then
   fi;
 fi;
 
-if [[ "$(sudo pacman -Qi net-tools 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S net-tools > /dev/null || exit $?
+if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  sudo pacman -S curl > /dev/null || exit $?
 fi;
 
 # Versión de Atom
