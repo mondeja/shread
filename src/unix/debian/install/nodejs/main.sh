@@ -49,14 +49,25 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "debconf-utils"
 )
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -97,14 +108,14 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
     printIndent
     printf "    %s" "$DEP"
-    if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S "$DEP" > /dev/null || exit $?
     fi;
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   done
 
   printIndent
-	if [ "$(dpkg -s nodejs 2> /dev/null | grep Status)" != "Status: install ok installed" ]; then
+	if [ "$(sudo pacman -Qi nodejs 2> /dev/null | grep Status)" != "Status: install ok installed" ]; then
 
     NODEJS_VERSION_TO_INSTALL=""
     NODEJS_VERSION_TO_INSTALL_MAJOR=""
