@@ -44,19 +44,30 @@ function printPrependedStdout() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 INSTALLATION_DEPENDENCIES=(
   "curl"
   "jq"
 )
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
 done;
 
 
-_GET_SHUNIT_RELEASES_URL=https://api.github.com/repos/kward/shunit2/releases
+_GET_SHUNIT_RELEASES_URL="https://api.github.com/repos/kward/shunit2/releases"
 function getShunitLastestVersion() {
   _SHUNIT_RELEASES_INFO="$(curl -sL "$GITHUB_API_CURL_AUTH" "$_GET_SHUNIT_RELEASES_URL" 2>&1)"
   _SHUNIT_RELEASES_INFO_MESSAGE="$(echo "$_SHUNIT_RELEASES_INFO" | jq -r '.message' 2>&1)"
