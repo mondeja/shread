@@ -39,8 +39,19 @@ printIndent
 printf "  %s\n" "$_MSG_CHECKING_PACKAGES"
 printIndent
 printf "    redis-server"
-if [[ "$(sudo dpkg -s redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq redis-server > /dev/null || exit $?
+
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+if [[ "$(sudo pacman -Qi redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  sudo pacman -S redis-server > /dev/null || exit $?
 fi;
 _REDIS_SERVER_VERSION=$(redis-server --version | cut -d'=' -f2 | cut -d' ' -f1)
 printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_REDIS_SERVER_VERSION"
