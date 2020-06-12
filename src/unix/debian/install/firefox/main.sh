@@ -28,9 +28,20 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 if [ -z "$UNIX_DISTRO" ]; then
-  if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq curl > /dev/null
+  if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S curl > /dev/null || exit $?
   fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
@@ -69,8 +80,8 @@ else
   for PACKAGE in "${_MOZILLA_FIREFOX_PACKAGES[@]}"; do
     printIndent
     printf "    %s" "$PACKAGE"
-    if [[ "$(sudo dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo apt-get install -y -qqq "$PACKAGE" > /dev/null || exit $?
+    if [[ "$(sudo pacman -Qi "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S "$PACKAGE" > /dev/null || exit $?
     fi;
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   done
@@ -83,6 +94,6 @@ if [ "$_GECKODRIVER_PATH" != "" ]; then
   printf " (v%s)" "$(geckodriver --version | head -n1 | cut -d' ' -f2)"
 else
   printf "  %s" "$_MSG_INSTALLING_GECKODRIVER"
-  sudo apt-get install -y -qqq firefox-geckodriver > /dev/null
+  sudo pacman -S firefox-geckodriver > /dev/null
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
