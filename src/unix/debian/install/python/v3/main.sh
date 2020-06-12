@@ -41,7 +41,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -65,7 +65,7 @@ if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
 fi;
 
 function installMainPython3AptPackage {
-  printPrependedStdout
+  printIndent
   # Python3 binary exists?
   PY3_BINARY_FILEPATH="$(command -v python3)"
   if [ "$PY3_BINARY_FILEPATH" = "" ]; then
@@ -122,11 +122,11 @@ function discoverInstallationAptPackages {
 }
 
 function installPythonAdditionalAptPackages {
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES"
 
   for DEP in "${INSTALLATION_PACKAGES[@]}"; do
-    printPrependedStdout
+    printIndent
     printf "    %s" "$DEP"
     if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
@@ -158,7 +158,7 @@ function configurePIP {
 
 function upgradeGlobalLibraries {
   if [ $_UPGRADE_PY3_GLOBAL_LIBS -eq 1 ]; then
-    printPrependedStdout
+    printIndent
     printf "  %s\n" "$_MSG_UPDATING_GLOBAL_PY3_LIBRARIES"
 
     GLOBAL_RECOMMENDED_LIBRARIES=(
@@ -169,7 +169,7 @@ function upgradeGlobalLibraries {
     )
 
     for LIB in "${GLOBAL_RECOMMENDED_LIBRARIES[@]}"; do
-      printPrependedStdout
+      printIndent
       printf "    %s" "$LIB"
 
       # Check if it's installed locally
@@ -212,7 +212,7 @@ print(l.__version__ if isinstance(l.__version__, str) else \
 }
 
 function main {
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_SETTING_UP_PY3_ECOSYSTEM"
   installMainPython3AptPackage
   discoverInstallationAptPackages

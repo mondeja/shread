@@ -23,11 +23,11 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 ATOM_BINARY_PATH=$(command -v atom)
 if [ "$ATOM_BINARY_PATH" != "" ]; then
   ATOM_VERSION=$(

@@ -38,7 +38,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -153,11 +153,11 @@ function downloadGoogleDrive() {
 }
 
 function main() {
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_CHECKING_GDRIVE_CLIENT"
   installScriptDependencies
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
   getGoogleDriveLatestVersion
 
@@ -170,7 +170,7 @@ function main() {
 
   if [ "$_GDRIVE_FILEPATH" = "" ]; then
     # Si no está instalado
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s)..." "$_MSG_DOWNLOADING_GDRIVE_CLIENT" "$_GDRIVE_LASTEST_VERSION"
     downloadGoogleDrive /usr/bin/gdrive
   else
@@ -178,18 +178,18 @@ function main() {
     _GDRIVE_VERSION_OUTPUT_EXIT_CODE=$?
     if [ $_GDRIVE_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
       sudo rm -f "$(command -v gdrive)"
-      printPrependedStdout
+      printIndent
       printf "  %s (v%s)..." "$_MSG_DOWNLOADING_GDRIVE_CLIENT" "$_GDRIVE_LASTEST_VERSION"
       downloadGoogleDrive /usr/bin/gdrive
     else
       _GDRIVE_INSTALLED_VERSION=$_GDRIVE_VERSION_OUTPUT
-      printPrependedStdout
+      printIndent
     	printf "  %s (v%s)" "$_MSG_FOUND_GDRIVE_INSTALLED" "$_GDRIVE_INSTALLED_VERSION"
       printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
       # Si no está actualizado a la última versión
       if [ "$_GDRIVE_INSTALLED_VERSION" != "$_GDRIVE_LASTEST_VERSION" ]; then
-        printPrependedStdout
+        printIndent
         printf "  %s (v%s" "$_MSG_UPDATING_GDRIVE" "$_GDRIVE_INSTALLED_VERSION"
         printf " -> v%s)..." "$_GDRIVE_LASTEST_VERSION"
         sudo rm -f $_GDRIVE_FILEPATH

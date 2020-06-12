@@ -27,18 +27,29 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
+
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
 
 # prevent -> Warning: apt-key output should not be parsed (stdout is not a terminal)
 export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=DontWarn
 
 sudo printf ""
-printPrependedStdout
+printIndent
 printf "%s...\n" "$_MSG_CHECKING_DOCKER_CE"
 
-printPrependedStdout
+printIndent
 # Comprobamos si ya tenemos la clave pública de los repositorios Docker
 _APT_KEY_FOUND=$(apt-key list | grep "Docker Release")
 # Si no tenemos la clave pública, la obtenemos
@@ -69,17 +80,25 @@ if [ "$UBUNTU_RELEASE" = "eoan" ]; then
   UBUNTU_RELEASE="disco"
 fi;
 
-_APT_REPO="deb [arch=amd64] https://download.docker.com/linux/ubuntu $UBUNTU_RELEASE stable"
+ARCH="amd64"
+case $(uname -m) in
+    i386)   ARCH="386" ;;
+    i686)   ARCH="386" ;;
+    x86_64) ARCH="amd64" ;;
+    arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
+esac
+
+_APT_REPO="deb [arch=$ARCH] https://download.docker.com/linux/ubuntu $UBUNTU_RELEASE stable"
 _REPO_FOUND_ON_SOURCES=$(
   find /etc/apt/ -name "*.list" -print0 | \
   xargs -0 cat | \
   grep '^[[:space:]]*deb' | \
   grep "https://download.docker.com/linux/ubuntu")
-printPrependedStdout
+printIndent
 if [ "$_REPO_FOUND_ON_SOURCES" = "" ]; then
   printf "  %s" "$_MSG_ADDING_DOCKER_REPO"
   sudo add-apt-repository "$_APT_REPO" > /dev/null
-  sudo apt-get update -y -qqq > /dev/null
+  sudo pacman update > /dev/null
 else
   printf "  %s" "$_MSG_DOCKER_REPO_FOUND"
 fi;
@@ -91,14 +110,14 @@ INSTALLATION_PACKAGES=(
   "containerd.io"
 )
 
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_DOCKER_CE_PACKAGES"
 
 for DEP in "${INSTALLATION_PACKAGES[@]}"; do
-  printPrependedStdout
+  printIndent
   printf "    %s" "$DEP"
-  if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 done

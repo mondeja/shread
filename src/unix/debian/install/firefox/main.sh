@@ -24,7 +24,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -36,10 +36,10 @@ if [ -z "$UNIX_DISTRO" ]; then
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_CHECKING_MOZILLA_ECOSYSTEM"
 
-printPrependedStdout
+printIndent
 if command -v firefox &> /dev/null; then
   _MOZILLA_FIREFOX_VERSION=$(
     sudo -u "$SUDO_USER" firefox --version | cut -d' ' -f3)
@@ -67,7 +67,7 @@ else
   fi;
 
   for PACKAGE in "${_MOZILLA_FIREFOX_PACKAGES[@]}"; do
-    printPrependedStdout
+    printIndent
     printf "    %s" "$PACKAGE"
     if [[ "$(sudo dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo apt-get install -y -qqq "$PACKAGE" > /dev/null || exit $?
@@ -76,7 +76,7 @@ else
   done
 fi;
 
-printPrependedStdout
+printIndent
 _GECKODRIVER_PATH="$(command -v geckodriver)"
 if [ "$_GECKODRIVER_PATH" != "" ]; then
   printf "  %s" "$_MSG_FOUND_CHECKODRIVER_INSTALLED"

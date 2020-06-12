@@ -31,7 +31,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -44,10 +44,10 @@ if [ -z "$UNIX_DISTRO" ]; then
 fi;
 
 if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_UNINSTALLING_NODEJS_ECOSYSTEM"
 
-  printPrependedStdout
+  printIndent
   NODE_JS_BINARY_PATH=$(command -v node)
   if [ "$NODE_JS_BINARY_PATH" = "" ]; then
     printf "  %s" "$_MSG_NODEJS_IS_NOT_INSTALLED"
@@ -66,7 +66,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   NPM_BINARY_PATH=$(command -v npm)
   if [ "$NPM_BINARY_PATH" = "" ]; then
     printf "  %s" "$_MSG_NPM_IS_NOT_INSTALLED"
@@ -76,7 +76,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   YARN_BINARY_PATH=$(command -v npm)
   if [ "$YARN_BINARY_PATH" = "" ]; then
     printf "  %s \e[92m\xE2\x9C\x94\e[39m\n" "$_MSG_YARN_IS_NOT_INSTALLED"

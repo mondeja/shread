@@ -91,7 +91,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -121,7 +121,7 @@ function checkDebianVersionSupported() {
 }
 
 function signSources() {
-  printPrependedStdout
+  printIndent
   printf "    %s" "$_MSG_ADDING_REPO"
   SIGN_PGDG_GPG_KEY_STDERR=$(
     wget -qO - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
@@ -135,14 +135,14 @@ function signSources() {
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "    %s" "$_MSG_UPDATING_PACKAGES"
   sudo apt-get update -qqq > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
 function purgePreviousPackages() {
-  printPrependedStdout
+  printIndent
   printf "    %s" "$_MSG_REMOVING_PREVIOUS_PACKAGES"
   sudo apt-get purge -y postgresql > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -191,14 +191,14 @@ function getLastestStablePostgresVersion() {
 _POSTGRES_VERSION_TO_INSTALL=""
 function getPostgresVersionToInstall() {
   if [ "$_VERSION" = "" ]; then
-    printPrependedStdout
+    printIndent
     printf "  %s" "$_MSG_RETRIEVING_LASTEST_STABLE_VERSION"
     # Obtenemos la úlima versión
     getLastestStablePostgresVersion
     _POSTGRES_VERSION_TO_INSTALL="$_LASTEST_STABLE_POSTGRES_VERSION"
     printf " (v%s)" "$_POSTGRES_VERSION_TO_INSTALL"
   else
-    printPrependedStdout
+    printIndent
     printf "  %s (%s)..." "$_MSG_CHECKING_AVAILABLE_VERSION" "$_VERSION"
     # Comprobamos si la versión a instalar se encuentra entre las disponibles
     _POSTGRES_VERSION_TO_INSTALL=$(
@@ -289,10 +289,10 @@ function installPostgresPackages() {
     fi;
   fi;
 
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$1"
   for PACKAGE in "${POSTGRES_PACKAGES[@]}"; do
-    printPrependedStdout
+    printIndent
     printf "    %s" "$PACKAGE"
     if [[ "$(dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APT_INSTALL_STDERR=$(
@@ -309,9 +309,9 @@ function installPostgresPackages() {
 }
 
 function checkPostgresqlServiceConfig() {
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$_MSG_CHECKING_PG_SERVICE_CONFIG"
-  printPrependedStdout
+  printIndent
 
   _POSTGRESQL_SERVICE_ENABLED_FOUND=$(
     systemctl list-unit-files | \
@@ -335,7 +335,7 @@ function checkPostgresqlServiceConfig() {
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   _POSTGRESQL_SERVICE_STATUS=$(
     sudo systemctl show -p ActiveState postgresql | \
     cut -d'=' -f2 | \
@@ -357,7 +357,7 @@ function checkPostgresqlServiceConfig() {
 }
 
 function installPostgreSQL() {
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$_MSG_INSTALLING_PG"
 
   # Comprobamos si la versión de Debian se encuentra
@@ -378,7 +378,7 @@ function installPostgreSQL() {
 }
 
 function main() {
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_CHEKING_PG_ENV"
 
   # Comprobamos si existe el servicio PostgreSQL

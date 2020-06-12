@@ -42,7 +42,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -68,9 +68,9 @@ ATOM_VERSION=$(
   cut -d' ' -f2 | \
   sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g")
 
-printPrependedStdout
+printIndent
 printf "%s (v%s)...\n" "$_MSG_CUSTOMIZING_ATOM" "$ATOM_VERSION"
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_INSTALLED_ATOM_PACKAGES"
 
 # Paquetes de Atom instalados
@@ -145,7 +145,7 @@ for PACKAGE in "${_ATOM_PACKAGES_TO_INSTALL[@]}"; do
   if [ "$_PACKAGE_FLAGS" != "" ]; then
     PACKAGE=$(printf "%s" "$PACKAGE" | cut -d' ' -f2)
   fi;
-  printPrependedStdout
+  printIndent
   printf "    %s" "$PACKAGE"
   if [[ "$(printf "%s" "$_ATOM_PACKAGES_INSTALLED" | grep "$PACKAGE")" = "" ]]; then
     _AMP_INSTALL_STDERR="$(apm install "$_PACKAGE_FLAGS $PACKAGE" 2>&1 > /dev/null)"
@@ -162,14 +162,14 @@ done
 
 # Configuramos el editor
 yarn install --silent --no-progress --ignore-optional --non-interactive
-printPrependedStdout
+printIndent
 printf "  %s" "$_MSG_CONFIGURING_EDITOR"
 curl -sL https://mondeja.github.io/shread/_/customize/text-editor/atom/configure.js | \
   node - \
   exit $?
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_DISABLING_INCOMPATIBLE_PACKAGES"
 # Deshabilitamos paquetes
 # - El paquete whitespace choca con la configuración
@@ -178,7 +178,7 @@ _ATOM_PACKAGES_TO_DISABLE=(
   "whitespace"
 )
 for PACKAGE in "${_ATOM_PACKAGES_TO_DISABLE[@]}"; do
-  printPrependedStdout
+  printIndent
   printf "    %s" "$PACKAGE"
   _AMP_DISABLE_STDERR="$(sudo -u "$SUDO_USER" apm disable "$PACKAGE" 2>&1 > /dev/null)"
   _AMP_DISABLE_EXIT_CODE=$?

@@ -35,11 +35,11 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_CHECKING_DROPBOX_ENV"
 
 if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
@@ -68,7 +68,7 @@ function installDropbox() {
 _DROPBOX_BINARY_PATH="$(command -v dropbox)"
 if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
   _DROPBOX_INSTALLED_VERSION=$(dropbox version | tail -n 1 | cut -d' ' -f5)
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)" "$_MSG_DROPBOX_FOUND_INSTALLED" \
     "$_DROPBOX_INSTALLED_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -76,7 +76,7 @@ if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
   if [ $_UPDATE -eq 0 ]; then
     exit 0
   fi;
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_CHECKING_IF_IS_UPDATED"
   getDropboxLastVersion
 
@@ -86,7 +86,7 @@ if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
   else
     printf " \e[91m\xE2\x9C\x95\e[39m\n"
 
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s -> v%s)..." "$_MSG_UPDATING_DROPBOX" \
       "$_DROPBOX_INSTALLED_VERSION" "$_DROPBOX_CMD_LAST_VERSION"
     downloadDropbox
@@ -94,19 +94,19 @@ if [ "$_DROPBOX_BINARY_PATH" != "" ]; then
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 else
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_LAST_DROPBOX_VERSION"
   getDropboxLastVersion
 
   printf " (v%s)" "$_DROPBOX_CMD_LAST_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DROPBOX" "$_DROPBOX_CMD_LAST_VERSION"
   downloadDropbox
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_INSTALLING_DROPBOX" "$_DROPBOX_CMD_LAST_VERSION"
   installDropbox
   printf " \e[92m\xE2\x9C\x94\e[39m\n"

@@ -32,7 +32,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -48,7 +48,7 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 function updatePackages() {
-  printPrependedStdout
+  printIndent
   printf "%s" "$_MSG_UPDATING_SYSTEM_PACKAGES"
   sudo pacman update > /dev/null || exit $?
   if [ $_UPDATE -eq 1 ]; then

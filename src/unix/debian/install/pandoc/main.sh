@@ -38,11 +38,11 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_CHECKING_PANDOC"
 
 INSTALLATION_DEPENDENCIES=(
@@ -114,7 +114,7 @@ function getPandocLatestVersion() {
   fi;
 }
 
-printPrependedStdout
+printIndent
 printf "  %s" "$_MSG_RETRIEVING_LASTEST_AVAILABLE_VERSION"
 getPandocLatestVersion
 
@@ -126,7 +126,7 @@ if [ $_PANDOC_FILEPATH_EXIT_CODE -ne 0 ]; then
 fi;
 
 function downloadPandoc() {
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_DOWNLOADING_PACKAGE"
   _DOWNLOAD_PANDOC_URL="https://github.com/jgm/pandoc/releases/download/$_PANDOC_LASTEST_VERSION/pandoc-$_PANDOC_LASTEST_VERSION-1-amd64.deb"
   _DOWNLOAD_PANDOC_OUTPUT="$(sudo curl -sL "$_DOWNLOAD_PANDOC_URL" -o "$1" 2>&1)"
@@ -164,7 +164,7 @@ function downloadPandoc() {
 }
 
 function installPandoc() {
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_INSTALLING"
   sudo dpkg -i "$1" > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -184,13 +184,13 @@ else
     downloadPandoc ~/pandoc.deb
     installPandoc ~/pandoc.deb
   else
-    printPrependedStdout
+    printIndent
   	printf "  %s (v%s)" "$_MSG_PANDOC_FOUND_INSTALLED" "$_PANDOC_VERSION_OUTPUT"
 
     # Si no está actualizado a la última versión
     if [ "$_PANDOC_VERSION_OUTPUT" != "$_PANDOC_LASTEST_VERSION" ]; then
       printf " \e[92m\xE2\x9C\x94\e[39m\n"
-      printPrependedStdout
+      printIndent
       printf "  %s (v%s" "$_MSG_UPDATING_PANDOC" "$_PANDOC_VERSION_OUTPUT"
       printf " -> v%s)...\n" "$_PANDOC_LASTEST_VERSION"
       INDENT_STRING="  $INDENT_STRING"

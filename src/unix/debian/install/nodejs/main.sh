@@ -45,7 +45,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -78,10 +78,10 @@ LATEST_NODEJS_MAJOR_VERSION=13
 NODEJS_VERSION_TO_INSTALL="$LATEST_HARDCODED_NODEJS_VERSION"
 
 if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_SETTING_UP_NODEJS_ECOSYSTEM"
 
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$_MSG_CHECKING_BASE_DEPS"
   INSTALLATION_DEPENDENCIES=(
     "build-essential"
@@ -95,7 +95,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
   )
 
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-    printPrependedStdout
+    printIndent
     printf "    %s" "$DEP"
     if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
@@ -103,7 +103,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   done
 
-  printPrependedStdout
+  printIndent
 	if [ "$(dpkg -s nodejs 2> /dev/null | grep Status)" != "Status: install ok installed" ]; then
 
     NODEJS_VERSION_TO_INSTALL=""
@@ -166,9 +166,9 @@ fi;
 
 # Obtenemos la última versión de NPM
 #  Comprobamos si NPM está instalado
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_NPM"
-printPrependedStdout
+printIndent
 printf "    %s" "$_MSG_ITS_INSTALLED"
 NPM_BINARY_FILEPATH="$(command -v npm)"
 if [ "$NPM_BINARY_FILEPATH" != "" ]; then
@@ -177,7 +177,7 @@ if [ "$NPM_BINARY_FILEPATH" != "" ]; then
 
   printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$NPM_INSTALLED_VERSION"
 
-  printPrependedStdout
+  printIndent
   if [ "$NPM_LATEST_VERSION" != "$NPM_INSTALLED_VERSION" ]; then
     printf "    %s (v%s -> v%s)..." "$_MSG_UPDATING" "$NPM_INSTALLED_VERSION" "$NPM_LATEST_VERSION"
     NPM_UPDATE_STDERR="$(sudo npm install --quiet --silent --no-progress -g npm@latest 2>&1 > /dev/null)"
@@ -213,9 +213,9 @@ function installOrUpdateYarn() {
   fi;
 }
 
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_YARN"
-printPrependedStdout
+printIndent
 printf "    %s" "$_MSG_ITS_INSTALLED"
 YARN_BINARY_FILEPATH="$USER_HOME/.yarn/bin/yarn"
 if [ ! -f "$YARN_BINARY_FILEPATH" ]; then
@@ -228,7 +228,7 @@ YARN_INSTALLED_VERSION=$($YARN_BINARY_FILEPATH --version)
 
 printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$YARN_INSTALLED_VERSION"
 
-printPrependedStdout
+printIndent
 if [ "$YARN_LATEST_VERSION" = "$YARN_INSTALLED_VERSION" ]; then
   printf "    %s \e[92m\xE2\x9C\x94\e[39m\n" "$_MSG_ITS_UPDATED"
 else

@@ -27,7 +27,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -46,11 +46,11 @@ if [[ "$(sudo pacman -Qi net-tools 2> /dev/null | grep Status)" != "Status: inst
   sudo pacman -S net-tools > /dev/null || exit $?
 fi;
 
-printPrependedStdout
+printIndent
 printf "%s...\n" "$_MSG_LEAVING_PORTS_FREE"
 _PORTS=$(echo "$_PORTS_STRING" | tr "," "\n")
 for PORT in $_PORTS; do
-  printPrependedStdout
+  printIndent
   printf "  %s" "$PORT"
   UNKNOWN_SERVICE_PID=$(
     sudo netstat -nlp | grep -E "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:$PORT|\:\:\:$PORT" | \

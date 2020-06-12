@@ -55,13 +55,13 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_SETTING_REDIS_ECOSYSTEM"
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_BASE_DEPENDENCIES"
 
 INSTALLATION_DEPENDENCIES=(
@@ -72,7 +72,7 @@ INSTALLATION_DEPENDENCIES=(
 )
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  printPrependedStdout
+  printIndent
   printf "    %s" "$DEP"
   if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
@@ -82,7 +82,7 @@ done
 
 # Obtención de la última versión estable de Redis
 function getRedisServerLastestStableVersion() {
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_LASTEST_STABLE_VERSION"
   _REDIS_LASTEST_STABLE_VERSION=$(
     curl -sL http://download.redis.io/redis-stable/00-RELEASENOTES | \
@@ -105,7 +105,7 @@ function getRedisServerLastestStableVersion() {
 }
 
 function downloadRedisLastestStableVersion() {
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_DOWNLOADING_REDIS" "$_REDIS_LASTEST_STABLE_VERSION"
   curl -sL http://download.redis.io/redis-stable.tar.gz \
     --output "$1" || exit $?
@@ -114,7 +114,7 @@ function downloadRedisLastestStableVersion() {
 
 function buildRedis() {
   # Construimos desde el código fuente
-  printPrependedStdout
+  printIndent
   printf "    %s\n" "$_MSG_BUILDING_SOURCE_CODE"
   stdbuf -oL make 2>&1 |
     while IFS= read -r line; do
@@ -123,27 +123,27 @@ function buildRedis() {
           awk -F'src/' '{ for(i=1;i<=NF;i++) print $i }' <<< "$line" | \
           tail -n 1
         )
-        printPrependedStdout
+        printIndent
         printf "      %s \e[92m\xE2\x9C\x94\e[39m\n" "$file"
       fi;
     done
 }
 
 function testRedisBuild() {
-  printPrependedStdout
+  printIndent
   printf "    %s\n" "$_MSG_TESTING_BUILD"
   stdbuf -oL make test 2>&1 |
     while IFS= read -r line; do
-      printPrependedStdout
+      printIndent
       printf "%s" "$line"
     done
 }
 
 function checkRedisServiceConfig() {
   # Comprobamos el servicio
-  printPrependedStdout
+  printIndent
   printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
-  printPrependedStdout
+  printIndent
 
   _REDIS_SERVICE_ENABLED_FOUND=$(
     systemctl list-unit-files | \
@@ -167,7 +167,7 @@ function checkRedisServiceConfig() {
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
 
   _REDIS_SERVICE_STATUS=$(
     sudo systemctl show -p ActiveState redis | \
@@ -276,7 +276,7 @@ function installRedis() {
   fi;
 
   # Descomprimimos el archivo descargado
-  printPrependedStdout
+  printIndent
   printf "    %s" "$_MSG_UNZIPPING"
   tar xzvf "$1" > /dev/null || exit $?
   # Eliminamos el archivo comprimido
@@ -310,7 +310,7 @@ getRedisServerLastestStableVersion
 _REDIS_BINARY_FILEPATH="$(command -v redis-server)"
 if [ "$_REDIS_BINARY_FILEPATH" = "" ]; then
   downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)...\n" "$_MSG_INSTALLING_REDIS" "$_REDIS_LASTEST_STABLE_VERSION"
   installRedis /tmp/redis-stable.tar.gz
 else
@@ -322,12 +322,12 @@ else
 
   if [ "$_REDIS_INSTALLED_VERSION" != "$_REDIS_LASTEST_STABLE_VERSION" ]; then
     downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s ->" "$_MSG_UPDATING_REDIS" "$_REDIS_INSTALLED_VERSION"
     printf " v%s)...\n" "$_REDIS_LASTEST_STABLE_VERSION"
     installRedis /tmp/redis-stable.tar.gz
   else
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s)" "$_MSG_FOUND_REDIS_INSTALLED" "$_REDIS_INSTALLED_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;

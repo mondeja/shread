@@ -40,7 +40,7 @@ done
 
 _DEST_DIRPATH="$(dirname "$_DEST_PATH")"
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -119,21 +119,21 @@ function main() {
     exit 1
   fi;
 
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_CHECKING_SHUNIT"
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_SHUNIT_LASTEST_VERSION"
   getShunitLastestVersion
   printf " (v%s)" "$_SHUNIT_LASTEST_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)" "$_MSG_DOWNLOADING_SHUNIT" "$_SHUNIT_LASTEST_VERSION"
   downloadShunit "$_SHUNIT_LASTEST_VERSION" "$_DEST_DIRPATH/shunit2.tar.gz"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_UNZIPPING_SHUNIT"
   tar xzf "$_DEST_DIRPATH/shunit2.tar.gz" -C "$_DEST_DIRPATH" || exit $?
   mv "$_DEST_DIRPATH/shunit2-$_SHUNIT_LASTEST_VERSION/shunit2" "$_DEST_PATH"

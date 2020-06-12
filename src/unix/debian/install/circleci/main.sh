@@ -23,7 +23,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -55,7 +55,7 @@ downloadCircleCI() {
   rm -f install-circleci.sh
 }
 
-printPrependedStdout
+printIndent
 if [ "$_CIRCLECI_BINARY_PATH" = "" ]; then
   printf "%s (v%s)..." "$_MSG_INSTALLING_CIRCLECI" "$_CIRCLECI_LATEST_RELEASE_VERSION"
   downloadCircleCI /usr/bin "$_CIRCLECI_LATEST_RELEASE_VERSION"

@@ -28,11 +28,11 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 ATOM_BINARY_PATH="$(command -v atom)"
 if [ "$ATOM_BINARY_PATH" != "" ]; then
   ATOM_VERSION=$(
@@ -66,7 +66,7 @@ else
     fi;
   done;
 
-  printPrependedStdout
+  printIndent
   printf "  %s..." "$_MSG_ADDING_REPO"
   SIGN_ATOM_GPG_KEY_STDERR=$(
     wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | \
@@ -91,19 +91,19 @@ else
     > /etc/apt/sources.list.d/atom.list
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_UPDATING_PACKAGES"
   sudo pacman update > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   ATOM_VERSION="$(pacman -Qi atom | grep Version | cut -d' ' -f2)"
   if [ "$ATOM_VERSION" != "" ]; then
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s)" "$_MSG_ATOM_FOUND" "$ATOM_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RUNNING_INSTALLATION_SCRIPT"
   INSTALL_ATOM_STDERR="$(sudo pacman -S atom > /dev/null)"
   INSTALL_ATOM_EXIT_CODE=$?

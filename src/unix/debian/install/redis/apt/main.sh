@@ -29,15 +29,15 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_SETTING_REDIS_ECOSYSTEM"
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_PACKAGES"
-printPrependedStdout
+printIndent
 printf "    redis-server"
 if [[ "$(sudo dpkg -s redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq redis-server > /dev/null || exit $?
@@ -45,9 +45,9 @@ fi;
 _REDIS_SERVER_VERSION=$(redis-server --version | cut -d'=' -f2 | cut -d' ' -f1)
 printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_REDIS_SERVER_VERSION"
 
-printPrependedStdout
+printIndent
 printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
-printPrependedStdout
+printIndent
 printf "    %s" "$_MSG_ITS_ENABLED"
 _REDIS_SERVICE_ENABLED_FOUND=$(systemctl list-unit-files | grep enabled | grep redis-server)
 if [ "$_REDIS_SERVICE_ENABLED_FOUND" = "" ]; then
@@ -65,7 +65,7 @@ if [ "$_REDIS_SERVICE_ENABLED_FOUND" = "" ]; then
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-printPrependedStdout
+printIndent
 printf "    %s" "$_MSG_ITS_RUNNING"
 _REDIS_SERVICE_STATUS=$(
   sudo systemctl show -p ActiveState redis-server | \

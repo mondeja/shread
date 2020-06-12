@@ -38,13 +38,13 @@ done
 # Remove spaces
 _NEW_TIMEOUT="$(printf "%s" "$_NEW_TIMEOUT" | sed -e 's/[[:space:]]*//g')"
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
 function checkGrubFileExists() {
   if [ ! -f "$_CONFIG_FILEPATH" ]; then
-    printPrependedStdout
+    printIndent
     printf "%s (%s)" "$_MSG_GRUB_FILE_NOT_FOUND" "$_CONFIG_FILEPATH" >&2
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
     exit 0
@@ -52,7 +52,7 @@ function checkGrubFileExists() {
 }
 
 function setNewGrubTimeout() {
-  printPrependedStdout
+  printIndent
   printf "%s (%s)..." "$_MSG_SETTING_GRUB_TIMEOUT" "$_NEW_TIMEOUT"
   _GRUB_TIMEOUT_CONFIG_EXISTS="$( grep "GRUB_TIMEOUT=" < "$_CONFIG_FILEPATH")"
   if [ "$_GRUB_TIMEOUT_CONFIG_EXISTS" = "" ]; then

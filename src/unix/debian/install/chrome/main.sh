@@ -27,7 +27,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -61,7 +61,7 @@ if [ "$(command -v debconf-get-selections)" != "" ]; then
   sudo sh -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
 fi;
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_CHECKING_ECOSYSTEM"
 
 _GOOGLE_CHROME_BINARY_PATH=""
@@ -73,7 +73,7 @@ function cacheGoogleChromeBinaryPath() {
 }
 
 cacheGoogleChromeBinaryPath
-printPrependedStdout
+printIndent
 if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
   # Si no está instalado Google Chrome
   #   Si estamos en una arquitectura de 32 bits
@@ -134,7 +134,7 @@ installChromeDriver() {
   sudo mv -f chromedriver /usr/bin/chromedriver
 }
 
-printPrependedStdout
+printIndent
 _CHROMEDRIVER_BINARY_PATH="$(command -v chromedriver)"
 if [ "$_CHROMEDRIVER_BINARY_PATH" = "" ]; then
   printf "  %s (v%s)..." "$_MSG_INSTALLING_CHROMEDRIVER" "$CHROMEDRIVER_VERSION"

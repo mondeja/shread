@@ -37,11 +37,11 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printPrependedStdout
+printIndent
 printf "Comprobando Docker Compose...\n"
 
 INSTALLATION_DEPENDENCIES=(
@@ -125,7 +125,7 @@ function getDockerComposeLatestVersion() {
     printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_DOCKER_COMPOSE_LASTEST_VERSION"
   fi;
 }
-printPrependedStdout
+printIndent
 printf "  %s" "$_MSG_ERROR_RETRIEVING_LAST_AVAILABLE_VERSION"
 getDockerComposeLatestVersion
 
@@ -174,7 +174,7 @@ function downloadDockerCompose() {
 
 if [ "$_DOCKER_COMPOSE_FILEPATH" = "" ]; then
   # Si no está instalado
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_LASTEST_VERSION"
   downloadDockerCompose /usr/local/bin/docker-compose
 else
@@ -183,19 +183,19 @@ else
   _DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE=$?
   if [ $_DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
     sudo rm -f "$(command -v docker-compose)"
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_LASTEST_VERSION"
     downloadDockerCompose /usr/local/bin/docker-compose
   else
     _DOCKER_COMPOSE_INSTALLED_VERSION="$(echo "$_DOCKER_COMPOSE_VERSION_OUTPUT" | cut -c24-29)"
-    printPrependedStdout
+    printIndent
     printf "  %s (v%s)" "$_MSG_DOCKER_COMPOSE_FOUND_INSTALLED" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
 
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
     # Si no está actualizado a la última versión
     if [ "$_DOCKER_COMPOSE_INSTALLED_VERSION" != "$_DOCKER_COMPOSE_LASTEST_VERSION" ]; then
-      printPrependedStdout
+      printIndent
       printf "  %s (v%s" "$_MSG_UPDATING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
       printf " -> v%s)..." "$_DOCKER_COMPOSE_LASTEST_VERSION"
       sudo rm -f $_DOCKER_COMPOSE_FILEPATH

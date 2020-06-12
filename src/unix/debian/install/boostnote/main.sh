@@ -49,7 +49,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -75,7 +75,7 @@ for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   fi;
 done;
 
-ARCH=""
+ARCH="amd64"
 case $(uname -m) in
     i386)   ARCH="386" ;;
     i686)   ARCH="386" ;;
@@ -155,7 +155,7 @@ function getBoostnoteLatestVersion() {
 }
 
 function downloadBoostnote() {
-  printPrependedStdout
+  printIndent
   _DOWNLOAD_BOOSTNOTE_URL="https://github.com/BoostIO/boost-releases/releases/download/v$_BOOSTNOTE_LASTEST_VERSION/boostnote_${_BOOSTNOTE_LASTEST_VERSION}_$ARCH.deb"
   _DOWNLOAD_BOOSTNOTE_OUTPUT="$(sudo curl -sL "$_DOWNLOAD_BOOSTNOTE_URL" -o "$1" 2>&1)"
   _DOWNLOAD_BOOSTNOTE_EXIT_CODE=$?
@@ -194,7 +194,7 @@ function installBoostnote() {
   sudo rm -f "$1"
 }
 
-printPrependedStdout
+printIndent
 printf "%s\n" "$_MSG_CHECKING_BOOSTNOTE"
 
 # Comprobamos si Boostnote está instalado
@@ -209,15 +209,15 @@ fi;
 
 if [ "$_BOOSTNOTE_BINARY_PATH" = "" ] || [ ! -f "$_BOOSTNOTE_PACKAGE_JSON_FILEPATH" ]; then
   # Si no está instalado
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
   getBoostnoteLatestVersion
 
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_DOWNLOADING_BOOSTNOTE" "${_BOOSTNOTE_LASTEST_VERSION}"
   downloadBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
-  printPrependedStdout
+  printIndent
   printf "  %s (v%s)..." "$_MSG_INSTALLING_BOOSTNOTE" "$_BOOSTNOTE_LASTEST_VERSION"
   installBoostnote "/tmp/boostnote_${_BOOSTNOTE_LASTEST_VERSION}.deb"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
@@ -228,17 +228,17 @@ else
     grep '"version": ' | \
     cut -d'"' -f4
   )
-  printPrependedStdout
+  printIndent
 	printf "  %s (v%s)" "$_MSG_BOOSTNOTE_FOUND_INSTALLED" "$_BOOSTNOTE_INSTALLED_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
   # Si no está actualizado a la última versión
   if [ "$_BOOSTNOTE_INSTALLED_VERSION" != "$_BOOSTNOTE_LASTEST_VERSION" ]; then
     if [ $_UPDATE -eq 1 ]; then
-      printPrependedStdout
+      printIndent
       printf "  %s" "$_MSG_RETRIEVING_LAST_AVAILABLE_VERSION"
       getBoostnoteLatestVersion
 
-      printPrependedStdout
+      printIndent
       printf "  %s (v%s" "$_MSG_UPDATING_BOOSTNOTE" "$_BOOSTNOTE_INSTALLED_VERSION"
       printf " -> v%s)..." "$_BOOSTNOTE_LASTEST_VERSION"
       sudo rm -f "$_BOOSTNOTE_BINARY_PATH"

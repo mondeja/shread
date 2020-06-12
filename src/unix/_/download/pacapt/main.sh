@@ -28,7 +28,7 @@ for arg in "$@"; do
   esac
 done
 
-function printPrependedStdout() {
+function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
@@ -87,10 +87,10 @@ function main {
     fi;
   fi;
 
-  printPrependedStdout
+  printIndent
   printf "%s\n" "$_MSG_CHECKING_PACAPT..."
 
-  printPrependedStdout
+  printIndent
   printf "  %s" "$_MSG_RETRIEVING_LASTEST_VERSION..."
   getPacAptLastestVersion
   printf " (v%s)" "$_PACAPT_LASTEST_VERSION"
