@@ -45,9 +45,27 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-if [[ "$(sudo dpkg -s debconf-utils 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq debconf-utils > /dev/null
+if [ "$(command -v pacman)" = "" ]; then
+  SCRIPT_FILENAME="$(basename "$0")"
+  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
 fi;
+
+INSTALLATION_DEPENDENCIES=(
+  "debconf-utils"
+  "curl"
+)
+for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S "$DEP" > /dev/null || exit $?
+  fi;
+done;
+
 if [ "$(command -v debconf-get-selections)" != "" ]; then
   _ORIGINAL_DEBCONF_FRONTEND=$(
     sudo debconf-get-selections | \
@@ -57,9 +75,6 @@ if [ "$(command -v debconf-get-selections)" != "" ]; then
 fi;
 
 if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
-  if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq curl > /dev/null
-  fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
@@ -128,8 +143,8 @@ function installPythonAdditionalAptPackages {
   for DEP in "${INSTALLATION_PACKAGES[@]}"; do
     printIndent
     printf "    %s" "$DEP"
-    if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo apt-get install -y -qqq "$DEP" > /dev/null || exit $?
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S "$DEP" > /dev/null || exit $?
     fi;
     _DEP_VERSION=$(apt-cache policy "$DEP" | grep -Po "(\d+\.)+\d+" | head -n 1)
     if [ "$_DEP_VERSION" != "" ]; then
