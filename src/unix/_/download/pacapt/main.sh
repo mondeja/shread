@@ -90,7 +90,7 @@ function main {
   # Check if destination file exists yet
   if [ -f "$_DEST_PATH" ] || [ -d "$_DEST_PATH" ]; then
     # If exists, check if is pacapt installation
-    _PACAPT_GREP_SOURCE="$(< "$_DEST_PATH" grep "# Source" | cut -d' ' -f4)"
+    _PACAPT_GREP_SOURCE="$(< "$_DEST_PATH" grep ' Source' | cut -d' ' -f4)"
     if [ "$_PACAPT_GREP_SOURCE" != "http://github.com/icy/pacapt/" ]; then
       printf "%s (%s)\n" "$_MSG_DEST_EXISTS" "$_DEST_PATH" >&2
       printf "%s '--dest-path'.\n" "$_MSG_INDICATE_ANOTHER_DEST_WITH_PARAM" >&2
