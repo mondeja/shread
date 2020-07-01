@@ -52,7 +52,6 @@ if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok i
   sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
 
-
 PACAPT_DOWNLOAD_LINK="https://raw.githubusercontent.com/icy/pacapt/ng/pacapt"
 function getPacAptLastestVersion {
   rm -f /tmp/pacapt
@@ -124,4 +123,4 @@ function main {
   fi;
 }
 
-! (return 0 2>/dev/null) && main
+main
