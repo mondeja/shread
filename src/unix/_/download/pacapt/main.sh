@@ -33,8 +33,16 @@ function printIndent() {
 }
 
 if [ ! -d "/usr/local/bin" ]; then
-  if [ -d "/usr/bin" ]; then
-    _DEST_PATH="/bin/pacapt"
+  if [ ! -d "/usr/bin" ]; then
+    if [ ! -d "/bin" ]; then
+      IFS=':' read -ra _PATH <<< "$PATH"
+      for i in "${_PATH[@]}"; do
+          _DEST_PATH="$i/pacapt"
+          break
+      done
+    else
+      _DEST_PATH="/bin/pacapt"
+    fi;
   else
     _DEST_PATH="/usr/bin/pacapt"
   fi;
