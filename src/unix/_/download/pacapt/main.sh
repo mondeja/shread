@@ -57,7 +57,7 @@ PACAPT_DOWNLOAD_LINK="https://raw.githubusercontent.com/icy/pacapt/ng/pacapt"
 function getPacAptLastestVersion {
   rm -f /tmp/pacapt
   curl -sL "$PACAPT_DOWNLOAD_LINK" --output "/tmp/pacapt"
-  _PACAPT_LASTEST_VERSION="$(< "/tmp/pacapt" grep "# Version:" | cut -d' ' -f3)"
+  _PACAPT_LASTEST_VERSION="$(< "/tmp/pacapt" grep " Version:" | cut -d' ' -f3)"
 }
 
 function getPacAptCurrentVersion {
