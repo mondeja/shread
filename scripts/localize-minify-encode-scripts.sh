@@ -75,14 +75,18 @@ find src -type f -name '*.sh' | while read -r script_filepath; do
     sed -i '1s/^/#!\/bin\/bash\n# -*- ENCODING: UTF-8 -*-\n/' \
       "$temp_localized_script"
 
+    # Add script filename. This is included here because, if the script
+    #   is executed from base64 encoded wrapper or from url, the
+    #   name can't be retrieved
+    sed -i "3s/^/_SCRIPT_FILENAME=$lang.sh\n/" "$temp_localized_script"
+
     path_to_script_dest="public/$relative_path_to_script_dir_from_src/$lang.sh"
     rm -f "$path_to_script_dest"
     touch "$path_to_script_dest"
     echo "#!/bin/bash" >> "$path_to_script_dest"
 
-
     # Encode scripts as base64
-    echo "_SCRIPT_FILENAME=\"\$(basename \"\$0\")\" source <(printf '$(base64 -w 0 "$temp_localized_script")' | base64 -d)" \
+    echo "source <(printf '$(base64 -w 0 "$temp_localized_script")' | base64 -d)" \
       >> "$path_to_script_dest"
     rm -f "$temp_localized_script"
   done

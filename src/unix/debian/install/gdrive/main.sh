@@ -44,7 +44,7 @@ function printIndent() {
 
 function installScriptDependencies() {
   if [ "$(command -v pacman)" = "" ]; then
-    if [ "$_SCRIPT_FILENAME" = "main.sh" ]; then
+    if [ -z "$_SCRIPT_FILENAME" ]; then
       filepath="src/unix/_/download/pacapt/main.sh"
       bash "$filepath" > /dev/null
     else
