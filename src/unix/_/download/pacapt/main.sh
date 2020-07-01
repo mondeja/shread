@@ -32,6 +32,14 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ ! -d "/usr/local/bin" ]; then
+  if [ -d "/usr/bin" ]; then
+    _DEST_PATH="/bin/pacapt"
+  else
+    _DEST_PATH="/usr/bin/pacapt"
+  fi;
+fi;
+
 if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq curl > /dev/null || exit $?
 fi;
