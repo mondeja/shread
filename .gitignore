@@ -1,4 +1,5 @@
 /public/
+/_public/
 /node_modules/
 *.pot
 *.mo

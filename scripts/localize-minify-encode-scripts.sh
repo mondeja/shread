@@ -80,8 +80,9 @@ find src -type f -name '*.sh' | while read -r script_filepath; do
     touch "$path_to_script_dest"
     echo "#!/bin/bash" >> "$path_to_script_dest"
 
+
     # Encode scripts as base64
-    echo "source <(printf '$(base64 -w 0 "$temp_localized_script")' | base64 -d)" \
+    echo "_SCRIPT_FILENAME=\"\$(basename \"\$0\")\" source <(printf '$(base64 -w 0 "$temp_localized_script")' | base64 -d)" \
       >> "$path_to_script_dest"
     rm -f "$temp_localized_script"
   done

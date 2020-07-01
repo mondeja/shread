@@ -50,12 +50,11 @@ function printIndent() {
 }
 
 if [ "$(command -v pacman)" = "" ]; then
-  SCRIPT_FILENAME="$(basename "$0")"
-  if [ "$SCRIPT_FILENAME" = "main.sh" ]; then
+  if [ "$_SCRIPT_FILENAME" = "main.sh" ]; then
     filepath="src/unix/_/download/pacapt/main.sh"
     bash "$filepath" > /dev/null
   else
-    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$SCRIPT_FILENAME"
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
 fi;
