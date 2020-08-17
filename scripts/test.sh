@@ -28,11 +28,6 @@ function main {
 }
 
 
-# If the script is not being sourced, run `main` function
-if ! (return 0 2>/dev/null); then
-  main
-fi;
-
 # shellcheck disable=SC2016
 : '
   Checks that passed APT packages are available as APT sources.
@@ -50,13 +45,7 @@ fi;
 '
 function assertAptPackagesAvailable {
   if [ "$(command -v pacman)" = "" ]; then
-    if [ -z "$_SCRIPT_FILENAME" ]; then
-      filepath="src/unix/_/download/pacapt/main.sh"
-      bash "$filepath" > /dev/null
-    else
-      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-      curl -sL "$url" | sudo bash - > /dev/null
-    fi;
+    bash "src/unix/_/download/pacapt/main.sh" > /dev/null
   fi;
 
   # aptitude is required to search packages
@@ -72,3 +61,9 @@ function assertAptPackagesAvailable {
     fi;
   done;
 }
+
+
+# If the script is not being sourced, run `main` function
+if ! (return 0 2>/dev/null); then
+  main
+fi;

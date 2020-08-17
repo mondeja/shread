@@ -26,6 +26,7 @@ function testDependentAptPackages {
     "net-tools"
     "wget"
     "tcl"
+    "aptitude"
   )
 
   assertAptPackagesAvailable "${INSTALLATION_DEPENDENCIES[@]}"
