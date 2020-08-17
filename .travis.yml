@@ -72,7 +72,7 @@ jobs:
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
       - docker exec test bash -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
-      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=stretch -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=9.12 -e GITHUB_USERNAME=$GITHUB_USERNAME -e GITHUB_TOKEN=$GITHUB_TOKEN test bash -c "bash scripts/test.sh"
+      - docker exec -w /shread -e SHREAD_TEST__UNIX_DISTRO=debian -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=stretch -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=9.13 -e GITHUB_USERNAME=$GITHUB_USERNAME -e GITHUB_TOKEN=$GITHUB_TOKEN test bash -c "bash scripts/test.sh"
 
   - os: linux
     dist: focal
