@@ -17,3 +17,8 @@ bash scripts/move-no-sh-scripts.sh
 
 # Create index file
 bash scripts/create-list-txt-file.sh
+
+# If development (default), create Gemfile for debug with Jekyll
+if [ "$JEKYLL_ENV" != "production" ]; then
+  bash scripts/create-gemfile.sh
+fi;

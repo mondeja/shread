@@ -13,8 +13,7 @@ jobs:
           persist-credentials: false
 
       - name: Build 🔧
-        run: |
-          make build
+        run: JEKYLL_ENV=production make build
 
       - name: Deploy 🐧
         uses: peaceiris/actions-gh-pages@v3

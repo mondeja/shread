@@ -80,14 +80,26 @@ find src -type f -name '*.sh' | while read -r script_filepath; do
     #   name can't be retrieved
     sed -i "3s/^/_SCRIPT_FILENAME=$lang.sh\n/" "$temp_localized_script"
 
+    # Build script for distribution in public directory
     path_to_script_dest="public/$relative_path_to_script_dir_from_src/$lang.sh"
     rm -f "$path_to_script_dest"
     touch "$path_to_script_dest"
-    echo "#!/bin/bash" >> "$path_to_script_dest"
 
-    # Encode scripts as base64
-    echo "source <(printf '$(base64 -w 0 "$temp_localized_script")' | base64 -d)" \
+    #   Encode script as base64
+    script_encoded_as_b64="$(base64 -w 0 "$temp_localized_script")"
+
+    #   Write script wrapper
+    { echo "#!/bin/bash"; echo "H='$script_encoded_as_b64'"; } \
       >> "$path_to_script_dest"
+
+    tee -a >> "$path_to_script_dest" << END
+if (return 0 2>/dev/null); then
+  source <(printf "%s" "\$H" | base64 -d)
+else
+  echo "\$(echo "\$H" | base64 -d)" | bash -s -
+fi;
+END
+
     rm -f "$temp_localized_script"
   done
 done
