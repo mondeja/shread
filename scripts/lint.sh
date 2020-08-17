@@ -12,7 +12,12 @@ if [ ! -f scripts/shunit2 ]; then
     --dest-path "scripts/shunit2" > /dev/null || exit $?
 fi;
 
-if [[ "$(sudo dpkg -s shellcheck 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+# Download pacman binary to install packages consistently
+if [ "$(command -v pacman)" = "" ]; then
+  bash "src/unix/_/download/pacapt/main.sh" > /dev/null
+fi;
+
+if [[ "$(sudo pacman -Qi shellcheck 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo apt-get install -y -qqq shellcheck > /dev/null || exit $?
 fi;
 

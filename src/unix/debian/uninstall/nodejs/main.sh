@@ -35,8 +35,18 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+if [ "$(command -v pacman)" = "" ]; then
+  if [ -z "$_SCRIPT_FILENAME" ]; then
+    filepath="src/unix/_/download/pacapt/main.sh"
+    bash "$filepath" > /dev/null
+  else
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
+fi;
+
 if [ -z "$UNIX_DISTRO" ]; then
-  if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+  if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo apt-get install -y -qqq curl > /dev/null
   fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh

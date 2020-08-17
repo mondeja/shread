@@ -55,7 +55,7 @@ function assertAptPackagesAvailable {
 
   DEPENDENCIES=("$@")
   for DEP in "${DEPENDENCIES[@]}"; do
-    if [[ "$(dpkg -s "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APTITUDE_SEARCH="$(sudo aptitude search "$DEP" 2> /dev/null)"
       assertNotEquals "$DEP not found on public in repositories ->" "$_APTITUDE_SEARCH" ""
     fi;

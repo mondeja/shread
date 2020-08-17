@@ -302,7 +302,7 @@ function installPostgresPackages() {
   for PACKAGE in "${POSTGRES_PACKAGES[@]}"; do
     printIndent
     printf "    %s" "$PACKAGE"
-    if [[ "$(dpkg -s "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    if [[ "$(sudo pacman -Qi "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       _APT_INSTALL_STDERR=$(
         sudo apt-get install -y -qqq "$PACKAGE" 2>&1
       )

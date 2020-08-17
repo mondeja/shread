@@ -67,7 +67,7 @@ jobs:
       - docker run -itd --name test debian:stretch
       - docker cp . test:/shread
     install:
-      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils aptitude"
+      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils aptitude curl"
       - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
@@ -84,7 +84,7 @@ jobs:
       - docker run -itd --name test debian:buster
       - docker cp . test:/shread
     install:
-      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils aptitude"
+      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils aptitude curl"
       - docker exec test bash -c "useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
