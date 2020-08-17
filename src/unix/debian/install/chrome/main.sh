@@ -43,7 +43,6 @@ fi;
 
 INSTALLATION_DEPENDENCIES=(
   "debconf-utils"
-  "curl"
 )
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do

@@ -48,10 +48,6 @@ if [ ! -d "/usr/local/bin" ]; then
   fi;
 fi;
 
-if [[ "$(sudo dpkg -s curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq curl > /dev/null || exit $?
-fi;
-
 PACAPT_DOWNLOAD_LINK="https://raw.githubusercontent.com/icy/pacapt/ng/pacapt"
 function getPacAptLastestVersion {
   rm -f /tmp/pacapt

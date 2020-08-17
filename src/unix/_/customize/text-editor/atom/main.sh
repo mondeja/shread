@@ -56,10 +56,6 @@ if [ "$(command -v pacman)" = "" ]; then
   fi;
 fi;
 
-if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S curl > /dev/null || exit $?
-fi;
-
 # Versión de Atom
 ATOM_VERSION=$(
   apm -v | \

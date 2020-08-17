@@ -55,7 +55,6 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 INSTALLATION_DEPENDENCIES=(
-  "curl"
   "jq"
 )
 

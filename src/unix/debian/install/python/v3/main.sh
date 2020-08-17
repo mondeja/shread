@@ -57,7 +57,6 @@ fi;
 
 INSTALLATION_DEPENDENCIES=(
   "debconf-utils"
-  "curl"
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then

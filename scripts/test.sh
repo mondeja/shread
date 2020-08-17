@@ -36,9 +36,9 @@ function main {
   Usage example:
     ```
     INSTALLATION_DEPENDENCIES=(
-      "curl"
       "debconf-utils"
       "build-essential"
+      "lsb-release"
     )
     assertAptPackagesAvailable "${INSTALLATION_DEPENDENCIES[@]}"
     ```

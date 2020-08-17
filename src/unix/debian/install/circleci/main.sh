@@ -37,10 +37,6 @@ if [ "$(command -v pacman)" = "" ]; then
   fi;
 fi;
 
-if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S curl > /dev/null || exit $?
-fi;
-
 _CIRCLECI_BINARY_PATH="$(command -v circleci)"
 _CIRCLECI_LATEST_RELEASE_VERSION=$(
   curl -sLI -o /dev/null -w '%{url_effective}' \

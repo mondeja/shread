@@ -60,7 +60,6 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 INSTALLATION_DEPENDENCIES=(
-  "curl"
   "debconf-utils"
 )
 
@@ -100,7 +99,6 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
     "make"
     "apt-transport-https"
     "lsb-release"
-    "curl"
     "gnupg"
   )
 

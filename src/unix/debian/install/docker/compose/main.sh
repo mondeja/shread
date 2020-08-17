@@ -56,7 +56,6 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 INSTALLATION_DEPENDENCIES=(
-  "curl"
   "jq"
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do

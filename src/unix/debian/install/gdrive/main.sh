@@ -53,7 +53,7 @@ function installScriptDependencies() {
     fi;
   fi;
 
-  INSTALLATION_DEPENDENCIES=("curl" "jq")
+  INSTALLATION_DEPENDENCIES=("jq")
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo pacman -S "$DEP" > /dev/null || exit $?

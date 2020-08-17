@@ -46,9 +46,6 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 if [ -z "$UNIX_DISTRO" ]; then
-  if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo apt-get install -y -qqq curl > /dev/null
-  fi;
   # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;

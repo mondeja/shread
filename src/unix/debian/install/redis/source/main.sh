@@ -77,7 +77,6 @@ fi;
 INSTALLATION_DEPENDENCIES=(
   "build-essential"
   "tcl"
-  "curl"
   "make"
 )
 
