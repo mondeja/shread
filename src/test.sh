@@ -28,6 +28,7 @@ function testDependentAptPackages {
     "tcl"
     "aptitude"
     "gnupg2"
+    "ca-certificates"
   )
 
   assertAptPackagesAvailable "${INSTALLATION_DEPENDENCIES[@]}"
