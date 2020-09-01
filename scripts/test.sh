@@ -59,7 +59,9 @@ function assertAptPackagesAvailable {
       _APTITUDE_SEARCH="$(sudo aptitude search "$DEP" 2> /dev/null)"
       assertNotEquals "$DEP not found on public in repositories ->" "$_APTITUDE_SEARCH" ""
     fi;
+    printf "  %s \e[92m\xE2\x9C\x94\e[39m\n" "$DEP"
   done;
+  printf "\n"
 }
 
 

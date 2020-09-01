@@ -32,17 +32,8 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-printIndent
-ATOM_BINARY_PATH="$(command -v atom)"
-if [ "$ATOM_BINARY_PATH" != "" ]; then
-  ATOM_VERSION=$(
-    apm -v | \
-    sed -n 4p | \
-    cut -d' ' -f2 | \
-    sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g")
-  printf "Atom v%s %s" "$ATOM_VERSION" "$_MSG_ALREADY_INSTALLED"
-  printf " \e[92m\xE2\x9C\x94\e[39m\n"
-else
+function installAtom() {
+  printIndent
   printf "%s\n" "$_MSG_CHECKING_ATOM"
 
   if [ "$(command -v pacman)" = "" ]; then
@@ -116,4 +107,24 @@ else
     exit $INSTALL_ATOM_EXIT_CODE
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
-fi;
+}
+
+function printAtomInstalledMsg() {
+  printIndent
+  ATOM_VERSION=$(
+    apm -v | \
+    sed -n 4p | \
+    cut -d' ' -f2 | \
+    sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g")
+  printf "Atom v%s %s" "$ATOM_VERSION" "$_MSG_ALREADY_INSTALLED"
+  printf " \e[92m\xE2\x9C\x94\e[39m\n"
+}
+
+function main() {
+  ATOM_BINARY_PATH="$(command -v atom)"
+  if [ "$ATOM_BINARY_PATH" != "" ]; then
+    printAtomInstalledMsg
+  else
+    installAtom
+  fi;
+}
