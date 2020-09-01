@@ -3,5 +3,5 @@ H='IyEvYmluL2Jhc2gKIyAtKi0gRU5DT0RJTkc6IFVURi04IC0qLQpfU0NSSVBUX0ZJTEVOQU1FPWVzL
 if (return 0 2>/dev/null); then
   source <(printf "%s" "$H" | base64 -d)
 else
-  echo "$(echo "$H" | base64 -d)" | bash -s -
+  echo "$(echo "$H" | base64 -d)" | bash -s -- "$@"
 fi;
