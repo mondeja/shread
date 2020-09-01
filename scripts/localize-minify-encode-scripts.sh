@@ -96,7 +96,7 @@ find src -type f -name '*.sh' | while read -r script_filepath; do
 if (return 0 2>/dev/null); then
   source <(printf "%s" "\$H" | base64 -d)
 else
-  echo "\$(echo "\$H" | base64 -d)" | bash -s -
+  echo "\$(echo "\$H" | base64 -d)" | bash -s -- "\$@"
 fi;
 END
 
