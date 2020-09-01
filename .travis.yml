@@ -39,6 +39,7 @@ jobs:
       - SHREAD_TEST__UNIX_DISTRO=ubuntu
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=bionic
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=18.04
+      - SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED=true
 
   - dist: focal
     name: Ubuntu 20.04 - Focal
@@ -58,6 +59,7 @@ jobs:
       - SHREAD_TEST__UNIX_DISTRO=ubuntu
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=focal
       - SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=20.04
+      - SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED=true
 
   - dist: focal
     name: Debian 9.12 - Stretch
@@ -78,7 +80,7 @@ jobs:
         -e SHREAD_TEST__UNIX_DISTRO=debian
         -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=stretch
         -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=9.13
-        -e SHREAD_TEST__ATOM_MUST_BE_NOT_INSTALLED=true
+        -e SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED=true
         -e GITHUB_USERNAME=$GITHUB_USERNAME
         -e GITHUB_TOKEN=$GITHUB_TOKEN
         test
@@ -103,11 +105,13 @@ jobs:
         -e SHREAD_TEST__UNIX_DISTRO=debian
         -e SHREAD_TEST__UNIX_DISTRO_VERSION_NAME=buster
         -e SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER=10
-        -e SHREAD_TEST__ATOM_MUST_BE_NOT_INSTALLED=true
+        -e SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED=true
         -e GITHUB_USERNAME=$GITHUB_USERNAME
         -e GITHUB_TOKEN=$GITHUB_TOKEN
         test
         bash -c "bash scripts/test.sh"
 
 notifications:
-  email: false
+  email:
+    on_success: never
+    on_failure: change
