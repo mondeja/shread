@@ -27,6 +27,7 @@ function testDependentAptPackages {
     "wget"
     "tcl"
     "aptitude"
+    "gnupg2"
   )
 
   assertAptPackagesAvailable "${INSTALLATION_DEPENDENCIES[@]}"

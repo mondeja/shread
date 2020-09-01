@@ -49,10 +49,11 @@ function installAtom() {
   INSTALLATION_DEPENDENCIES=(
     "wget"
     "jq"
+    "gnupg2"
   )
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo pacman -S "$DEP" > /dev/null || exit $?
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
     fi;
   done;
 
@@ -86,7 +87,7 @@ function installAtom() {
   sudo pacman update > /dev/null
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  ATOM_VERSION="$(pacman -Qi atom | grep Version | cut -d' ' -f2)"
+  ATOM_VERSION="$(pacman -Si atom | grep Version: | head -n 1 | cut -d ' ' -f2)"
   if [ "$ATOM_VERSION" != "" ]; then
     printIndent
     printf "  %s (v%s)" "$_MSG_ATOM_FOUND" "$ATOM_VERSION"
@@ -95,7 +96,7 @@ function installAtom() {
 
   printIndent
   printf "  %s" "$_MSG_RUNNING_INSTALLATION_SCRIPT"
-  INSTALL_ATOM_STDERR="$(sudo pacman -S atom > /dev/null)"
+  INSTALL_ATOM_STDERR="$(sudo pacman -S -- -y atom > /dev/null)"
   INSTALL_ATOM_EXIT_CODE=$?
   if [ "$INSTALL_ATOM_EXIT_CODE" -ne 0 ]; then
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
