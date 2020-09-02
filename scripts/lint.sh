@@ -6,6 +6,11 @@ source scripts/constants.sh
 
 _EXIT_CODE=0
 
+# Build if not built
+if [ ! -d "public" ]; then
+  bash scripts/build.sh
+fi;
+
 # Download shunit2 binary to follow sources properly
 if [ ! -f scripts/shunit2 ]; then
   bash src/unix/_/download/shunit/main.sh \
