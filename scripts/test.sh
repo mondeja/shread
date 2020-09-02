@@ -2,6 +2,11 @@
 # -*- ENCODING: UTF-8 -*-
 
 function main {
+  # Install pacman
+  if [ "$(command -v pacman)" = "" ]; then
+    bash "src/unix/_/download/pacapt/main.sh" > /dev/null
+  fi;
+
   if [ ! -d public ]; then
     bash scripts/build.sh
   fi;
@@ -44,10 +49,6 @@ function main {
     ```
 '
 function assertAptPackagesAvailable {
-  if [ "$(command -v pacman)" = "" ]; then
-    bash "src/unix/_/download/pacapt/main.sh" > /dev/null
-  fi;
-
   # aptitude is required to search packages
   if [[ "$(sudo pacman -Qi aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo pacman -S aptitude > /dev/null || exit $?
