@@ -1,9 +1,51 @@
 #!/bin/bash
 
-docker pull debian:buster
-docker run -itd --name debian-10-test debian:buster
-docker cp . debian-10-test:/shread
+_LOGIN=0
+_CONTAINER_NAME="debian-10-shread"
 
-docker exec debian-10-test bash -c "apt-get update && apt-get install -y make sudo apt-utils aptitude curl wget ca-certificates apt-transport-https gnupg2"
-docker exec debian-10-test bash -c "useradd -m docker && echo 'docker:docker' | chpasswd && adduser docker sudo"
-docker exec -w /shread debian-10-test bash -c "bash scripts/build.sh"
+for arg in "$@"; do
+  case $arg in
+    --login)
+    _LOGIN=1
+    shift
+    ;;
+
+    --name)
+    shift
+    _CONTAINER_NAME=$1
+    shift
+    ;;
+  esac
+done
+
+
+function pullContainer() {
+  docker pull debian:buster
+  docker run -itd --name $_CONTAINER_NAME debian:buster
+  docker cp . $_CONTAINER_NAME:/shread
+
+  docker exec $_CONTAINER_NAME \
+    bash -c "apt-get update && apt-get install -y \
+    make \
+    sudo \
+    apt-utils \
+    aptitude \
+    curl \
+    wget \
+    ca-certificates \
+    apt-transport-https \
+    gnupg2"
+  docker exec $_CONTAINER_NAME \
+    bash -c "useradd -m docker && \
+    echo 'docker:docker' | chpasswd && \
+    adduser docker sudo"
+  docker exec -w /shread $_CONTAINER_NAME bash -c "bash scripts/build.sh"
+}
+
+if [ ! "$(docker ps -a | grep $_CONTAINER_NAME)" ]; then
+  pullContainer
+fi;
+
+if [ "$_LOGIN" -eq 1 ]; then
+  docker exec -it $_CONTAINER_NAME /bin/bash
+fi;
