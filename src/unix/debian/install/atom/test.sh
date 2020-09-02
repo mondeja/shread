@@ -22,15 +22,12 @@ function testAtomInstallation() {
   if [ -n "$SHREAD_TEST__ATOM_SKIP_INSTALL" ]; then
     startSkipping
   fi;
-  sudo bash public/unix/debian/install/atom/en.sh
 
-  # atom and apm binaries must be available after installation
+  # Not perform installation, only asserts that atom package is available
+  source public/unix/debian/install/atom/en.sh
   assertNotNull \
-    "atom binary not available after atom install" \
-    "$(command -v atom)"
-  assertNotNull \
-    "apm binary not available after atom install" \
-    "$(command -v atom)"
+    "atom version not available after installation script sourcing" \
+     "$ATOM_VERSION"
 
   # package repository file must exists after installation
   assertTrue \

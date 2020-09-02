@@ -11,11 +11,6 @@ _MSG_ATOM_FOUND="Atom found"
 _MSG_RUNNING_INSTALLATION_SCRIPT="Running installation script..."
 _MSG_ERROR_INSTALLING_ATOM="An error happen installing Atom"
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
-
 INDENT_STRING=""
 
 for arg in "$@"; do
@@ -30,6 +25,44 @@ done
 
 function printIndent() {
   printf "%s" "$INDENT_STRING"
+}
+
+function signAtomGpgKey() {
+  SIGN_ATOM_GPG_KEY_STDERR=$(
+    wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | \
+    sudo apt-key add - 2>&1 > /dev/null)
+  SIGN_ATOM_GPG_KEY_EXIT_CODE=$?
+  if [ $SIGN_ATOM_GPG_KEY_EXIT_CODE -ne 0 ]; then
+    printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
+    printf "\n%s\n" "$_MSG_ERROR_OBTAINING_ATOM_PUBLIC_KEY" >&2
+    printf "%s\n" "$SIGN_ATOM_GPG_KEY_STDERR" >&2
+    exit $SIGN_ATOM_GPG_KEY_EXIT_CODE
+  fi;
+}
+
+function addAtomRepositoryToSources() {
+  if [ ! -f "/etc/apt/sources.list.d/atom.list" ]; then
+    ARCH="amd64"
+    case $(uname -m) in
+        i386)   ARCH="386" ;;
+        i686)   ARCH="386" ;;
+        x86_64) ARCH="amd64" ;;
+        arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
+    esac
+
+    echo \
+      "deb [arch=${ARCH}] https://packagecloud.io/AtomEditor/atom/any/ any main" \
+      | sudo tee /etc/apt/sources.list.d/atom.list
+  fi;
+}
+
+function updatePackages() {
+  sudo pacman update > /dev/null
+}
+
+ATOM_VERSION=""
+function getAtomVersion() {
+  ATOM_VERSION="$(pacman -Si atom | grep Version: | head -n 1 | cut -d ' ' -f2)"
 }
 
 function installAtom() {
@@ -59,35 +92,17 @@ function installAtom() {
 
   printIndent
   printf "  %s..." "$_MSG_ADDING_REPO"
-  SIGN_ATOM_GPG_KEY_STDERR=$(
-    wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | \
-    sudo apt-key add - 2>&1 > /dev/null)
-  SIGN_ATOM_GPG_KEY_EXIT_CODE=$?
-  if [ $SIGN_ATOM_GPG_KEY_EXIT_CODE -ne 0 ]; then
-    printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    printf "\n%s\n" "$_MSG_ERROR_OBTAINING_ATOM_PUBLIC_KEY" >&2
-    printf "%s\n" "$SIGN_ATOM_GPG_KEY_STDERR" >&2
-    exit $SIGN_ATOM_GPG_KEY_EXIT_CODE
-  fi;
+  signAtomGpgKey
+  addAtomRepositoryToSources
 
-  ARCH="amd64"
-  case $(uname -m) in
-      i386)   ARCH="386" ;;
-      i686)   ARCH="386" ;;
-      x86_64) ARCH="amd64" ;;
-      arm)    dpkg --print-architecture | grep -q "arm64" && ARCH="arm64" || ARCH="arm" ;;
-  esac
-  echo \
-    "deb [arch=${ARCH}] https://packagecloud.io/AtomEditor/atom/any/ any main" \
-    | sudo tee /etc/apt/sources.list.d/atom.list
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printIndent
   printf "  %s" "$_MSG_UPDATING_PACKAGES"
-  sudo pacman update > /dev/null
+  updatePackages
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  ATOM_VERSION="$(pacman -Si atom | grep Version: | head -n 1 | cut -d ' ' -f2)"
+  getAtomVersion
   if [ "$ATOM_VERSION" != "" ]; then
     printIndent
     printf "  %s (v%s)" "$_MSG_ATOM_FOUND" "$ATOM_VERSION"
@@ -130,4 +145,22 @@ function main() {
   fi;
 }
 
-main
+function exportVariables() {
+  signAtomGpgKey
+  addAtomRepositoryToSources
+  updatePackages
+  getAtomVersion
+
+  export ATOM_VERSION
+}
+
+# If script being sourced, export variables, else run `main` function
+if (return 0 2>/dev/null); then
+  exportVariables
+else
+  if [[ $(/usr/bin/id -u) -ne 0 ]]; then
+    printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
+    exit 1
+  fi;
+  main
+fi;
