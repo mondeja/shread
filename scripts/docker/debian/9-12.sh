@@ -1,4 +1,5 @@
 #!/bin/bash
+# -*- ENCODING: UTF-8 -*-
 
 _LOGIN=0
 _CONTAINER_NAME="debian-9-12-shread"
@@ -21,10 +22,10 @@ done
 
 function pullContainer() {
   docker pull debian:stretch
-  docker run -itd --name $_CONTAINER_NAME debian:stretch
-  docker cp . $_CONTAINER_NAME:/shread
+  docker run -itd --name "$_CONTAINER_NAME" debian:stretch
+  docker cp . "$_CONTAINER_NAME":/shread
 
-  docker exec $_CONTAINER_NAME \
+  docker exec "$_CONTAINER_NAME" \
     bash -c "apt-get update && apt-get install -y \
     make \
     sudo \
@@ -35,18 +36,18 @@ function pullContainer() {
     ca-certificates \
     apt-transport-https \
     gnupg2"
-  docker exec $_CONTAINER_NAME \
+  docker exec "$_CONTAINER_NAME" \
     bash -c "useradd -m docker && \
     echo 'docker:docker' | chpasswd && \
     adduser docker sudo"
-  docker exec -w /shread $_CONTAINER_NAME \
+  docker exec -w /shread "$_CONTAINER_NAME" \
     bash -c "bash scripts/build.sh"
 }
 
-if [ ! "$(docker ps -a | grep $_CONTAINER_NAME)" ]; then
+if ! docker ps -a | grep -q "$_CONTAINER_NAME"; then
   pullContainer
 fi;
 
 if [ "$_LOGIN" -eq 1 ]; then
-  docker exec -it $_CONTAINER_NAME /bin/bash
+  docker exec -it "$_CONTAINER_NAME" /bin/bash
 fi;
