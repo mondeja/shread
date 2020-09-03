@@ -156,7 +156,7 @@ if [ "$UNIX_DISTRO" = "ubuntu" ] || [ "$UNIX_DISTRO" = "debian" ]; then
       printf "%s: %s\n" "$_MSG_ERROR_CODE" "$INSTALL_NODEJS_EXIT_CODE" >&2
       exit $INSTALL_NODEJS_EXIT_CODE
     fi;
-    sudo apt-get install -y -qqq nodejs > /dev/null
+    sudo pacman -S -- -y nodejs > /dev/null || exit $?
 	else
     printf "  %s" "$_MSG_FOUND_NODEJS_INSTALLED"
 		printf " (v%s)" "$(node -v | cut -c2-15)"

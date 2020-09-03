@@ -90,7 +90,7 @@ function installMainPython3AptPackage {
   	  printf " (v%s)" "$_PYTHON_STABLE_PACKAGE_VERSION"
     fi;
     printf "..."
-  	sudo apt-get install -y -qqq python3-dev > /dev/null
+    sudo pacman -S -- -y python3-dev > /dev/null || exit $?
     _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12 | tr -d ' ')"
   else
     _PYTHON_VERSION="$("$PY3_BINARY_FILEPATH" --version | cut -c7-12 | tr -d ' ')"

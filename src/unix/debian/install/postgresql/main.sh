@@ -303,9 +303,7 @@ function installPostgresPackages() {
     printIndent
     printf "    %s" "$PACKAGE"
     if [[ "$(sudo pacman -Qi "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      _APT_INSTALL_STDERR=$(
-        sudo apt-get install -y -qqq "$PACKAGE" 2>&1
-      )
+      _APT_INSTALL_STDERR=$(sudo pacman -S -- -y "$PACKAGE" > /dev/null 2>&1)
       _APT_INSTALL_EXIT_CODE=$?
       if [ $_APT_INSTALL_EXIT_CODE -ne 0 ]; then
         printf "%s" "$_APT_INSTALL_STDERR" >&2

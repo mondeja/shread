@@ -2,6 +2,8 @@
 # -*- ENCODING: UTF-8 -*-
 
 if [ "$(command -v lsb_release)" = "" ]; then
+  # lsb_release is, as I know, only available in Debian based systems
+  # so keep apt-get install and don't use pacman for now
   sudo apt-get install -y -qqq lsb-release > /dev/null
 fi;
 
