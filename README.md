@@ -100,7 +100,7 @@ printf "Downloading binaries...\n"
 curl -sL https://mondeja.github.io/shread/unix/_/download/pacapt/en.sh \
   | sudo bash -s -- --indent '  '
 curl -sL https://mondeja.github.io/shread/unix/_/download/shunit/en.sh \
-| sudo bash -s -- --indent '  '
+  | sudo bash -s -- --indent '  '
 ```
 
 will render something like this:

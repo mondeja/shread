@@ -19,7 +19,6 @@ for arg in "$@"; do
   esac
 done
 
-
 function pullContainer() {
   docker pull debian:stretch
   docker run -itd --name "$_CONTAINER_NAME" debian:stretch
@@ -46,6 +45,10 @@ function pullContainer() {
 
 if ! docker ps -a | grep -q "$_CONTAINER_NAME"; then
   pullContainer
+fi;
+
+if [ "$( docker container inspect -f '{{.State.Running}}' "$_CONTAINER_NAME" )" == "false" ]; then
+  docker start "$_CONTAINER_NAME"
 fi;
 
 if [ "$_LOGIN" -eq 1 ]; then
