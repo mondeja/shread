@@ -27,6 +27,29 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
+function installScriptDependencies() {
+  if [ "$(command -v pacman)" = "" ]; then
+    if [ -z "$_SCRIPT_FILENAME" ]; then
+      filepath="src/unix/_/download/pacapt/main.sh"
+      bash "$filepath" > /dev/null
+    else
+      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+      curl -sL "$url" | sudo bash - > /dev/null
+    fi;
+  fi;
+
+  INSTALLATION_DEPENDENCIES=(
+    "wget"
+    "jq"
+    "gnupg2"
+  )
+  for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
+    fi;
+  done;
+}
+
 function signAtomGpgKey() {
   SIGN_ATOM_GPG_KEY_STDERR=$(
     wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | \
@@ -69,26 +92,7 @@ function installAtom() {
   printIndent
   printf "%s\n" "$_MSG_CHECKING_ATOM"
 
-  if [ "$(command -v pacman)" = "" ]; then
-    if [ -z "$_SCRIPT_FILENAME" ]; then
-      filepath="src/unix/_/download/pacapt/main.sh"
-      bash "$filepath" > /dev/null
-    else
-      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-      curl -sL "$url" | sudo bash - > /dev/null
-    fi;
-  fi;
-
-  INSTALLATION_DEPENDENCIES=(
-    "wget"
-    "jq"
-    "gnupg2"
-  )
-  for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-    fi;
-  done;
+  installScriptDependencies
 
   printIndent
   printf "  %s..." "$_MSG_ADDING_REPO"

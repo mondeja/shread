@@ -60,7 +60,7 @@ INSTALLATION_DEPENDENCIES=(
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S "$DEP" > /dev/null || exit $?
+    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -139,5 +139,6 @@ function main() {
   rm -f "$_DEST_DIRPATH/shunit2.tar.gz"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
+
 
 ! (return 0 2>/dev/null) && main

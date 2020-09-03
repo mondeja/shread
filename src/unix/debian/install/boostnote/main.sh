@@ -69,7 +69,7 @@ INSTALLATION_DEPENDENCIES=(
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S "$DEP" > /dev/null || exit $?
+    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
 done;
 

@@ -77,7 +77,7 @@ else
     printIndent
     printf "    %s" "$PACKAGE"
     if [[ "$(sudo pacman -Qi "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo pacman -S "$PACKAGE" > /dev/null || exit $?
+      sudo pacman -S -- -y "$PACKAGE" > /dev/null || exit $?
     fi;
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   done
@@ -90,6 +90,6 @@ if [ "$_GECKODRIVER_PATH" != "" ]; then
   printf " (v%s)" "$(geckodriver --version | head -n1 | cut -d' ' -f2)"
 else
   printf "  %s" "$_MSG_INSTALLING_GECKODRIVER"
-  sudo pacman -S firefox-geckodriver > /dev/null
+  sudo pacman -S -- -y firefox-geckodriver > /dev/null
 fi;
 printf " \e[92m\xE2\x9C\x94\e[39m\n"

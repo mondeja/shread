@@ -116,7 +116,7 @@ for DEP in "${INSTALLATION_PACKAGES[@]}"; do
   printIndent
   printf "    %s" "$DEP"
   if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S "$DEP" > /dev/null || exit $?
+    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 done

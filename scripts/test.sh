@@ -51,7 +51,7 @@ function main {
 function assertAptPackagesAvailable {
   # aptitude is required to search packages
   if [[ "$(sudo pacman -Qi aptitude 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S aptitude > /dev/null || exit $?
+    sudo pacman -S -- -y aptitude > /dev/null || exit $?
   fi;
 
   DEPENDENCIES=("$@")

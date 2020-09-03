@@ -19,7 +19,7 @@ function testAtomIsNotInstalled() {
 }
 
 function testAtomInstallation() {
-  if [ -n "$SHREAD_TEST__ATOM_SKIP_INSTALL" ]; then
+  if [ -f "/etc/apt/sources.list.d/atom.list" ]; then
     startSkipping
   fi;
 

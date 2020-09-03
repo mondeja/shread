@@ -60,7 +60,7 @@ INSTALLATION_DEPENDENCIES=(
 )
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S "$DEP" > /dev/null || exit $?
+    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -142,7 +142,7 @@ function installPythonAdditionalAptPackages {
     printIndent
     printf "    %s" "$DEP"
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-      sudo pacman -S "$DEP" > /dev/null || exit $?
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
     fi;
     _DEP_VERSION=$(apt-cache policy "$DEP" | grep -Po "(\d+\.)+\d+" | head -n 1)
     if [ "$_DEP_VERSION" != "" ]; then

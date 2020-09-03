@@ -53,7 +53,7 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 if [[ "$(sudo pacman -Qi net-tools 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S curl > /dev/null || exit $?
+  sudo pacman -S -- -y curl > /dev/null || exit $?
 fi;
 
 if [ -z "$_ADDRESS" ]; then

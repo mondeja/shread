@@ -47,7 +47,7 @@ INSTALLATION_DEPENDENCIES=(
 
 for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
   if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S "$DEP" > /dev/null || exit $?
+    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
 done;
 
@@ -86,7 +86,7 @@ if [ "$_GOOGLE_CHROME_BINARY_PATH" = "" ]; then
     --output google-chrome-stable_current_amd64.deb
 
   # Instalamos el paquete
-  sudo pacman -S ./google-chrome-stable_current_amd64.deb > /dev/null
+  sudo pacman -S -- -y ./google-chrome-stable_current_amd64.deb > /dev/null
 
   # Eliminamos el paquete descargado
   sudo rm -f google-chrome-stable_current_amd64.deb

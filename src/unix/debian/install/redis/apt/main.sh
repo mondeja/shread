@@ -50,7 +50,7 @@ if [ "$(command -v pacman)" = "" ]; then
   fi;
 fi;
 if [[ "$(sudo pacman -Qi redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S redis-server > /dev/null || exit $?
+  sudo pacman -S -- -y redis-server > /dev/null || exit $?
 fi;
 _REDIS_SERVER_VERSION=$(redis-server --version | cut -d'=' -f2 | cut -d' ' -f1)
 printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_REDIS_SERVER_VERSION"
