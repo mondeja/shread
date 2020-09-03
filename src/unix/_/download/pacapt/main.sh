@@ -108,6 +108,7 @@ function main {
     printf "  %s (v%s)" "$_MSG_INSTALLED" "$_PACAPT_LASTEST_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   elif [ "$_PACAPT_CURRENT_VERSION" = "$_PACAPT_LASTEST_VERSION" ]; then
+    printIndent
     printf "  %s" "$_MSG_FOUND_INSTALLED"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   else

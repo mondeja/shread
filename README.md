@@ -93,7 +93,28 @@ All scripts take an optional parameter:
 <a name="indent" href="#indent">#</a> <b>--indent</b> *string*
 
 Each line of the script output will be preceded with the string defined in this parameter. As default an empty string.
+This parameter is useful to render scripts output inside an indented context, for example:
 
+```bash
+printf "Downloading binaries...\n"
+curl -sL https://mondeja.github.io/shread/unix/_/download/pacapt/en.sh \
+  | sudo bash -s -- --indent '  '
+curl -sL https://mondeja.github.io/shread/unix/_/download/shunit/en.sh \
+| sudo bash -s -- --indent '  '
+```
+
+will render something like this:
+
+```bash
+Downloading binaries...
+  Checking pacapt...
+    Retrieving latest version... (v2.4.3) ✔
+    Found installed ✔
+  Checking shunit2...
+    Retrieving lastest version... (v2.1.8) ✔
+    Downloading shunit2 (v2.1.8) ✔
+    Unzipping... ✔
+```
 
 ### Installation / upgrade
 - [Dropbox](https://github.com/mondeja/shread/blob/master/src/unix/debian/install/dropbox/README.md)
