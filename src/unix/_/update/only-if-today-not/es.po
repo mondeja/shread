@@ -22,6 +22,3 @@ msgstr "Este script necesita ser ejecutado como superusuario."
 
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
-
-#~ msgid "An error happen updating system packages."
-#~ msgstr "Ocurrió un error actualizando los paquetes del sistema."

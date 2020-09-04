@@ -380,16 +380,13 @@ msgid "Mozilla Firefox found installed in the system"
 msgstr "Econtrado Mozilla Firefox instalado en el sistema"
 
 msgid "Installing Mozilla Firefox packages"
-msgstr ""
+msgstr "Instalando paquetes de Mozilla Firefox"
 
 msgid "Geckodriver found installed in the system"
 msgstr "Encontrado Geckodriver instalado en el sistema"
 
 msgid "Installing geckodriver..."
 msgstr "Instalando geckodriver..."
-
-msgid "Installing Mozilla Firefox packages..."
-msgstr "Instalando paquetes de Mozilla Firefox..."
 
 msgid "Installing CircleCI"
 msgstr "Instalando CircleCI"
@@ -417,6 +414,9 @@ msgstr "Ejecutando script de instalación..."
 
 msgid "An error happen installing Atom"
 msgstr "Ocurrió un error instalando Atom"
+
+msgid "Running installation scrip..."
+msgstr "Ejecutando script de instalación"
 
 msgid "Setting up Redis ecosystem..."
 msgstr "Configurando ecosistema Redis..."
@@ -602,3 +602,6 @@ msgstr "Archivo de configuración de Grub no encontrado"
 
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
+
+msgid "Installing Mozilla Firefox packages..."
+msgstr "Instalando paquetes de Mozilla Firefox..."

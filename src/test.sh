@@ -53,4 +53,20 @@ function testScriptsShebangs {
   done
 }
 
+: '
+  Test that there are not obsolete messages in pofiles.
+'
+function testNonObsoletePofilesMessages {
+  find src ! -name "$(printf "*\n*")" -name '*.po' > /tmp/_shread-pofiles.txt
+  while IFS= read -r filepath; do
+    i=0
+    while IFS= read -r line; do
+      newi="$(( ++i ))"
+      if [[ $line =~ ^#~[[:space:]]msgid.* ]]; then
+        fail "Found obsolete msgid at '$filepath:$newi': '$line'"
+      fi;
+    done < "$filepath"
+  done < /tmp/_shread-pofiles.txt
+}
+
 . ./scripts/shunit2
