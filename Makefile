@@ -9,7 +9,7 @@ lint:
 
 .PHONY: locale
 locale:
-	@bash scripts/extract-strings-to-po-files.sh
+	@bash scripts/extract-msgs-to-pofiles.sh
 
 .PHONY: test
 test:
