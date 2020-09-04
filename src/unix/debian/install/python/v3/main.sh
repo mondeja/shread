@@ -84,7 +84,7 @@ function installMainPython3AptPackage {
   if [ "$PY3_BINARY_FILEPATH" = "" ]; then
     # If not, Python might not be installed
     _PYTHON_STABLE_PACKAGE_VERSION=$(
-      apt-cache policy python3-dev | grep -Po '(\d+\.)+\d+' | head -n 1)
+      pacman -Qi python3-dev | grep Version: | cut -d' ' -f2)
     printf "  %s" "$_MSG_INSTALLING_BASE_PACKAGE"
     if [ "$_PYTHON_STABLE_PACKAGE_VERSION" != "" ]; then
   	  printf " (v%s)" "$_PYTHON_STABLE_PACKAGE_VERSION"

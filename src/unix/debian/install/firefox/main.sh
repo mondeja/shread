@@ -61,23 +61,17 @@ if command -v firefox &> /dev/null; then
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
   printf "  %s" "$_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES"
+  _MOZILLA_FIREFOX_PACKAGE_NAME="firefox"
   if [ "$UNIX_DISTRO" = "debian" ]; then
-    _FIREFOX_LATEST_VERSION=$(
-      sudo apt-cache policy firefox-esr | grep -Po '(\d+\.)+\d+' | head -n 1)
-  else
-    _FIREFOX_LATEST_VERSION=$(
-      sudo apt-cache policy firefox | grep -Po '(\d+\.)+\d+' | head -n 1)
+    _MOZILLA_FIREFOX_PACKAGE_NAME="firefox-esr"
   fi;
+  _FIREFOX_LATEST_VERSION=$(pacman -Qi "$_MOZILLA_FIREFOX_PACKAGE_NAME" \
+    | grep Version: | cut -d' ' -f2 | cut -d'+' -f1)
   printf " (v%s)...\n" "$_FIREFOX_LATEST_VERSION"
+
+  _MOZILLA_FIREFOX_PACKAGES=("$_MOZILLA_FIREFOX_PACKAGE_NAME")
   if [ "$UNIX_DISTRO" = "debian" ]; then
-    _MOZILLA_FIREFOX_PACKAGES=(
-      "firefox-esr"
-      "firefox-esr-l10n-es-es"
-    )
-  else
-    _MOZILLA_FIREFOX_PACKAGES=(
-      "firefox"
-    )
+    _MOZILLA_FIREFOX_PACKAGES+=("firefox-esr-l10n-es-es")
   fi;
 
   for PACKAGE in "${_MOZILLA_FIREFOX_PACKAGES[@]}"; do
