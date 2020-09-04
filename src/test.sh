@@ -69,4 +69,36 @@ function testNonObsoletePofilesMessages {
   done < /tmp/_shread-pofiles.txt
 }
 
+: '
+  Test that supported distributions have not reached LTS EOL.
+
+  - Debian 9 (Stretch): 2022-06-30
+  - Debian 10 (Buster): 2024-06
+  - Ubuntu 18.04 (Bionic): 2023-04
+  - Ubuntu 20.04 (Focal): 2025-04
+'
+function testSupportedDistributionsLtsEol {
+  currentTs="$(date +%s)"
+
+  # Debian 9
+  eolTs=1656547200
+  assertFalse "Debian 9 has reach his LTS EOL (2022-06-30)" \
+   "[ $currentTs -gt $eolTs ]"
+
+   # Debian 10
+   eolTs=1717200000
+   assertFalse "Debian 10 has reach his LTS EOL (2024-06)" \
+    "[ $currentTs -gt $eolTs ]"
+
+  # Ubuntu 18.04
+  eolTs=1680307200
+  assertFalse "Debian 18.04 has reach his LTS EOL (2023-04)" \
+   "[ $currentTs -gt $eolTs ]"
+
+   # Ubuntu 20.04
+   eolTs=1743465600
+   assertFalse "Debian 20.04 has reach his LTS EOL (2025-04)" \
+    "[ $currentTs -gt $eolTs ]"
+}
+
 . ./scripts/shunit2
