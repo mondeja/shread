@@ -25,10 +25,13 @@ function pullContainer() {
   docker cp . "$_CONTAINER_NAME":/shread
 
   docker exec "$_CONTAINER_NAME" \
+    bash -c 'printf "deb http://deb.debian.org/debian stretch main contrib non-free\ndeb-src http://deb.debian.org/debian stretch main contrib non-free\n\ndeb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\n\ndeb http://deb.debian.org/debian stretch-updates main contrib non-free\ndeb-src http://deb.debian.org/debian stretch-updates main contrib non-free\n" > /etc/apt/sources.list'
+  docker exec "$_CONTAINER_NAME" \
     bash -c "apt-get update && apt-get install -y \
     make \
     sudo \
     apt-utils \
+    dialog \
     aptitude \
     curl \
     wget \
@@ -52,5 +55,5 @@ if [ "$( docker container inspect -f '{{.State.Running}}' "$_CONTAINER_NAME" )" 
 fi;
 
 if [ "$_LOGIN" -eq 1 ]; then
-  docker exec -it "$_CONTAINER_NAME" /bin/bash
+  docker exec -it "$_CONTAINER_NAME" bash -c "cd /shread && /bin/bash"
 fi;

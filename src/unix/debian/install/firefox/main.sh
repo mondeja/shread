@@ -4,9 +4,11 @@
 _MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
 _MSG_CHECKING_MOZILLA_ECOSYSTEM="Checking Mozilla ecosystem..."
 _MSG_FOUND_MOZILLA_FIREFOX_INSTALLED="Mozilla Firefox found installed in the system"
-_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES="Installing Mozilla Firefox packages..."
+_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES="Installing Mozilla Firefox packages"
 _MSG_FOUND_CHECKODRIVER_INSTALLED="Geckodriver found installed in the system"
 _MSG_INSTALLING_GECKODRIVER="Installing geckodriver..."
+
+_INSTALL_GECKODRIVER_PACKAGE=1
 
 if [[ $(/usr/bin/id -u) -ne 0 ]]; then
   printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
@@ -19,6 +21,11 @@ for arg in "$@"; do
     --indent)
     shift
     INDENT_STRING=$1
+    shift
+    ;;
+
+    --no-geckodriver)
+    _INSTALL_GECKODRIVER_PACKAGE=0
     shift
     ;;
   esac
@@ -53,7 +60,7 @@ if command -v firefox &> /dev/null; then
   printf "  %s (v%s)" "$_MSG_FOUND_MOZILLA_FIREFOX_INSTALLED" "$_MOZILLA_FIREFOX_VERSION"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 else
-  printf "  %s\n" "$_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES"
+  printf "  %s" "$_MSG_INSTALLING_MOZILLA_FIREFOX_PACKAGES"
   if [ "$UNIX_DISTRO" = "debian" ]; then
     _FIREFOX_LATEST_VERSION=$(
       sudo apt-cache policy firefox-esr | grep -Po '(\d+\.)+\d+' | head -n 1)
@@ -61,7 +68,7 @@ else
     _FIREFOX_LATEST_VERSION=$(
       sudo apt-cache policy firefox | grep -Po '(\d+\.)+\d+' | head -n 1)
   fi;
-  printf " (v%s)..." "$_FIREFOX_LATEST_VERSION"
+  printf " (v%s)...\n" "$_FIREFOX_LATEST_VERSION"
   if [ "$UNIX_DISTRO" = "debian" ]; then
     _MOZILLA_FIREFOX_PACKAGES=(
       "firefox-esr"
@@ -83,13 +90,15 @@ else
   done
 fi;
 
-printIndent
-_GECKODRIVER_PATH="$(command -v geckodriver)"
-if [ "$_GECKODRIVER_PATH" != "" ]; then
-  printf "  %s" "$_MSG_FOUND_CHECKODRIVER_INSTALLED"
-  printf " (v%s)" "$(geckodriver --version | head -n1 | cut -d' ' -f2)"
-else
-  printf "  %s" "$_MSG_INSTALLING_GECKODRIVER"
-  sudo pacman -S -- -y firefox-geckodriver > /dev/null
+if [ $_INSTALL_GECKODRIVER_PACKAGE -eq 1 ] && [ "$UNIX_DISTRO" != "debian" ]; then
+  printIndent
+  _GECKODRIVER_PATH="$(command -v geckodriver)"
+  if [ "$_GECKODRIVER_PATH" != "" ]; then
+    printf "  %s" "$_MSG_FOUND_CHECKODRIVER_INSTALLED"
+    printf " (v%s)" "$(geckodriver --version | head -n1 | cut -d' ' -f2)"
+  else
+    printf "  %s" "$_MSG_INSTALLING_GECKODRIVER"
+    sudo pacman -S -- -y firefox-geckodriver > /dev/null
+  fi;
+  printf " \e[92m\xE2\x9C\x94\e[39m\n"
 fi;
-printf " \e[92m\xE2\x9C\x94\e[39m\n"
