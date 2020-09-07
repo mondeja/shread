@@ -12,8 +12,8 @@ bash scripts/create-directory-tree.sh
 # Localize, minify and encode as base64 Bash scripts
 bash scripts/localize-minify-encode-scripts.sh
 
-# Move no Bash scripts to public directory
-bash scripts/move-no-sh-scripts.sh
+# Move other files than Bash scripts to public directory
+bash scripts/move-no-scripts.sh
 
 # Create index file
 bash scripts/create-list-txt-file.sh
