@@ -1,0 +1,2 @@
+mako==1.1.3
+virtualenv>=20.0.34

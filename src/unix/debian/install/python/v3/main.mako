@@ -1,50 +1,28 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_SETTING_UP_PY3_ECOSYSTEM="Setting up Python3 ecosystem..."
 _MSG_INSTALLING_BASE_PACKAGE="Installing base package"
 _MSG_FOUND_PY3_INSTALLED="Found Python3 installed in the system"
 _MSG_CHECKING_ADDITIONAL_PY3_PACKAGES="Checking additional Python packages..."
 _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
+</%block>
 
-if ! (return 0 2>/dev/null); then
-  # Script not sourced
+<%block name="usage">[-a] -f <file>
+</%block>
 
-  if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-    exit 1
-  fi;
-fi;
-
-# We must update global libraries recommended for Python?
-#   - pip
-#   - virtualenv
-#   - setuptools
-#   - testresources
+<%block name="vars">
 _UPGRADE_PY3_GLOBAL_LIBS=1
+</%block>
 
-INDENT_STRING=""
-
-for arg in "$@"; do
-  case $arg in
+<%block name="argparse">
     --no-upgrade-py3-global-libs)
     _UPGRADE_PY3_GLOBAL_LIBS=0
     shift
     ;;
+</%block>
 
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
-  esac
-done
-
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
-
+<%block name="script">
 if [ "$(command -v pacman)" = "" ]; then
   if [ -z "$_SCRIPT_FILENAME" ]; then
     filepath="src/unix/_/download/pacapt/main.sh"
@@ -58,7 +36,7 @@ fi;
 INSTALLATION_DEPENDENCIES=(
   "debconf-utils"
 )
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+for DEP in <%text>"${INSTALLATION_DEPENDENCIES[@]}"</%text>; do
   if [[ "$(pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
@@ -138,7 +116,7 @@ function installPythonAdditionalAptPackages {
   printIndent
   printf "  %s\n" "$_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES"
 
-  for DEP in "${INSTALLATION_PACKAGES[@]}"; do
+  for DEP in <%text>"${INSTALLATION_PACKAGES[@]}"</%text>; do
     printIndent
     printf "    %s" "$DEP"
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
@@ -181,7 +159,7 @@ function upgradeGlobalLibraries {
       "testresources"
     )
 
-    for LIB in "${GLOBAL_RECOMMENDED_LIBRARIES[@]}"; do
+    for LIB in <%text>"${GLOBAL_RECOMMENDED_LIBRARIES[@]}"</%text>; do
       printIndent
       printf "    %s" "$LIB"
 
@@ -233,19 +211,4 @@ function main {
   configurePIP
   upgradeGlobalLibraries
 }
-
-function exportVariables {
-  discoverInstallationAptPackages
-  export INSTALLATION_PACKAGES
-}
-
-# If script being sourced, export variables, else run `main` function
-if (return 0 2>/dev/null); then
-  exportVariables
-else
-  main
-fi;
-
-if [ "$(command -v debconf-get-selections)" != "" ]; then
-  sudo sh -c "echo 'debconf debconf/frontend select $_ORIGINAL_DEBCONF_FRONTEND' | debconf-set-selections"
-fi;
+</%block>

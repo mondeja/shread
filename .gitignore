@@ -5,3 +5,6 @@
 *.mo
 __dev__.sh
 /scripts/shunit2
+/__main__.py
+/venv/
+main_.sh

@@ -415,9 +415,6 @@ msgstr "Ejecutando script de instalación..."
 msgid "An error happen installing Atom"
 msgstr "Ocurrió un error instalando Atom"
 
-msgid "Running installation scrip..."
-msgstr "Ejecutando script de instalación"
-
 msgid "Setting up Redis ecosystem..."
 msgstr "Configurando ecosistema Redis..."
 
@@ -510,33 +507,6 @@ msgstr "Ocurrión un error desinstalando Atom"
 msgid "Atom is not installed"
 msgstr "Atom no está instalado"
 
-msgid "Atom is not installed for local user"
-msgstr "Atom no está instalado para el usuario local"
-
-msgid "The directory '$HOME/.atom' doesn't exists."
-msgstr "El directorio '$HOME/.atom' no existe."
-
-msgid "NodeJS needs to be installed before customize Atom."
-msgstr "NodeJS necesita estar instalado antes de personalizar Atom."
-
-msgid "Customizing Atom text editor"
-msgstr "Personalizando el editor de textos Atom"
-
-msgid "Checking Atom packages installed..."
-msgstr "Comprobando paquetes de Atom instalados..."
-
-msgid "Setting up editor..."
-msgstr "Configurando el editor..."
-
-msgid "Disabling incompatible packages..."
-msgstr "Deshabilitando paquetes incompatibles..."
-
-msgid "An error happen installing the Atom package"
-msgstr "Ocurrió un error instalando el paquete de Atom"
-
-msgid "An error happen disabling the Atom package"
-msgstr "Ocurrió un error deshabilitando el paquete de Atom"
-
 msgid ""
 "An error happen retrieving shunit2 releases information from Github API."
 msgstr ""
@@ -587,9 +557,6 @@ msgstr "Indica otro destino para pacapt con el parámetro"
 
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
-
-msgid "An error happen updating system packages."
-msgstr "Ocurrió un error actualizando los paquetes del sistema."
 
 msgid "Leaving ports free of processes..."
 msgstr "Dejando puertos libres de procesos."
