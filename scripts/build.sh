@@ -6,11 +6,14 @@ if [ ! -d "public" ]; then
   mkdir public
 fi;
 
+# Install
+bash scripts/install.sh
+
 # Create directory tree
 bash scripts/create-directory-tree.sh
 
 # Localize, minify and encode as base64 Bash scripts
-bash scripts/localize-minify-encode-scripts.sh
+bash scripts/render-localize-minify-encode-scripts.sh
 
 # Move other files than Bash scripts to public directory
 bash scripts/move-no-scripts.sh

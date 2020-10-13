@@ -7,11 +7,21 @@ source scripts/constants.sh
 # Add english to SUPPORTED_LANGUAGES
 SUPPORTED_LANGUAGES+=('en')
 
-find src -type f -name '*.sh' | while read -r script_filepath; do
-  # Ignore scripts with other names than `main.sh`
+find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r script_filepath; do
+  # Ignore scripts with other names than `main.sh` and templates
+  # with other name as 'main.mako'
   script_filename=$(basename "$script_filepath")
-  if [ "$script_filename" != "main.sh" ]; then
-    continue
+  script_filedir=$(dirname "$script_filepath")
+
+  # is mako template
+  if [ "$script_filename" = "main.mako" ]; then
+    # render the template
+    bash scripts/render-mako-template.sh \
+      -t "$script_filepath" \
+      -o "$(echo "$script_filepath" | cut -d'.' -f1)_.sh" \
+      -sn "$script_filedir"
+    script_filename="main_.sh"
+    script_filepath="$script_filedir/$script_filename"
   fi;
 
   printf "."

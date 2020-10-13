@@ -21,4 +21,4 @@ fi;
 source venv/bin/activate
 
 # Install mako
-"venv/bin/python3" -m pip install mako > /dev/null
+"venv/bin/python3" -m pip install -r requirements.txt > /dev/null
