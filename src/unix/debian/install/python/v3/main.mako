@@ -8,7 +8,39 @@ _MSG_CHECKING_ADDITIONAL_PY3_PACKAGES="Checking additional Python packages..."
 _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
 </%block>
 
-<%block name="usage">[-a] -f <file>
+<%block name="usage_opts">[--no-upgrade-py3-global-libs]</%block>
+<%block name="usage_desc">
+  Installs some Python2 and Python3 APT packages if are not installed:
+
+  - curl
+  - python3-dev
+  - python3-pip
+  - python3-setuptools
+  - python3-testresources
+  - libxml2-utils
+  - python-lxml
+  - python3-lxml
+  - python-numpy
+  - python3-numpy
+
+  + In Ubuntu >= 18 installs also:
+    - python3-distutils
+  + In Ubuntu < 20 installs also:
+    - python-pip
+    - python-dev
+  + In Ubuntu >= 20 installs also:
+    - python-dev-is-python2
+
+  Also, installs or upgrade using PIP some Python3 packages globally (this step
+  can be ignored using '--no-upgrade-py3-global-libs' option):
+
+  - pip
+  - virtualenv
+  - setuptools
+  - testresources
+</%block>
+<%block name="usage_opts_desc">
+  --no-upgrade-py3-global-libs      Ignores the installation or upgrade of Python3 packages globally using PIP.
 </%block>
 
 <%block name="vars">

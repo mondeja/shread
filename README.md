@@ -14,12 +14,12 @@ Install `curl` before run any of the scripts to make sure that you will not have
 ### With arguments
 ```bash
 curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
-    | sudo bash -s -- --indent '  '
+    | sudo bash -s -- --help
 ```
 
 ### Without arguments
 ```bash
-curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
+curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/en.sh \
     | sudo bash -
 ```
 
@@ -88,9 +88,13 @@ _____________________________________________________________
 - [Files urls](https://mondeja.github.io/shread/list.txt)
 
 ### Common parameters
-All scripts take an optional parameter:
+All scripts take some options:
 
-<a name="indent" href="#indent">#</a> <b>--indent</b> *string*
+<a name="help" href="#help">#</a> <b>-h, --help</b>
+
+Shows an help message for the script and exits. 
+
+<a name="indent" href="#indent">#</a> <b>-i, --indent</b> *string*
 
 Each line of the script output will be preceded with the string defined in this parameter. As default an empty string.
 This parameter is useful to render scripts output inside an indented context, for example:
@@ -115,7 +119,3 @@ Downloading binaries...
     Downloading shunit2 (v2.1.8) ✔
     Unzipping... ✔
 ```
-
-### Installation / upgrade
-- [Dropbox](https://github.com/mondeja/shread/blob/master/src/unix/debian/install/dropbox/README.md)
-- [Python3](https://github.com/mondeja/shread/blob/master/src/unix/debian/install/python/v3/README.md)
