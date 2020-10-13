@@ -17,7 +17,7 @@ Installs Python3 (and some Python2) related APT packages if are not installed:
 > - In Ubuntu<20 `python-pip` and `python-dev` are installed also.
 > - In Ubuntu>=20 `python-dev-is-python2` is installed instead.
 
-Also, installs or upgrade globally using PIP some Python3 packages. This step can be ignored using the parameter [--no-upgrade-py3-global-libs](#no-upgrade-py3-global-libs):
+Also, installs or upgrade globally using PIP some Python3 packages. This step can be ignored using the parámeter [--no-upgrade-py3-global-libs](#no-upgrade-py3-global-libs):
 
 - `pip`
 - `virtualenv`
