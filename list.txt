@@ -12,8 +12,6 @@ https://mondeja.github.io/shread/unix/_/download/pacapt/es.sh
 https://mondeja.github.io/shread/unix/_/download/pacapt/en.sh
 https://mondeja.github.io/shread/unix/_/download/shunit/es.sh
 https://mondeja.github.io/shread/unix/_/download/shunit/en.sh
-https://mondeja.github.io/shread/unix/_/customize/text-editor/atom/es.sh
-https://mondeja.github.io/shread/unix/_/customize/text-editor/atom/en.sh
 https://mondeja.github.io/shread/unix/debian/install/firefox/es.sh
 https://mondeja.github.io/shread/unix/debian/install/firefox/en.sh
 https://mondeja.github.io/shread/unix/debian/install/redis/source/es.sh
