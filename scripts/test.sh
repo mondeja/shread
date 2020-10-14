@@ -12,8 +12,9 @@ function main {
   fi;
 
   if [ ! -f scripts/shunit2 ]; then
-    bash src/unix/_/download/shunit2/main.sh \
-      --dest-path "scripts/shunit2" > /dev/null || exit $?
+    source scripts/constants.sh
+    curl -sL "$PUBLIC_URL/unix/_/download/shunit2/en.sh" \
+      | sudo bash -s -- --dest-path "scripts/shunit2" > /dev/null || exit $?
   fi;
   SHUNIT_VERSION=$(< scripts/shunit2 grep "SHUNIT_VERSION=" | cut -d"'" -f2)
   printf "Using shunit2 v%s\n\n" "$SHUNIT_VERSION"

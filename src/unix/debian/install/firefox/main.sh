@@ -46,7 +46,7 @@ if [ "$(command -v pacman)" = "" ]; then
 fi;
 
 if [ -z "$UNIX_DISTRO" ]; then
-  # shellcheck source=src/unix/_/util/get-distro/main.sh
+  # shellcheck disable=SC1091,SC1090
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 fi;
 

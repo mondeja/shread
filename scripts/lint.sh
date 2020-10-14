@@ -13,8 +13,8 @@ fi;
 
 # Download shunit2 binary to follow sources properly
 if [ ! -f scripts/shunit2 ]; then
-  bash src/unix/_/download/shunit2/main.sh \
-    --dest-path "scripts/shunit2" > /dev/null || exit $?
+  curl -sL "$PUBLIC_URL/unix/_/download/shunit2/en.sh" \
+    | sudo bash -s -- --dest-path "scripts/shunit2" > /dev/null || exit $?
 fi;
 
 # Download pacman binary to install packages consistently
