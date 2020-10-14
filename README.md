@@ -103,7 +103,7 @@ This parameter is useful to render scripts output inside an indented context, fo
 printf "Downloading binaries...\n"
 curl -sL https://mondeja.github.io/shread/unix/_/download/pacapt/en.sh \
   | sudo bash -s -- --indent '  '
-curl -sL https://mondeja.github.io/shread/unix/_/download/shunit/en.sh \
+curl -sL https://mondeja.github.io/shread/unix/_/download/shunit2/en.sh \
   | sudo bash -s -- --indent '  '
 ```
 

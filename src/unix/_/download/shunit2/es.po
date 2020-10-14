@@ -1,4 +1,4 @@
-# es translation of shread 'src/unix/_/download/shunit/es.sh' file.
+# es translation of shread 'src/unix/_/download/shunit2/es.sh' file.
 # Copyright © 2020 shread.
 # This file is distributed under the same license as shread.
 # Álvaro Mondéjar Rubio <mondejar1994@gmail.com>, 2020.

@@ -1,6 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
+<%block name="msgs">
 _MSG_URL="URL"
 _MSG_ERROR="Error"
 _MSG_ERROR_CODE="Error code"
@@ -13,36 +13,37 @@ _MSG_ERROR_DOWNLOADING_SHUNIT="An error happen downloading shunit2"
 _MSG_UNZIPPING_SHUNIT="Unzipping..."
 _MSG_DEST_EXISTS="Destination file exists"
 _MSG_INDICATE_ANOTHER_DEST_WITH_PARAM="Indicate another destination for shunit2 with parameter"
+</%block>
 
-INDENT_STRING=""
+<%block name="vars">
 _DEST_PATH="$PWD/shunit2"
+</%block>
 
+<%block name="prepare">
 GITHUB_API_CURL_AUTH=""
 if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
   GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
 fi;
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
+<%block name="usage_opts">[--dest-path]</%block>
+<%block name="usage_desc">
+  Downloads shunit2.
+</%block>
+<%block name="usage_opts_desc">
+  --dest-path                       Destination path of the downloaded binary. By default '$_DEST_PATH'.
+</%block>
 
+<%block name="argparse">
     --dest-path)
     shift
     _DEST_PATH=$1
     shift
     ;;
-  esac
-done
+</%block>
 
+<%block name="script">
 _DEST_DIRPATH="$(dirname "$_DEST_PATH")"
-
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
 
 if [ "$(command -v pacman)" = "" ]; then
   if [ -z "$_SCRIPT_FILENAME" ]; then
@@ -58,7 +59,7 @@ INSTALLATION_DEPENDENCIES=(
   "jq"
 )
 
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}"</%text>; do
   if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
     sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
   fi;
@@ -139,6 +140,4 @@ function main() {
   rm -f "$_DEST_DIRPATH/shunit2.tar.gz"
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
-
-
-! (return 0 2>/dev/null) && main
+</%block>

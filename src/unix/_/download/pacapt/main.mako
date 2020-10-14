@@ -19,7 +19,7 @@ _DEST_PATH="/usr/local/bin/pacapt"
   Downloads pacapt.
 </%block>
 <%block name="usage_opts_desc">
-  --dest-path                       Destination path of the downloaded binary. By default $_DEST_PATH
+  --dest-path                       Destination path of the downloaded binary. By default '$_DEST_PATH'.
 </%block>
 
 <%block name="argparse">

@@ -14,7 +14,7 @@ ${script_filepath} [-h] [-i] <%block name="usage_opts"/>
   <%block name="usage_desc"/>
 Options:
   -h, --help                        Show this help message and exit.
-  -i, --indent                      Each line of the script output will be preceded with the string defined in this parameter.<%block name="usage_opts_desc"/>
+  -i, --indent STRING               Each line of the script output will be preceded with the string defined in this parameter.<%block name="usage_opts_desc"/>
 HELP_USAGE
     exit 1
 }
