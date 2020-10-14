@@ -1,6 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
+<%block name="msgs">
 _MSG_CHECKING_PACAPT="Checking pacapt"
 _MSG_RETRIEVING_LASTEST_VERSION="Retrieving latest version"
 _MSG_INSTALLED="Installed"
@@ -8,35 +8,34 @@ _MSG_FOUND_INSTALLED="Found installed"
 _MSG_UPDATED="Updated"
 _MSG_DEST_EXISTS="Destination file exists"
 _MSG_INDICATE_ANOTHER_DEST_WITH_PARAM="Indicate another destination for pacapt with parameter"
+</%block>
 
-INDENT_STRING=""
+<%block name="vars">
 _DEST_PATH="/usr/local/bin/pacapt"
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
+<%block name="usage_opts">[--dest-path]</%block>
+<%block name="usage_desc">
+  Downloads pacapt.
+</%block>
+<%block name="usage_opts_desc">
+  --dest-path                       Destination path of the downloaded binary. By default $_DEST_PATH
+</%block>
 
+<%block name="argparse">
     --dest-path)
     shift
     _DEST_PATH=$1
     shift
     ;;
-  esac
-done
+</%block>
 
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
-
+<%block name="script">
 if [ ! -d "/usr/local/bin" ]; then
   if [ ! -d "/usr/bin" ]; then
     if [ ! -d "/bin" ]; then
       IFS=':' read -ra _PATH <<< "$PATH"
-      for i in "${_PATH[@]}"; do
+      for i in "<%text>${_PATH[@]}"</%text>; do
           _DEST_PATH="$i/pacapt"
           break
       done
@@ -119,5 +118,4 @@ function main {
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 }
-
-main
+</%block>
