@@ -46,4 +46,3 @@ https://mondeja.github.io/shread/unix/debian/uninstall/atom/es.sh
 https://mondeja.github.io/shread/unix/debian/uninstall/atom/en.sh
 https://mondeja.github.io/shread/unix/debian/uninstall/nodejs/es.sh
 https://mondeja.github.io/shread/unix/debian/uninstall/nodejs/en.sh
-https://mondeja.github.io/shread/_/customize/text-editor/atom/configure.js
