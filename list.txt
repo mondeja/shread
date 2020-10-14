@@ -10,8 +10,8 @@ https://mondeja.github.io/shread/unix/_/util/get-distro/es.sh
 https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh
 https://mondeja.github.io/shread/unix/_/download/pacapt/es.sh
 https://mondeja.github.io/shread/unix/_/download/pacapt/en.sh
-https://mondeja.github.io/shread/unix/_/download/shunit/es.sh
-https://mondeja.github.io/shread/unix/_/download/shunit/en.sh
+https://mondeja.github.io/shread/unix/_/download/shunit2/es.sh
+https://mondeja.github.io/shread/unix/_/download/shunit2/en.sh
 https://mondeja.github.io/shread/unix/debian/install/firefox/es.sh
 https://mondeja.github.io/shread/unix/debian/install/firefox/en.sh
 https://mondeja.github.io/shread/unix/debian/install/redis/source/es.sh
