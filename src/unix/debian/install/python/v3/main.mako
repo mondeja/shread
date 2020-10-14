@@ -65,23 +65,6 @@ if [ "$(command -v pacman)" = "" ]; then
   fi;
 fi;
 
-INSTALLATION_DEPENDENCIES=(
-  "debconf-utils"
-)
-for DEP in <%text>"${INSTALLATION_DEPENDENCIES[@]}"</%text>; do
-  if [[ "$(pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-  fi;
-done;
-
-if [ "$(command -v debconf-get-selections)" != "" ]; then
-  _ORIGINAL_DEBCONF_FRONTEND=$(
-    sudo debconf-get-selections | \
-    grep debconf/frontend | \
-    awk '{print $4}')
-  sudo sh -c "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections"
-fi;
-
 if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
   # shellcheck source=src/unix/_/util/get-distro/main.sh
   source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
