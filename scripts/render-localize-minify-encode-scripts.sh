@@ -4,9 +4,6 @@
 # shellcheck source=scripts/constants.sh
 source scripts/constants.sh
 
-# Add english to SUPPORTED_LANGUAGES
-SUPPORTED_LANGUAGES+=('en')
-
 find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r script_filepath; do
   # Ignore scripts with other names than `main.sh` and templates
   # with other name as 'main.mako'

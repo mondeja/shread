@@ -4,8 +4,24 @@
 _LOGIN=0
 _CONTAINER_NAME="debian-10-shread"
 
+function usage {
+  printf "Usage: %s [-h] [-l] [-n CONTAINER_NAME]\n\n" "$0"
+  printf "  Initializes or reuses a debian:buster docker image building shread inside it.\n\n"
+  printf "Options:\n"
+  printf "  -h, --help                    Show this help message and exit.\n"
+  printf "  -l, --login                   Login into the container after setup.\n"
+  printf "  -n, --name CONTAINER_NAME     Name of the container to be initialized or reused."
+  printf " By default '%s'.\n" "$_CONTAINER_NAME"
+  exit 1
+}
+
 for arg in "$@"; do
   case $arg in
+    -h|--help)
+    shift
+    usage
+    ;;
+
     --login)
     _LOGIN=1
     shift

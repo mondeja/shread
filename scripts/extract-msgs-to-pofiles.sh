@@ -53,6 +53,10 @@ find src -iname "*.sh" | while read -r filepath; do
 
   # Iterate over language codes
   for lang in "${SUPPORTED_LANGUAGES[@]}"; do
+    if [ "$lang" = "en" ]; then
+      continue
+    fi;
+
     # If compendium for this language doesn't exists, create it
     if [ ! -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
       createPoLanguageFile "$COMPENDIUM_DIRPATH" "$lang" "" "po" "1"
@@ -154,6 +158,10 @@ done;
 
 # Iterate over language codes
 for lang in "${SUPPORTED_LANGUAGES[@]}"; do
+  if [ "$lang" = "en" ]; then
+    continue
+  fi;
+
   if [ -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
     # Convert `msgstr " "` messages to `msgstr ""` in compendium
     sed -i 's/^msgstr " "/msgstr ""/' "$COMPENDIUM_DIRPATH/$lang.po"

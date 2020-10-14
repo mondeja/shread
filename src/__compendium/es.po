@@ -240,21 +240,6 @@ msgstr "Ha sido encontrado Pandoc instalado en el sistema"
 msgid "Updating Pandoc"
 msgstr "Actualizando Pandoc"
 
-msgid "Setting up Python3 ecosystem..."
-msgstr "Configurando ecosistema Python3..."
-
-msgid "Installing base package"
-msgstr "Instalando paquete base"
-
-msgid "Found Python3 installed in the system"
-msgstr "Encontrado Python3 instalado en el sistema"
-
-msgid "Checking additional Python packages..."
-msgstr "Comprobando paquetes de Python adicionales..."
-
-msgid "Updating global Python3 libraries..."
-msgstr "Actualizando bibliotecas de Python3 globales..."
-
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
 
@@ -569,6 +554,21 @@ msgstr "Archivo de configuración de Grub no encontrado"
 
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
+
+msgid "Setting up Python3 ecosystem..."
+msgstr "Configurando ecosistema Python3..."
+
+msgid "Installing base package"
+msgstr "Instalando paquete base"
+
+msgid "Found Python3 installed in the system"
+msgstr "Encontrado Python3 instalado en el sistema"
+
+msgid "Checking additional Python packages..."
+msgstr "Comprobando paquetes de Python adicionales..."
+
+msgid "Updating global Python3 libraries..."
+msgstr "Actualizando bibliotecas de Python3 globales..."
 
 msgid "Installing Mozilla Firefox packages..."
 msgstr "Instalando paquetes de Mozilla Firefox..."
