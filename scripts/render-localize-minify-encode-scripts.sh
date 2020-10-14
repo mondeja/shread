@@ -77,9 +77,40 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r scri
       cat "$script_filepath" >> "$temp_localized_script"
     fi;
 
-    # Delete comments and empty lines
-    sed -i '/^[[:blank:]]*#/d;s/#.*//' "$temp_localized_script"
-    sed -i '/^$/d' "$temp_localized_script"
+    # Delete comments and empty lines skipping HELP_USAGE sections
+    new_temp_localized_script_output=""
+    _inside_help_usage=0
+    _after_help_usage=0
+    while IFS= read -r line; do
+      if [ $_after_help_usage -eq 0 ]; then
+        if [[ $line == *"<<HELP_USAGE"* ]]; then
+          _inside_help_usage=1
+        elif [[ $line == HELP_USAGE* ]]; then
+          _inside_help_usage=0
+          _after_help_usage=1
+        fi;
+      fi;
+
+      if [ $_inside_help_usage -eq 0 ]; then
+        # ignore empty lines (or only with spaces)
+        if [ -n "${line// }" ]; then
+          if [ -z "$new_temp_localized_script_output" ]; then
+            new_temp_localized_script_output="$line"
+          # remove single line comments
+          elif [ "$(printf "%s" "${line// }" | cut -c 1)" = '#' ]; then
+            continue
+          else
+            new_temp_localized_script_output="$new_temp_localized_script_output
+$line"
+          fi;
+        fi;
+      else
+        # skip HELP_USAGE sections
+        new_temp_localized_script_output="$new_temp_localized_script_output
+$line"
+      fi;
+    done < "$temp_localized_script"
+    printf "%s" "$new_temp_localized_script_output" > "$temp_localized_script"
 
     # Add shebangs
     sed -i '1s/^/#!\/bin\/bash\n# -*- ENCODING: UTF-8 -*-\n/' \
