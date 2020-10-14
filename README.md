@@ -88,11 +88,14 @@ _____________________________________________________________
 - [Files urls](https://mondeja.github.io/shread/list.txt)
 
 ### Common parameters
-All scripts take some options:
+All scripts accept next option:
 
 <a name="help" href="#help">#</a> <b>-h, --help</b>
 
-Shows an help message for the script and exits. 
+Shows an help message for the script and exits.
+
+### Regular parameters
+Almost all scripts accept next option:
 
 <a name="indent" href="#indent">#</a> <b>-i, --indent</b> *string*
 
