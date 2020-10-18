@@ -1,53 +1,44 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_SETTING_GRUB_TIMEOUT="Setting boot timeout for Grub"
 _MSG_GRUB_FILE_NOT_FOUND="Grub configuration file not found"
+</%block>
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
-
-INDENT_STRING=""
+<%block name="vars">
 _NEW_TIMEOUT="10"
 _CONFIG_FILEPATH="/etc/default/grub"
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
+<%block name="usage_opts">[-t TIMEOUT] [-f CONFIG_FILE]</%block>
+<%block name="usage_desc">
+  Defines a new timeout for GRUB boot prompt.
+</%block>
+<%block name="usage_opts_desc">
+  -t, --timeout TIMEOUT             New timeout for the GRUB boot prompt, by default $_NEW_TIMEOUT.
+  -f, --config-filepath FILEPATH    Path of the GRUB configuration file, by default '$_CONFIG_FILEPATH'.</%block>
+
+<%block name="argparse">
+    -t|--timeout)
     shift
-    INDENT_STRING=$1
+    _NEW_TIMEOUT="$(printf "%s" "$1" | sed -e 's/[[:space:]]*//g')"
     shift
     ;;
-    --timeout)
-    shift
-    _NEW_TIMEOUT=$1
-    shift
-    ;;
 
-    --config-filepath)
+    -f|--config-filepath)
     shift
     _CONFIG_FILEPATH=$1
     shift
     ;;
-  esac
-done
+</%block>
 
-# Remove spaces
-_NEW_TIMEOUT="$(printf "%s" "$_NEW_TIMEOUT" | sed -e 's/[[:space:]]*//g')"
-
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
-
+<%block name="script">
 function checkGrubFileExists() {
   if [ ! -f "$_CONFIG_FILEPATH" ]; then
     printIndent
     printf "%s (%s)" "$_MSG_GRUB_FILE_NOT_FOUND" "$_CONFIG_FILEPATH" >&2
     printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
-    exit 0
+    exit 1
   fi;
 }
 
@@ -69,7 +60,6 @@ function setNewGrubTimeout() {
 
 function main() {
   checkGrubFileExists
-
   setNewGrubTimeout
 }
-main
+</%block>

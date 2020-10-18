@@ -1,4 +1,3 @@
-<%page args="indent_option=False, **kwargs"/>
 <%inherit file="/bash-script.base.mako"/>
 
 <%block name="usage_desc">
