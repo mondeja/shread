@@ -9,7 +9,7 @@ charset = utf-8
 trim_trailing_whitespace = true
 
 # JavaScript, JSX, CSS, SCSS...
-[*.{js,jsx,css,scss,json,sh,yml,yaml}]
+[*.{js,jsx,css,scss,json,sh,yml,yaml,mako}]
 indent_size = 2
 
 # Markdown settings
