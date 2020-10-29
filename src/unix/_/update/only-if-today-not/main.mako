@@ -39,7 +39,7 @@ function updatePackages() {
   printf "%s" "$_MSG_UPDATING_SYSTEM_PACKAGES"
   sudo pacman update > /dev/null || exit $?
   if [ $_UPGRADE -eq 1 ]; then
-    sudo pacman -Syu -y >&2 > /dev/null || exit $?
+    sudo pacman -Suy -y >&2 > /dev/null || sudo pacman -Suy >&2 > /dev/null || exit $?
   fi;
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
