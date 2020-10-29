@@ -94,9 +94,6 @@ All scripts accept next option:
 
 Shows an help message for the script and exits.
 
-### Regular parameters
-Almost all scripts accept next option:
-
 <a name="indent" href="#indent">#</a> <b>-i, --indent</b> *string*
 
 Each line of the script output will be preceded with the string defined in this parameter. As default an empty string.
