@@ -92,12 +92,12 @@ function testSupportedDistributionsLtsEol {
 
   # Ubuntu 18.04
   eolTs=1680307200
-  assertFalse "Debian 18.04 has reach his LTS EOL (2023-04)" \
+  assertFalse "Ubuntu 18.04 has reach his LTS EOL (2023-04)" \
    "[ $currentTs -gt $eolTs ]"
 
    # Ubuntu 20.04
    eolTs=1743465600
-   assertFalse "Debian 20.04 has reach his LTS EOL (2025-04)" \
+   assertFalse "Ubuntu 20.04 has reach his LTS EOL (2025-04)" \
     "[ $currentTs -gt $eolTs ]"
 }
 
