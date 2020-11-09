@@ -17,7 +17,7 @@ _VERSION=""
 
 <%block name="usage_opts">[-v VERSION]</%block>
 <%block name="usage_desc">
-  Installs a NodeJS version using 'github.com/nodesource/distributions' as source.
+  Installs a NodeJS version using 'github.com/nodesource/distributions' repositories as source.
 </%block>
 <%block name="usage_opts_desc">
   -v VERSION, --version VERSION     Major version of NodeJS to install or update to. As default the latest version available.</%block>

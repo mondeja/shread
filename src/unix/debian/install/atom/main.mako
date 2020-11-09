@@ -1,7 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_ALREADY_INSTALLED="is already installed"
 _MSG_CHECKING_ATOM="Checking Atom..."
 _MSG_ERROR_OBTAINING_ATOM_PUBLIC_KEY="An error happen rerieving Atom public key:"
@@ -10,24 +9,15 @@ _MSG_UPDATING_PACKAGES="Updating packages..."
 _MSG_ATOM_FOUND="Atom found"
 _MSG_RUNNING_INSTALLATION_SCRIPT="Running installation script..."
 _MSG_ERROR_INSTALLING_ATOM="An error happen installing Atom"
+</%block>
 
-INDENT_STRING=""
+<%block name="usage_desc">
+  Installs Atom using https://packagecloud.io/AtomEditor repository as source.
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
-  esac
-done
+<%block name="script">
 
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
-
-function installScriptDependencies() {
+function installPacmanIfNotInstalled() {
   if [ "$(command -v pacman)" = "" ]; then
     if [ -z "$_SCRIPT_FILENAME" ]; then
       filepath="src/unix/_/download/pacapt/main.sh"
@@ -37,13 +27,17 @@ function installScriptDependencies() {
       curl -sL "$url" | sudo bash - > /dev/null
     fi;
   fi;
+}
+
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
   INSTALLATION_DEPENDENCIES=(
     "wget"
     "jq"
     "gnupg2"
   )
-  for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
     fi;
@@ -74,7 +68,7 @@ function addAtomRepositoryToSources() {
     esac
 
     echo \
-      "deb [arch=${ARCH}] https://packagecloud.io/AtomEditor/atom/any/ any main" \
+      "deb [arch=<%text>${ARCH}</%text>] https://packagecloud.io/AtomEditor/atom/any/ any main" \
       | sudo tee /etc/apt/sources.list.d/atom.list
   fi;
 }
@@ -157,14 +151,4 @@ function exportVariables() {
 
   export ATOM_VERSION
 }
-
-# If script being sourced, export variables, else run `main` function
-if (return 0 2>/dev/null); then
-  exportVariables
-else
-  if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-    printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-    exit 1
-  fi;
-  main
-fi;
+</%block>
