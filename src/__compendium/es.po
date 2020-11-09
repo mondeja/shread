@@ -456,24 +456,6 @@ msgstr "Actualizando Redis"
 msgid "Found Redis installed"
 msgstr "Encontrado Redis instalado"
 
-msgid "Uninstalling NodeJS ecosystem..."
-msgstr "Desinstalando ecosistema NodeJS..."
-
-msgid "Uninstalling NodeJS"
-msgstr "Desinstalando NodeJS"
-
-msgid "NodeJS is not installed"
-msgstr "NodeJS no está instalado"
-
-msgid "NPM is not installed"
-msgstr "NPM no está instalado"
-
-msgid "Uninstalling NPM..."
-msgstr "Desinstalando NPM..."
-
-msgid "Yarn is not installed"
-msgstr "Yarn no está instalado"
-
 msgid "Uninstalling Atom"
 msgstr "Desinstalando Atom"
 
