@@ -32,7 +32,7 @@ jobs:
            sleep 1
          done
       - sudo apt-get update
-      - sudo apt-get install python3
+      - sudo apt-get install python3 python3-pip
     install:
       - bash scripts/build.sh
     script:
@@ -53,7 +53,7 @@ jobs:
            sleep 1
          done
       - sudo apt-get update
-      - sudo apt-get install python3
+      - sudo apt-get install python3 python3-pip
     install:
       - bash scripts/build.sh
     script:
@@ -74,7 +74,7 @@ jobs:
       - docker cp . test:/shread
     install:
       - docker exec test bash -c 'printf "deb http://deb.debian.org/debian stretch main contrib non-free\ndeb-src http://deb.debian.org/debian stretch main contrib non-free\n\ndeb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\n\ndeb http://deb.debian.org/debian stretch-updates main contrib non-free\ndeb-src http://deb.debian.org/debian stretch-updates main contrib non-free\n" > /etc/apt/sources.list'
-      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3"
+      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3 python3-pip"
       - docker exec test bash -c "useradd -m docker && echo 'docker:docker' | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
@@ -99,7 +99,7 @@ jobs:
       - docker run -itd --name test debian:buster
       - docker cp . test:/shread
     install:
-      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3"
+      - docker exec test bash -c "apt-get update && apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3 python3-pip"
       - docker exec test bash -c "useradd -m docker && echo 'docker:docker' | chpasswd && adduser docker sudo"
       - docker exec -w /shread test bash -c "bash scripts/build.sh"
     script:
