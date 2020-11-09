@@ -41,13 +41,9 @@ msgstr ""
 EOF
 }
 
-find src -iname "*.sh" | while read -r filepath; do
+find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
-
-  if [ "$filename" != "main.sh" ]; then
-    continue
-  fi;
 
   printf "."
 

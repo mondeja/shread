@@ -5,20 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0.0\n"
+"Project-Id-Version: 0.0.1\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-06-10 14:43:36+0200\n"
-"PO-Revision-Date: 2020-05-01 19:54:07+0200\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2020-11-09 10:56:18+0100\n"
+"PO-Revision-Date: 2020-11-09 10:56:18+0100\n"
+"Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-msgid "This script needs to be executed as superuser."
-msgstr "Este script necesita ser ejecutado como superusuario."
 
 msgid "Setting up NodeJS ecosystem..."
 msgstr "Configurando ecosistema NodeJS..."
@@ -28,12 +25,6 @@ msgstr "Comprobando dependencias base..."
 
 msgid "Retrieving lastest absolute NodeJS version..."
 msgstr "Obteniendo última versión absoluta de NodeJS..."
-
-msgid "The version"
-msgstr "La versión"
-
-msgid "has not been found in official NodeJS repositories"
-msgstr "no ha sido encontrada en los repositorios oficiales de NodeJS"
 
 msgid "Installing NodeJS"
 msgstr "Instalando NodeJS"
@@ -49,21 +40,3 @@ msgstr "Encontrado NodeJS instalado en el sistema"
 
 msgid "Your distribution is not supported by this NodeJS installation script"
 msgstr "Tu distribución no está soportada por este script de instalación de NodeJS"
-
-msgid "Checking NPM..."
-msgstr "Comprobando NPM..."
-
-msgid "It's installed"
-msgstr "Está instalado"
-
-msgid "Updating"
-msgstr "Actualizando"
-
-msgid "An error happen updating NPM to version"
-msgstr "Ocurrió un error actualizando NPM a la versión"
-
-msgid "It's updated"
-msgstr "Está actualizado"
-
-msgid "Checking Yarn..."
-msgstr "Comprobando Yarn..."

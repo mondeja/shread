@@ -171,12 +171,6 @@ msgstr "Comprobando dependencias base..."
 msgid "Retrieving lastest absolute NodeJS version..."
 msgstr "Obteniendo última versión absoluta de NodeJS..."
 
-msgid "The version"
-msgstr "La versión"
-
-msgid "has not been found in official NodeJS repositories"
-msgstr "no ha sido encontrada en los repositorios oficiales de NodeJS"
-
 msgid "Installing NodeJS"
 msgstr "Instalando NodeJS"
 
@@ -190,24 +184,6 @@ msgid ""
 "Your distribution is not supported by this NodeJS installation script"
 msgstr ""
 "Tu distribución no está soportada por este script de instalación de NodeJS"
-
-msgid "Checking NPM..."
-msgstr "Comprobando NPM..."
-
-msgid "It's installed"
-msgstr "Está instalado"
-
-msgid "Updating"
-msgstr "Actualizando"
-
-msgid "An error happen updating NPM to version"
-msgstr "Ocurrió un error actualizando NPM a la versión"
-
-msgid "It's updated"
-msgstr "Está actualizado"
-
-msgid "Checking Yarn..."
-msgstr "Comprobando Yarn..."
 
 msgid "Checking Pandoc..."
 msgstr "Comprobando Pandoc..."
@@ -239,6 +215,21 @@ msgstr "Ha sido encontrado Pandoc instalado en el sistema"
 
 msgid "Updating Pandoc"
 msgstr "Actualizando Pandoc"
+
+msgid "Setting up Python3 ecosystem..."
+msgstr "Configurando ecosistema Python3..."
+
+msgid "Installing base package"
+msgstr "Instalando paquete base"
+
+msgid "Found Python3 installed in the system"
+msgstr "Encontrado Python3 instalado en el sistema"
+
+msgid "Checking additional Python packages..."
+msgstr "Comprobando paquetes de Python adicionales..."
+
+msgid "Updating global Python3 libraries..."
+msgstr "Actualizando bibliotecas de Python3 globales..."
 
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
@@ -492,6 +483,27 @@ msgstr "Ocurrión un error desinstalando Atom"
 msgid "Atom is not installed"
 msgstr "Atom no está instalado"
 
+msgid "Checking pacapt"
+msgstr "Comprobando pacapt"
+
+msgid "Retrieving latest version"
+msgstr "Obteniendo última versión"
+
+msgid "Installed"
+msgstr "Instalado"
+
+msgid "Found installed"
+msgstr "Encontrado instalado"
+
+msgid "Updated"
+msgstr "Actualizado"
+
+msgid "Destination file exists"
+msgstr "El archivo de destino ya existe"
+
+msgid "Indicate another destination for pacapt with parameter"
+msgstr "Indica otro destino para pacapt con el parámetro"
+
 msgid ""
 "An error happen retrieving shunit2 releases information from Github API."
 msgstr ""
@@ -516,29 +528,8 @@ msgstr "Descargando shunit2"
 msgid "An error happen downloading shunit2"
 msgstr "Ocurrió un error descargando shunit2"
 
-msgid "Destination file exists"
-msgstr "El archivo de destino ya existe"
-
 msgid "Indicate another destination for shunit2 with parameter"
 msgstr "Indica otro destino para shunit2 con el parámetro"
-
-msgid "Checking pacapt"
-msgstr "Comprobando pacapt"
-
-msgid "Retrieving latest version"
-msgstr "Obteniendo última versión"
-
-msgid "Installed"
-msgstr "Instalado"
-
-msgid "Found installed"
-msgstr "Encontrado instalado"
-
-msgid "Updated"
-msgstr "Actualizado"
-
-msgid "Indicate another destination for pacapt with parameter"
-msgstr "Indica otro destino para pacapt con el parámetro"
 
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
@@ -554,21 +545,6 @@ msgstr "Archivo de configuración de Grub no encontrado"
 
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
-
-msgid "Setting up Python3 ecosystem..."
-msgstr "Configurando ecosistema Python3..."
-
-msgid "Installing base package"
-msgstr "Instalando paquete base"
-
-msgid "Found Python3 installed in the system"
-msgstr "Encontrado Python3 instalado en el sistema"
-
-msgid "Checking additional Python packages..."
-msgstr "Comprobando paquetes de Python adicionales..."
-
-msgid "Updating global Python3 libraries..."
-msgstr "Actualizando bibliotecas de Python3 globales..."
 
 msgid "Installing Mozilla Firefox packages..."
 msgstr "Instalando paquetes de Mozilla Firefox..."
