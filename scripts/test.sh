@@ -1,6 +1,27 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+function usage {
+  printf "Usage: %s [-h]\n\n" "$0"
+  printf "  Tests the project:\n"
+  printf "    - Builds the project if is not built yet.\n"
+  printf "    - Dowload shunit2 into 'scripts/shunit2' if not downloaded yet.\n"
+  printf "    - Executes each 'test.sh' file located in 'src/' directory tree."
+  printf "\n\n"
+  printf "Options:\n"
+  printf "  -h, --help                    Show this help message and exit.\n"
+  exit 1
+}
+
+for arg in "$@"; do
+  case $arg in
+    -h|--help)
+    shift
+    usage
+    ;;
+  esac
+done
+
 function main {
   # Install pacman
   if [ "$(command -v pacman)" = "" ]; then

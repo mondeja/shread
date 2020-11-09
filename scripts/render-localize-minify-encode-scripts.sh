@@ -1,6 +1,37 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+function usage {
+  printf "Usage: %s [-h]\n\n" "$0"
+  printf "  Performs most of the logic building the 'public/' directory:\n"
+  printf "    1. Render mako templates into temporary Bash scripts.\n"
+  printf "    2. For each supported language, builds a distribution Bash"
+  printf " script inside correspondent directory of 'public/' tree performing"
+  printf " next tasks:\n"
+  printf "      2.1. Replace original messages with localized pofiles ones.\n"
+  printf "      2.2. Append shebangs at start of the script.\n"
+  printf "      2.3. Append '_SCRIPT_FILENAME' variable at the start of the"
+  printf " script that maintains the script filename in order to render it"
+  printf " properly in 'usage' sections printed when passing '--help' option.\n"
+  printf "      2.4. Remove all lines that only contain comments and those"
+  printf " which are empty.\n"
+  printf "      2.5. Encode scripts logic as base64.\n"
+  printf "      2.6. Wraps base64 encoded scripts statements with a base64"
+  printf " decoder passing all arguments to the decoded script content.\n\n"
+  printf "Options:\n"
+  printf "  -h, --help                    Show this help message and exit.\n"
+  exit 1
+}
+
+for arg in "$@"; do
+  case $arg in
+    -h|--help)
+    shift
+    usage
+    ;;
+  esac
+done
+
 # shellcheck source=scripts/constants.sh
 source scripts/constants.sh
 

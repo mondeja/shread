@@ -1,6 +1,25 @@
 #!/bin/bash
 # -*- ENCODING: UTF-8 -*-
 
+function usage {
+  printf "Usage: %s [-h]\n\n" "$0"
+  printf "  Lints the project:\n"
+  printf "    - Builds 'public/' directory if is not built and run shellcheck"
+  printf " agains all Bash script files.\n\n"
+  printf "Options:\n"
+  printf "  -h, --help                    Show this help message and exit.\n"
+  exit 1
+}
+
+for arg in "$@"; do
+  case $arg in
+    -h|--help)
+    shift
+    usage
+    ;;
+  esac
+done
+
 # shellcheck source=scripts/constants.sh
 source scripts/constants.sh
 
