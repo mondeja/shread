@@ -16,7 +16,6 @@ _MSG_ERROR_INSTALLING_ATOM="An error happen installing Atom"
 </%block>
 
 <%block name="script">
-
 function installPacmanIfNotInstalled() {
   if [ "$(command -v pacman)" = "" ]; then
     if [ -z "$_SCRIPT_FILENAME" ]; then
