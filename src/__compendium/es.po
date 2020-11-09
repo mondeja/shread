@@ -185,37 +185,6 @@ msgid ""
 msgstr ""
 "Tu distribución no está soportada por este script de instalación de NodeJS"
 
-msgid "Checking Pandoc..."
-msgstr "Comprobando Pandoc..."
-
-msgid ""
-"An error happen retrieving information for Pandoc releases from Github "
-"API."
-msgstr ""
-"Ocurrió un error obteniendo la información de las releases de Pandoc de "
-"la API de Github."
-
-msgid "Retrieving lastest available Pandoc version..."
-msgstr "Obteniendo la última versión disponible de Pandoc..."
-
-msgid "Downloading package..."
-msgstr "Descargando paquete..."
-
-msgid "An error happen retrieving lastest Pandoc version."
-msgstr "Ocurrió un error obteniendo la última versión de Pandoc."
-
-msgid "An error happen downloading Pandoc"
-msgstr "Ocurrió un error descargando Pandoc"
-
-msgid "Installing..."
-msgstr "Instalando..."
-
-msgid "Pandoc found installed in the system"
-msgstr "Ha sido encontrado Pandoc instalado en el sistema"
-
-msgid "Updating Pandoc"
-msgstr "Actualizando Pandoc"
-
 msgid "Setting up Python3 ecosystem..."
 msgstr "Configurando ecosistema Python3..."
 
