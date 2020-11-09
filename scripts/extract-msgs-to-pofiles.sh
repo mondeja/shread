@@ -6,6 +6,27 @@ source scripts/constants.sh
 
 COMPENDIUM_DIRPATH="src/__compendium/"
 
+function usage {
+  printf "Usage: %s [-h]\n\n" "$0"
+  printf "  Extracts source scripts messages and dump them into supported"
+  printf " languages pofiles. Scripts messages are those strings setted as"
+  printf " values of variables which starts with '_MSG' inside scripts."
+  printf " Extracted messages are also dumped into compendium language pofiles,"
+  printf " which are located inside '%s' directory.\n\n" "$COMPENDIUM_DIRPATH"
+  printf "Options:\n"
+  printf "  -h, --help                    Show this help message and exit.\n"
+  exit 1
+}
+
+for arg in "$@"; do
+  case $arg in
+    -h|--help)
+    shift
+    usage
+    ;;
+  esac
+done
+
 : "
   $1 - Directory path.
   $2 - Language code.
