@@ -18,8 +18,6 @@ https://mondeja.github.io/shread/unix/debian/install/postgresql/en.sh
 https://mondeja.github.io/shread/unix/debian/install/postgresql/es.sh
 https://mondeja.github.io/shread/unix/debian/install/dropbox/en.sh
 https://mondeja.github.io/shread/unix/debian/install/dropbox/es.sh
-https://mondeja.github.io/shread/unix/debian/install/pandoc/en.sh
-https://mondeja.github.io/shread/unix/debian/install/pandoc/es.sh
 https://mondeja.github.io/shread/unix/debian/install/circleci/en.sh
 https://mondeja.github.io/shread/unix/debian/install/circleci/es.sh
 https://mondeja.github.io/shread/unix/debian/install/python/v3/en.sh
