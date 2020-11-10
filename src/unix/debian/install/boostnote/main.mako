@@ -19,7 +19,7 @@ _MSG_UPDATING_BOOSTNOTE="Updating Boostnote"
 
 <%block name="usage_opts">[-u]</%block>
 <%block name="usage_desc">
-  Installs and/or optionally upgrade Boostnote retrieving source code from their Github repository.
+  Installs and/or optionally updates Boostnote retrieving source code from their Github repository.
 </%block>
 <%block name="usage_opts_desc">
   -u, --update                      Updates Boostnote to the penultimate release available.
