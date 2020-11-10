@@ -13,7 +13,8 @@ _PORTS_STRING=""
   Kills all the processes running in the system that are using the ports specified with the parameter '--ports'.
 </%block>
 <%block name="usage_opts_desc">
-  -p, --ports PORT1,PORT2...        List of ports separated by commas, which process will be stopped.</%block>
+  -p, --ports PORT1,PORT2...        List of ports separated by commas, which process will be stopped.
+</%block>
 
 <%block name="argparse">
     -p|--ports)

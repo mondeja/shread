@@ -16,7 +16,8 @@ _CONFIG_FILEPATH="/etc/default/grub"
 </%block>
 <%block name="usage_opts_desc">
   -t, --timeout TIMEOUT             New timeout for the GRUB boot prompt, by default $_NEW_TIMEOUT.
-  -f, --config-filepath FILEPATH    Path of the GRUB configuration file, by default '$_CONFIG_FILEPATH'.</%block>
+  -f, --config-filepath FILEPATH    Path of the GRUB configuration file, by default '$_CONFIG_FILEPATH'.
+</%block>
 
 <%block name="argparse">
     -t|--timeout)

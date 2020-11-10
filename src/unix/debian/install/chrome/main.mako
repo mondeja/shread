@@ -20,7 +20,8 @@ _CHROMEDRIVER_PATH="/usr/bin/chromedriver"
 </%block>
 <%block name="usage_opts_desc">
   -d CHROMEDRIVER_PATH, --chromedriver-path CHROMEDRIVER_PATH
-                                    Specifies where be stored downloaded chromedriver binary. As default at '$_CHROMEDRIVER_PATH'.</%block>
+                                    Specifies where be stored downloaded chromedriver binary. As default at '$_CHROMEDRIVER_PATH'.
+</%block>
 
 <%block name="argparse">
     -d|--chromedriver-path)

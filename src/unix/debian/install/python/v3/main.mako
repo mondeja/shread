@@ -40,7 +40,8 @@ _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
   - testresources
 </%block>
 <%block name="usage_opts_desc">
-  --no-upgrade-py3-global-libs      Ignores the installation or upgrade of Python3 packages globally using PIP.</%block>
+  --no-upgrade-py3-global-libs      Ignores the installation or upgrade of Python3 packages globally using PIP.
+</%block>
 
 <%block name="vars">
 _UPGRADE_PY3_GLOBAL_LIBS=1

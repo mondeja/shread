@@ -21,7 +21,8 @@ _INSECURE=""
   -m, --max-attempts ATTEMPTS       Maximum number of attemps checking if the provided address is operative. As default 40.
   -s, --sleep SECONDS               Number of seconds to sleep between attempts. As default 1.
   -p, --print-between-sleeps        String to printf between attemps (before sleep).
-  -k, --insecure                    Perform insecure SSL connection (passes '--insecure' to curl command).</%block>
+  -k, --insecure                    Perform insecure SSL connection (passes '--insecure' to curl command).
+</%block>
 
 <%block name="argparse">
     -a|--address)
