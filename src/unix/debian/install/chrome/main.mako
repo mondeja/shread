@@ -12,6 +12,7 @@ _MSG_FOUND_CHROMEDRIVER_INSTALLED="Chromedriver found installed"
 
 <%block name="vars">
 _CHROMEDRIVER_PATH="/usr/bin/chromedriver"
+_DOWNLOAD_CHROMEDRIVER=1
 </%block>
 
 <%block name="usage_opts">[-d CHROMEDRIVER_PATH]</%block>
@@ -21,12 +22,18 @@ _CHROMEDRIVER_PATH="/usr/bin/chromedriver"
 <%block name="usage_opts_desc">
   -d CHROMEDRIVER_PATH, --chromedriver-path CHROMEDRIVER_PATH
                                     Specifies where be stored downloaded chromedriver binary. As default at '$_CHROMEDRIVER_PATH'.
+  -n, --no-chromedriver             If passed, does not download nor updates chromedriver.
 </%block>
 
 <%block name="argparse">
     -d|--chromedriver-path)
     shift
     _CHROMEDRIVER_PATH="$1"
+    shift
+    ;;
+
+    -n|--no-chromedriver)
+    _DOWNLOAD_CHROMEDRIVER=0
     shift
     ;;
 </%block>
@@ -125,25 +132,27 @@ function main() {
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
 
-  getLatestChromedriverVersion
-  getChromedriverBinaryPath
+  if [ "$_DOWNLOAD_CHROMEDRIVER" -eq 1 ]; then
+    getLatestChromedriverVersion
+    getChromedriverBinaryPath
 
-  printIndent
-  if [ "$_CHROMEDRIVER_BINARY_PATH" = "" ]; then
-    printf "  %s (v%s)..." "$_MSG_INSTALLING_CHROMEDRIVER" "$CHROMEDRIVER_VERSION"
-    installChromeDriver
-  else
-    # Chromedriver is installed, check if we can update it
-    _CHROMEDRIVER_INSTALLED_VERSION="$("$_CHROMEDRIVER_BINARY_PATH" --version | cut -d' ' -f2)"
-
-    if [ "$_CHROMEDRIVER_INSTALLED_VERSION" != "$CHROMEDRIVER_VERSION" ]; then
-      printf "  %s (v%s" "$_MSG_UPDATING_CHROMEDRIVER" "$_CHROMEDRIVER_INSTALLED_VERSION"
-      printf " -> v%s)..." "$CHROMEDRIVER_VERSION"
+    printIndent
+    if [ "$_CHROMEDRIVER_BINARY_PATH" = "" ]; then
+      printf "  %s (v%s)..." "$_MSG_INSTALLING_CHROMEDRIVER" "$CHROMEDRIVER_VERSION"
       installChromeDriver
     else
-      printf "  %s (v%s)" "$_MSG_FOUND_CHROMEDRIVER_INSTALLED" "$_CHROMEDRIVER_INSTALLED_VERSION"
-    fi
+      # Chromedriver is installed, check if we can update it
+      _CHROMEDRIVER_INSTALLED_VERSION="$("$_CHROMEDRIVER_BINARY_PATH" --version | cut -d' ' -f2)"
+
+      if [ "$_CHROMEDRIVER_INSTALLED_VERSION" != "$CHROMEDRIVER_VERSION" ]; then
+        printf "  %s (v%s" "$_MSG_UPDATING_CHROMEDRIVER" "$_CHROMEDRIVER_INSTALLED_VERSION"
+        printf " -> v%s)..." "$CHROMEDRIVER_VERSION"
+        installChromeDriver
+      else
+        printf "  %s (v%s)" "$_MSG_FOUND_CHROMEDRIVER_INSTALLED" "$_CHROMEDRIVER_INSTALLED_VERSION"
+      fi
+    fi;
+    printf " \e[92m\xE2\x9C\x94\e[39m\n"
   fi;
-  printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 </%block>
