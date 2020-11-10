@@ -41,7 +41,7 @@ function installScriptDependencies() {
 
   # Download pacman binary to install packages consistently
   if [ "$(command -v pacman)" = "" ]; then
-    curl -sL "$PUBLIC_URL/unix/_/download/pacapt/en.sh" sudo bash - > /dev/null
+    curl -sL "$PUBLIC_URL/unix/_/download/pacapt/en.sh" | sudo bash - > /dev/null
   fi;
 
   # Install 'shellcheck'
