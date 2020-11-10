@@ -1,7 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_URL="URL"
 _MSG_ERROR="Error"
 _MSG_ERROR_CODE="Error code"
@@ -15,52 +14,40 @@ _MSG_ERROR_DOWNLOADING_DOCKER_COMPOSE="An error happen downloading Docker Compos
 _MSG_DOWNLOADING_DOCKER_COMPOSE="Downloading Docker Compose"
 _MSG_DOCKER_COMPOSE_FOUND_INSTALLED="Docker Compose found installed in the system"
 _MSG_UPDATING_DOCKER_COMPOSE="Updating Docker Compose"
+</%block>
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
+<%block name="usage_desc">
+  Installs or upgrade Docker Compose retrieving source code from their Github repository.
+</%block>
 
-INDENT_STRING=""
-
+<%block name="prepare">
 GITHUB_API_CURL_AUTH=""
 if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
   GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
 fi;
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
-  esac
-done
-
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
+<%block name="script">
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
 }
 
-printIndent
-printf "%s...\n" "$_MSG_CHECKING_DOCKER_COMPOSE"
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
-if [ "$(command -v pacman)" = "" ]; then
-  url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-  curl -sL "$url" | sudo bash - > /dev/null
-fi;
+  INSTALLATION_DEPENDENCIES=(
+    "jq"
+  )
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
+    fi;
+  done
+}
 
-INSTALLATION_DEPENDENCIES=(
-  "jq"
-)
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-  fi;
-done
-
-# Si suceden errrores 404 con las últimas versiones de Docker,
-#   intentamos obtener las anteriores
 _GET_DOCKER_COMPOSE_VERSION_INDEX=1
 _GET_DOCKER_COMPOSE_VERSION_404_ATTEMPTS=0
 _GET_DOCKER_COMPOSE_VERSION_404_MAX_ATTEMPTS=10
@@ -87,10 +74,6 @@ function getDockerComposeLatestVersion() {
     exit $_DOCKER_COMPOSE_RELEASES_INFO_MESSAGE_EXIT_CODE
   fi;
 
-  # Obtenemos la penúltima release de Docker Compose
-  #   El problema de obtener la última release es que,
-  #   al momento de ser publicada, los binarios aún no
-  #   están disponibles en el repositorio
   _PARSE_DOCKER_COMPOSE_LASTEST_VERSION=$(
     echo "$_DOCKER_COMPOSE_RELEASES_INFO" | \
     jq -r ".[$_GET_DOCKER_COMPOSE_VERSION_INDEX].name" 2>&1
@@ -130,16 +113,6 @@ function getDockerComposeLatestVersion() {
     printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_DOCKER_COMPOSE_LASTEST_VERSION"
   fi;
 }
-printIndent
-printf "  %s" "$_MSG_ERROR_RETRIEVING_LAST_AVAILABLE_VERSION"
-getDockerComposeLatestVersion
-
-# Comprobamos si Docker Compose está instalado
-_DOCKER_COMPOSE_FILEPATH="$(command -v docker-compose)"
-_DOCKER_COMPOSE_FILEPATH_EXIT_CODE=$?
-if [ $_DOCKER_COMPOSE_FILEPATH_EXIT_CODE -ne 0 ]; then
-  _DOCKER_COMPOSE_FILEPATH=""
-fi;
 
 function downloadDockerCompose() {
   _DOWNLOAD_DOCKER_COMPOSE_URL="https://github.com/docker/compose/releases/download/v$_DOCKER_COMPOSE_LASTEST_VERSION/docker-compose-$(uname -s)-$(uname -m)"
@@ -177,34 +150,52 @@ function downloadDockerCompose() {
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
 
-if [ "$_DOCKER_COMPOSE_FILEPATH" = "" ]; then
-  # Si no está instalado
+function main() {
   printIndent
-  printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_LASTEST_VERSION"
-  downloadDockerCompose /usr/local/bin/docker-compose
-else
-  # Pero si ya está instalado
-  _DOCKER_COMPOSE_VERSION_OUTPUT="$(docker-compose --version)"
-  _DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE=$?
-  if [ $_DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
-    sudo rm -f "$(command -v docker-compose)"
+  printf "%s...\n" "$_MSG_CHECKING_DOCKER_COMPOSE"
+  installScriptDependencies
+
+  printIndent
+  printf "  %s" "$_MSG_ERROR_RETRIEVING_LAST_AVAILABLE_VERSION"
+  getDockerComposeLatestVersion
+
+  # Check if Docker Compose is installed
+  _DOCKER_COMPOSE_FILEPATH="$(command -v docker-compose)"
+  _DOCKER_COMPOSE_FILEPATH_EXIT_CODE=$?
+  if [ $_DOCKER_COMPOSE_FILEPATH_EXIT_CODE -ne 0 ]; then
+    _DOCKER_COMPOSE_FILEPATH=""
+  fi;
+
+  if [ "$_DOCKER_COMPOSE_FILEPATH" = "" ]; then
+    # Is not not installed
     printIndent
     printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_LASTEST_VERSION"
     downloadDockerCompose /usr/local/bin/docker-compose
   else
-    _DOCKER_COMPOSE_INSTALLED_VERSION="$(echo "$_DOCKER_COMPOSE_VERSION_OUTPUT" | cut -c24-29)"
-    printIndent
-    printf "  %s (v%s)" "$_MSG_DOCKER_COMPOSE_FOUND_INSTALLED" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
-
-    printf " \e[92m\xE2\x9C\x94\e[39m\n"
-
-    # Si no está actualizado a la última versión
-    if [ "$_DOCKER_COMPOSE_INSTALLED_VERSION" != "$_DOCKER_COMPOSE_LASTEST_VERSION" ]; then
+    # But if is already installed
+    _DOCKER_COMPOSE_VERSION_OUTPUT="$(docker-compose --version)"
+    _DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE=$?
+    if [ $_DOCKER_COMPOSE_VERSION_OUTPUT_EXIT_CODE -ne 0 ]; then
+      sudo rm -f "$(command -v docker-compose)"
       printIndent
-      printf "  %s (v%s" "$_MSG_UPDATING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
-      printf " -> v%s)..." "$_DOCKER_COMPOSE_LASTEST_VERSION"
-      sudo rm -f $_DOCKER_COMPOSE_FILEPATH
-      downloadDockerCompose $_DOCKER_COMPOSE_FILEPATH
+      printf "  %s (v%s)..." "$_MSG_DOWNLOADING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_LASTEST_VERSION"
+      downloadDockerCompose /usr/local/bin/docker-compose
+    else
+      _DOCKER_COMPOSE_INSTALLED_VERSION="$(echo "$_DOCKER_COMPOSE_VERSION_OUTPUT" | cut -c24-29)"
+      printIndent
+      printf "  %s (v%s)" "$_MSG_DOCKER_COMPOSE_FOUND_INSTALLED" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
+
+      printf " \e[92m\xE2\x9C\x94\e[39m\n"
+
+      # If is not updated
+      if [ "$_DOCKER_COMPOSE_INSTALLED_VERSION" != "$_DOCKER_COMPOSE_LASTEST_VERSION" ]; then
+        printIndent
+        printf "  %s (v%s" "$_MSG_UPDATING_DOCKER_COMPOSE" "$_DOCKER_COMPOSE_INSTALLED_VERSION"
+        printf " -> v%s)..." "$_DOCKER_COMPOSE_LASTEST_VERSION"
+        sudo rm -f $_DOCKER_COMPOSE_FILEPATH
+        downloadDockerCompose $_DOCKER_COMPOSE_FILEPATH
+      fi;
     fi;
   fi;
-fi;
+}
+</%block>
