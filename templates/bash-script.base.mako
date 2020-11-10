@@ -10,11 +10,11 @@ INDENT_STRING=""
 
 function usage {
     cat <<HELP_USAGE
-Usage: ${script_filepath} [-h] [-i] <%block name="usage_opts"/>
+Usage: ${script_filepath} [-h] [-i STRING] <%block name="usage_opts"/>
 <%block name="usage_desc"/>
 Options:
   -h, --help                        Show this help message and exit.
-  -i, --indent STRING               Each line of the script output will be preceded with the string defined in this parameter.<%block name="usage_opts_desc"/>
+  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter.<%block name="usage_opts_desc"/>
 
 HELP_USAGE
     exit 1
@@ -24,7 +24,7 @@ for arg in "$@"; do
   case $arg in
     -i|--indent)
     shift
-    INDENT_STRING=$1
+    INDENT_STRING="$1"
     shift
     ;;
     -h|--help)
