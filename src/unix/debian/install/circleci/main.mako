@@ -33,7 +33,7 @@ function installScriptDependencies() {
 }
 
 _CIRCLECI_BINARY_PATH=""
-function getCircleCIBinaryPath(parameter) {
+function getCircleCIBinaryPath() {
   _CIRCLECI_BINARY_PATH="$(command -v circleci)"
 }
 
