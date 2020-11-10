@@ -12,8 +12,6 @@ https://mondeja.github.io/shread/unix/_/util/process/kill-running-on-ports/en.sh
 https://mondeja.github.io/shread/unix/_/util/process/kill-running-on-ports/es.sh
 https://mondeja.github.io/shread/unix/_/update/only-if-today-not/en.sh
 https://mondeja.github.io/shread/unix/_/update/only-if-today-not/es.sh
-https://mondeja.github.io/shread/unix/debian/uninstall/atom/en.sh
-https://mondeja.github.io/shread/unix/debian/uninstall/atom/es.sh
 https://mondeja.github.io/shread/unix/debian/install/postgresql/en.sh
 https://mondeja.github.io/shread/unix/debian/install/postgresql/es.sh
 https://mondeja.github.io/shread/unix/debian/install/dropbox/en.sh
