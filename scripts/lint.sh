@@ -66,7 +66,12 @@ function main() {
   _NFILES_TOTAL=0
   _NFILES_LINTED=0
 
-  for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
+  DIRECTORIES=(
+    "scripts"
+    "src"
+  )
+
+  for _DIR in "${DIRECTORIES[@]}"; do
     find "$_DIR" -name "*.sh" > /tmp/files-to-lint.txt
     while read -r filepath; do
       script_filename=$(basename "$filepath")

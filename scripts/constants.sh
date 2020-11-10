@@ -15,11 +15,6 @@ SCRIPTS_SHEBANGS=(
   "# -*- ENCODING: UTF-8 -*-"
 )
 
-SCRIPTS_DIRECTORIES=(
-  "scripts"
-  "src"
-)
-
 _MAINTAINER_NAME="Álvaro Mondéjar Rubio"
 _MAINTAINER_EMAIL="mondejar1994@gmail.com"
 
@@ -30,7 +25,6 @@ export PUBLIC_URL
 export SHREAD_VERSION
 export SUPPORTED_LANGUAGES
 export SCRIPTS_SHEBANGS
-export SCRIPTS_DIRECTORIES
 export _MAINTAINER_NAME
 export _MAINTAINER_EMAIL
 export _YEAR_NOW

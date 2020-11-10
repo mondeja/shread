@@ -39,11 +39,21 @@ function testDependentAptPackages {
     SCRIPTS_SHEBANGS variable of scripts/constants.sh file.
 '
 function testScriptsShebangs {
-  for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
+  DIRECTORIES=(
+    "scripts"
+    "public"
+  )
+
+  for _DIR in "${DIRECTORIES[@]}"; do
     while IFS= read -r filepath; do
       _SCRIPT_TO_FIRST_LINES="$(< "$filepath" head -n ${#SCRIPTS_SHEBANGS[@]})"
 
       for i in "${!SCRIPTS_SHEBANGS[@]}"; do
+        # Built files located at 'public/' only have '#!/bin/bash' shebang
+        if [ "${SCRIPTS_SHEBANGS[$i]}" = "# -*- ENCODING: UTF-8 -*-" ] && [ "$_DIR" = "public" ]; then
+          continue
+        fi;
+
         assertEquals \
           "Shebang '${SCRIPTS_SHEBANGS[$i]}' not properly defined at file '$filepath'\n   " \
           "${SCRIPTS_SHEBANGS[$i]}" \
