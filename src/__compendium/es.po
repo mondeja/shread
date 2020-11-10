@@ -425,15 +425,6 @@ msgstr "Actualizando Redis"
 msgid "Found Redis installed"
 msgstr "Encontrado Redis instalado"
 
-msgid "Uninstalling Atom"
-msgstr "Desinstalando Atom"
-
-msgid "An error happen uninstalling Atom"
-msgstr "Ocurrión un error desinstalando Atom"
-
-msgid "Atom is not installed"
-msgstr "Atom no está instalado"
-
 msgid "Checking pacapt"
 msgstr "Comprobando pacapt"
 
