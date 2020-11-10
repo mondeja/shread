@@ -60,6 +60,11 @@ function main() {
   for _DIR in "${SCRIPTS_DIRECTORIES[@]}"; do
     find "$_DIR" -name "*.sh" > /tmp/files-to-lint.txt
     while read -r filepath; do
+      script_filename=$(basename "$filepath")
+      if [ "$script_filename" = "__main.sh" ]; then
+        continue
+      fi;
+
       printSeparator
       printf "%s" "$filepath "
       shellcheck -x "$filepath"

@@ -2,7 +2,7 @@
 
 <%block name="msgs">
 _MSG_CHECKING_ECOSYSTEM="Checking Chrome ecosystem..."
-_MSG_UNABLE_TO_INSTALL_32="Is not possible to install Google Chrome on 32 bits systems."
+_MSG_UNABLE_TO_INSTALL_32_BITS="Is not possible to install Google Chrome on 32 bits systems."
 _MSG_INSTALLING_GOOGLE_CHROME="Installing Google Chrome..."
 _MSG_FOUND_CHROME_INSTALLED="Google Chrome found installed"
 _MSG_INSTALLING_CHROMEDRIVER="Installing chromedriver"

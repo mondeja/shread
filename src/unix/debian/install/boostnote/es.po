@@ -58,6 +58,3 @@ msgstr "Encontrado Boostnote instalado en el sistema"
 
 msgid "Updating Boostnote"
 msgstr "Actualizando Boostnote"
-
-#~ msgid "This script needs to be executed as superuser."
-#~ msgstr "Este script necesita ser ejecutado como superusuario."
