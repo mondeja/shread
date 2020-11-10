@@ -22,14 +22,16 @@ for arg in "$@"; do
   esac
 done
 
-function main {
-  # Install pacman
-  if [ "$(command -v pacman)" = "" ]; then
-    bash "src/unix/_/download/pacapt/main.sh" > /dev/null
-  fi;
-
+function buildIfNotAlreadyBuilt() {
   if [ ! -d public ]; then
     bash scripts/build.sh
+  fi;
+}
+
+function installScriptDependencies() {
+  # Install pacman
+  if [ "$(command -v pacman)" = "" ]; then
+    curl -sL "$PUBLIC_URL/unix/_/download/pacapt/en.sh" sudo bash - > /dev/null
   fi;
 
   if [ ! -f scripts/shunit2 ]; then
@@ -37,6 +39,12 @@ function main {
     curl -sL "$PUBLIC_URL/unix/_/download/shunit2/en.sh" \
       | sudo bash -s -- --dest-path "scripts/shunit2"
   fi;
+}
+
+function main {
+  buildIfNotAlreadyBuilt
+  installScriptDependencies
+
   SHUNIT_VERSION=$(< scripts/shunit2 grep "SHUNIT_VERSION=" | cut -d"'" -f2)
   printf "Using shunit2 v%s\n\n" "$SHUNIT_VERSION"
 

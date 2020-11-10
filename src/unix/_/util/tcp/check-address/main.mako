@@ -55,32 +55,36 @@ _INSECURE=""
 </%block>
 
 <%block name="script">
-if [ -z "$_ADDRESS" ]; then
-  printIndent >&2
-  printf "%s --address" "$_MSG_MUST_SPECIFY_ADDRESS" >&2
-  exit 1
-fi;
-
-if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
-  else
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
-fi;
+}
 
-if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S -- -y curl > /dev/null || exit $?
-fi;
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
+  if [[ "$(sudo pacman -Qi curl 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S -- -y curl > /dev/null || exit $?
+  fi;
+}
 
-until curl -sL --output /dev/null "$_INSECURE" --head --fail "$_ADDRESS"; do
-  printf "%s" "$_PRINTF_BETWEEN_SLEEPS"
-  sleep "$_SLEEP"
-  _ATTEMPTS="$(("$_ATTEMPTS" + 1))"
-  if [ "$_ATTEMPTS" -gt "$_MAX_ATTEMPTS" ]; then
+function main() {
+  if [ -z "$_ADDRESS" ]; then
+    printIndent >&2
+    printf "%s --address" "$_MSG_MUST_SPECIFY_ADDRESS" >&2
     exit 1
   fi;
-done
+
+  installScriptDependencies
+
+  until curl -sL --output /dev/null "$_INSECURE" --head --fail "$_ADDRESS"; do
+    printf "%s" "$_PRINTF_BETWEEN_SLEEPS"
+    sleep "$_SLEEP"
+    _ATTEMPTS="$(("$_ATTEMPTS" + 1))"
+    if [ "$_ATTEMPTS" -gt "$_MAX_ATTEMPTS" ]; then
+      exit 1
+    fi;
+  done
+}
 </%block>

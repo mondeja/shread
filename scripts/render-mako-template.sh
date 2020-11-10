@@ -50,7 +50,7 @@ from mako.lookup import TemplateLookup
 from mako.template import Template
 
 data = {
-    'script_filepath': '$_SCRIPT_NAME',
+    'script_filepath': '$_SCRIPT_NAME'.lstrip('src/'),
 }
 
 lookup = TemplateLookup(directories=[

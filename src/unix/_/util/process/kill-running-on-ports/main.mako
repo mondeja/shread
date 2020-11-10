@@ -24,22 +24,24 @@ _PORTS_STRING=""
 </%block>
 
 <%block name="script">
-
-if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
-  else
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
-fi;
+}
 
-if [[ "$(sudo pacman -Qi net-tools 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo pacman -S net-tools > /dev/null || exit $?
-fi;
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
+  if [[ "$(sudo pacman -Qi net-tools 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo pacman -S net-tools > /dev/null || exit $?
+  fi;
+}
+
 
 function main {
+  installScriptDependencies
+
   printIndent
   printf "%s...\n" "$_MSG_LEAVING_PORTS_FREE"
   _PORTS=$(echo "$_PORTS_STRING" | tr "," "\n")

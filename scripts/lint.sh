@@ -25,25 +25,31 @@ source scripts/constants.sh
 
 _EXIT_CODE=0
 
-# Build if not built
-if [ ! -d "public" ]; then
-  bash scripts/build.sh
-fi;
+function buildIfNotAlreadyBuilt() {
+  # Build if not built
+  if [ ! -d "public" ]; then
+    bash scripts/build.sh
+  fi;
+}
 
-# Download shunit2 binary to follow sources properly
-if [ ! -f scripts/shunit2 ]; then
-  curl -sL "$PUBLIC_URL/unix/_/download/shunit2/en.sh" \
-    | sudo bash -s -- --dest-path "scripts/shunit2" > /dev/null || exit $?
-fi;
+function installScriptDependencies() {
+  # Download shunit2 binary to follow sources properly
+  if [ ! -f scripts/shunit2 ]; then
+    curl -sL "$PUBLIC_URL/unix/_/download/shunit2/en.sh" \
+      | sudo bash -s -- --dest-path "scripts/shunit2" > /dev/null || exit $?
+  fi;
 
-# Download pacman binary to install packages consistently
-if [ "$(command -v pacman)" = "" ]; then
-  bash "src/unix/_/download/pacapt/main.sh" > /dev/null
-fi;
+  # Download pacman binary to install packages consistently
+  if [ "$(command -v pacman)" = "" ]; then
+    curl -sL "$PUBLIC_URL/unix/_/download/pacapt/en.sh" sudo bash - > /dev/null
+  fi;
 
-if [[ "$(sudo pacman -Qi shellcheck 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-  sudo apt-get install -y -qqq shellcheck > /dev/null || exit $?
-fi;
+  # Install 'shellcheck'
+  if [[ "$(sudo pacman -Qi shellcheck 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+    sudo apt-get install -y -qqq shellcheck > /dev/null || exit $?
+  fi;
+}
+
 
 function printSeparator() {
   printf "%s" "------------------------------------------------------"
@@ -52,6 +58,9 @@ function printSeparator() {
 }
 
 function main() {
+  buildIfNotAlreadyBuilt
+  installScriptDependencies
+
   printf "Linting files...\n\n"
 
   _NFILES_TOTAL=0

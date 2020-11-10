@@ -24,15 +24,12 @@ _UPGRADE=0
 </%block>
 
 <%block name="script">
-if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
-  else
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
-fi;
+}
 
 function updatePackages() {
   printIndent
@@ -45,6 +42,8 @@ function updatePackages() {
 }
 
 function main {
+  installPacmanIfNotInstalled
+
   if [ -f "/var/cache/apt/pkgcache.bin" ]; then
     _LAST_DAY_EXECUTED=$(
       stat /var/cache/apt/pkgcache.bin | \

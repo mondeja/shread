@@ -45,25 +45,26 @@ fi;
 <%block name="script">
 _DEST_DIRPATH="$(dirname "$_DEST_PATH")"
 
-if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
-  else
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
-fi;
+}
 
-INSTALLATION_DEPENDENCIES=(
-  "jq"
-)
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
-for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}"</%text>; do
-  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-  fi;
-done;
+  INSTALLATION_DEPENDENCIES=(
+    "jq"
+  )
+
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}"</%text>; do
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
+    fi;
+  done;
+}
 
 
 _GET_SHUNIT_RELEASES_URL="https://api.github.com/repos/kward/shunit2/releases"
@@ -117,6 +118,8 @@ function main() {
     printf "%s '--dest-path'.\n" "$_MSG_INDICATE_ANOTHER_DEST_WITH_PARAM" >&2
     exit 1
   fi;
+
+  installScriptDependencies
 
   printIndent
   printf "%s\n" "$_MSG_CHECKING_SHUNIT"

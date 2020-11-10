@@ -42,16 +42,15 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 
-function installScriptDependencies() {
+function installPacmanIfNotInstalled() {
   if [ "$(command -v pacman)" = "" ]; then
-    if [ -z "$_SCRIPT_FILENAME" ]; then
-      filepath="src/unix/_/download/pacapt/main.sh"
-      bash "$filepath" > /dev/null
-    else
-      url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-      curl -sL "$url" | sudo bash - > /dev/null
-    fi;
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
   fi;
+}
+
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
   INSTALLATION_DEPENDENCIES=("jq")
   for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do

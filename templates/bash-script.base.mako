@@ -10,7 +10,7 @@ INDENT_STRING=""
 
 function usage {
     cat <<HELP_USAGE
-Usage: ${script_filepath} [-h] [-i STRING] <%block name="usage_opts"/>
+Usage: ${script_filepath}/<%text>$_SCRIPT_FILENAME</%text> [-h] [-i STRING] <%block name="usage_opts"/>
 <%block name="usage_desc"/>
 Options:
   -h, --help                        Show this help message and exit.

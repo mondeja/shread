@@ -54,20 +54,19 @@ _UPGRADE_PY3_GLOBAL_LIBS=1
 </%block>
 
 <%block name="script">
-if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath"
-  else
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
     curl -sL "$url" | sudo bash - > /dev/null
   fi;
-fi;
+}
 
-if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
-  # shellcheck disable=SC1091,SC1090
-  source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
-fi;
+function getUnixDistro() {
+  if [ -z "$UNIX_DISTRO" ] || [ -z "$UNIX_DISTRO_VERSION_NUMBER_MAJOR" ]; then
+    # shellcheck disable=SC1091,SC1090
+    source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
+  fi;
+}
 
 function installMainPython3AptPackage {
   printIndent
@@ -217,6 +216,8 @@ print(l.__version__ if isinstance(l.__version__, str) else \
 }
 
 function main {
+  installPacmanIfNotInstalled
+  getUnixDistro
   printIndent
   printf "%s\n" "$_MSG_SETTING_UP_PY3_ECOSYSTEM"
   installMainPython3AptPackage

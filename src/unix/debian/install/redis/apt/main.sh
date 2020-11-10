@@ -41,17 +41,14 @@ printIndent
 printf "    redis-server"
 
 if [ "$(command -v pacman)" = "" ]; then
-  if [ -z "$_SCRIPT_FILENAME" ]; then
-    filepath="src/unix/_/download/pacapt/main.sh"
-    bash "$filepath" > /dev/null
-  else
-    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-    curl -sL "$url" | sudo bash - > /dev/null
-  fi;
+  url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+  curl -sL "$url" | sudo bash - > /dev/null
 fi;
+
 if [[ "$(sudo pacman -Qi redis-server 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
   sudo pacman -S -- -y redis-server > /dev/null || exit $?
 fi;
+
 _REDIS_SERVER_VERSION=$(redis-server --version | cut -d'=' -f2 | cut -d' ' -f1)
 printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$_REDIS_SERVER_VERSION"
 
