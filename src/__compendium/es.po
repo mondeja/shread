@@ -18,9 +18,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3\n"
 
-msgid "This script needs to be executed as superuser."
-msgstr "Este script necesita ser ejecutado como superusuario."
-
 msgid "URL"
 msgstr "URL"
 
@@ -199,6 +196,9 @@ msgstr "Comprobando paquetes de Python adicionales..."
 
 msgid "Updating global Python3 libraries..."
 msgstr "Actualizando bibliotecas de Python3 globales..."
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
 
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."

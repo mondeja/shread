@@ -17,9 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "This script needs to be executed as superuser."
-msgstr "Este script necesita ser ejecutado como superusuario."
-
 msgid "URL"
 msgstr "URL"
 

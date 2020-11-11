@@ -1,7 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_URL="URL"
 _MSG_ERROR="Error"
 _MSG_ERROR_CODE="Error code"
@@ -15,33 +14,36 @@ _MSG_RETRIEVING_LAST_AVAILABLE_VERSION="Retrieving last available version..."
 _MSG_DOWNLOADING_GDRIVE_CLIENT="Downloading Google Drive client..."
 _MSG_UPDATING_GDRIVE="Updating Google Drive"
 _MSG_FOUND_GDRIVE_INSTALLED="Google Drive found installed in the system"
+</%block>
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
+<%block name="vars">
+_GDRIVE_BINARY_PATH="/usr/bin/gdrive"
+</%block>
 
-INDENT_STRING=""
+<%block name="usage_opts">[-b PATH]</%block>
+<%block name="usage_desc">
+  Downloads or upgrade Google Drive binary.
+</%block>
+<%block name="usage_opts_desc">
+  -b PATH, --binary-path PATH       Path where the downloaded gdrive binary will be stored. As default at '$_GDRIVE_BINARY_PATH'.
+</%block>
 
+<%block name="prepare">
 GITHUB_API_CURL_AUTH=""
 if [ -n "$GITHUB_USERNAME" ] && [ -n "$GITHUB_TOKEN" ]; then
   GITHUB_API_CURL_AUTH="$GITHUB_USERNAME:$GITHUB_TOKEN"
 fi;
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --indent)
+<%block name="argparse">
+    -b|--binary-path)
     shift
-    INDENT_STRING=$1
+    _GDRIVE_BINARY_PATH="$1"
     shift
     ;;
-  esac
-done
+</%block>
 
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
-}
-
+<%block name="script">
 function installPacmanIfNotInstalled() {
   if [ "$(command -v pacman)" = "" ]; then
     url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
@@ -53,7 +55,7 @@ function installScriptDependencies() {
   installPacmanIfNotInstalled
 
   INSTALLATION_DEPENDENCIES=("jq")
-  for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
       sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
     fi;
@@ -181,7 +183,7 @@ function main() {
     # Si no está instalado
     printIndent
     printf "  %s (v%s)..." "$_MSG_DOWNLOADING_GDRIVE_CLIENT" "$_GDRIVE_LASTEST_VERSION"
-    downloadGoogleDrive /usr/bin/gdrive
+    downloadGoogleDrive "$_GDRIVE_BINARY_PATH"
   else
     _GDRIVE_VERSION_OUTPUT=$(gdrive version | head -n 1 | cut -d' ' -f2)
     _GDRIVE_VERSION_OUTPUT_EXIT_CODE=$?
@@ -189,7 +191,7 @@ function main() {
       sudo rm -f "$(command -v gdrive)"
       printIndent
       printf "  %s (v%s)..." "$_MSG_DOWNLOADING_GDRIVE_CLIENT" "$_GDRIVE_LASTEST_VERSION"
-      downloadGoogleDrive /usr/bin/gdrive
+      downloadGoogleDrive "$_GDRIVE_BINARY_PATH"
     else
       _GDRIVE_INSTALLED_VERSION=$_GDRIVE_VERSION_OUTPUT
       printIndent
@@ -206,6 +208,5 @@ function main() {
       fi;
     fi;
   fi;
-
 }
-main
+</%block>
