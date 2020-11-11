@@ -36,7 +36,5 @@ https://mondeja.github.io/shread/unix/debian/install/firefox/en.sh
 https://mondeja.github.io/shread/unix/debian/install/firefox/es.sh
 https://mondeja.github.io/shread/unix/debian/install/chrome/en.sh
 https://mondeja.github.io/shread/unix/debian/install/chrome/es.sh
-https://mondeja.github.io/shread/unix/debian/install/redis/source/en.sh
-https://mondeja.github.io/shread/unix/debian/install/redis/source/es.sh
-https://mondeja.github.io/shread/unix/debian/install/redis/apt/en.sh
-https://mondeja.github.io/shread/unix/debian/install/redis/apt/es.sh
+https://mondeja.github.io/shread/unix/debian/install/redis/en.sh
+https://mondeja.github.io/shread/unix/debian/install/redis/es.sh
