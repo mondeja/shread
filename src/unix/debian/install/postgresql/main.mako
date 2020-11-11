@@ -1,7 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_ADDING_REPO="Adding repository..."
 _MSG_ERROR_RETRIEVING_POSTGRESQL_PUBLIC_KEY="An error happen retrieving PostgreSQL public key"
 _MSG_UPDATING_PACKAGES="Updating packages..."
@@ -29,89 +28,101 @@ _MSG_INSTALLING_PACKAGES="Installing packages..."
 _MSG_CHEKING_PG_ENV="Checking PostgreSQL environment..."
 _MSG_CHECKING_PACKAGES="Checking packages..."
 _MSG_DISTRO_VERSION_NOT_SUPPORTED="Your version of Debian/Ubuntu is not supported by official PostgreSQL repositories"
+</%block>
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
-
-INDENT_STRING=""
-
-# Indica la versión a instalar. Si es una cadena vacía, se obtendrá
-#   la última versión disponible de los repositorios de PostgreSQL
+<%block name="vars">
+# PostgreSQL version to install
 _VERSION=""
 
-# Indica si debemos incluir el paquete "postgresql-$_VERSION-postgis"
+# "postgresql-$_VERSION-postgis" package should be installed?
 _INCLUDE_POSTGIS=0
 
-# Indica la versión de Postgis a instalar. Si no se indica, se instalará
-#   la última versión disponible en los repositorios
+# Postgis version to install
 _POSTGIS_VERSION=""
 
-# Indica si debemos incluir PgAdmin
+# Install PgAdmin?
 _INCLUDE_PGADMIN=0
 
-# Indica si debemos incliur Plpython3
+# Install Plpython3?
 _INCLUDE_PLPYTHON3=0
+</%block>
 
-for arg in "$@"; do
-  case $arg in
-    --version)
+<%block name="usage_opts">[-pgv POSTGRESQL_VERSION] [-gis] [-gisv POSTGIS_VERSION] [-pgad] [-plpy3]</%block>
+<%block name="usage_desc">
+  Install PostgreSQL packages and, optionally, some additional packages from official sources.
+  Also check if the postgres service is running and enables it, if not already, for execute at start.
+</%block>
+<%block name="usage_opts_desc">
+  -pgv POSTGRESQL_VERSION, --postgresql-version POSTGRESQL_VERSION
+                                    PostgreSQL version to install. If not provided, the latest version in repositories will be installed.
+  -gis, --install-postgis           Install Postgis package correspondent to the PostgreSQL version to install.
+  -gisv POSTGIS_VERSION, --postgis-version POSTGIS_VERSION
+                                    Specifies what version of PostGIS will be installed. Only has effect passing '--install-postgis' option.
+                                    If not provided, will be installed the latest available version of the package.
+  -pgad, --install-pgadmin          Install latest version available of 'pgadmin' package.
+  -plpy3, --install-plpython3       Install latest version available of 'postgresql-plpython3-*' package.
+</%block>
+
+<%block name="prepare">
+_PGDG_SOURCES_LIST_FILEPATH
+</%block>
+
+<%block name="argparse">
+    -pgv|--postgresql-version)
     shift
     _VERSION=$1
     shift
     ;;
 
-    --install-postgis)
+    -gis|--install-postgis)
     _INCLUDE_POSTGIS=1
     shift
     ;;
 
-    --postgis-version)
+    -gisv|--postgis-version)
     shift
     _POSTGIS_VERSION=$1
     shift
     ;;
 
-    --install-pgadmin)
+    -pgad|--install-pgadmin)
     _INCLUDE_PGADMIN=1
     shift
     ;;
 
-    --install-plpython3)
+    -plpy3|--install-plpython3)
     _INCLUDE_PLPYTHON3=1
     shift
     ;;
+</%block>
 
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
-  esac
-done
-
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
+<%block name="script">
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
 }
 
-if [ "$(command -v pacman)" = "" ]; then
-  url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-  curl -sL "$url" | sudo bash - > /dev/null
-fi;
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
-INSTALLATION_DEPENDENCIES=(
-  "wget"
-  "aptitude"
-)
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-  fi;
-done;
+  INSTALLATION_DEPENDENCIES=(
+    "wget"
+    "aptitude"
+    "curl"
+  )
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
+    fi;
+  done;
+}
 
-_PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
-DEBIAN_VERSION="$(lsb_release -c -s)"
+DEBIAN_VERSION=""
+function getDebianVersion() {
+  DEBIAN_VERSION="$(lsb_release -c -s)"
+}
 
 function checkDebianVersionSupported() {
   DEBIAN_VERSION_SUPPORTED=0
@@ -159,9 +170,9 @@ function cleanPreviousSources() {
     "save"
   )
 
-  for EXT in "${_PGDG_SOURCES_EXTS[@]}"; do
-    if [ -f "${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}" ]; then
-      sudo rm -f "${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}" > /dev/null || exit $?
+  for EXT in "<%text>${_PGDG_SOURCES_EXTS[@]}</%text>"; do
+    if [ -f "<%text>${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}</%text>" ]; then
+      sudo rm -f "<%text>${_PGDG_SOURCES_LIST_FILEPATH}.${EXT}</%text>" > /dev/null || exit $?
     fi;
   done
 }
@@ -196,14 +207,14 @@ function getPostgresVersionToInstall() {
   if [ "$_VERSION" = "" ]; then
     printIndent
     printf "  %s" "$_MSG_RETRIEVING_LASTEST_STABLE_VERSION"
-    # Obtenemos la úlima versión
+    # Get latest stable version
     getLastestStablePostgresVersion
     _POSTGRES_VERSION_TO_INSTALL="$_LASTEST_STABLE_POSTGRES_VERSION"
     printf " (v%s)" "$_POSTGRES_VERSION_TO_INSTALL"
   else
     printIndent
     printf "  %s (%s)..." "$_MSG_CHECKING_AVAILABLE_VERSION" "$_VERSION"
-    # Comprobamos si la versión a instalar se encuentra entre las disponibles
+    # Check if version to install is available
     _POSTGRES_VERSION_TO_INSTALL=$(
       sudo aptitude search "~n ^postgresql" | \
       grep -Eo " postgresql-[0-9]{1,3}.{0,1}[0-9]{1,3} " | \
@@ -240,16 +251,16 @@ function installPostgresPackages() {
   if [ $_INCLUDE_POSTGIS -eq 1 ]; then
     if [ "$_POSTGIS_VERSION" = "" ]; then
       _POSTGIS_PACKAGE=$(
-        sudo aptitude search "~n ^postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis" | \
-        grep -Eo " postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis-[0-9]{1,3}.{0,1}[0-9]{0,3} " | \
+        sudo aptitude search "~n ^postgresql-<%text>${_POSTGRES_VERSION_TO_INSTALL}</%text>-postgis" | \
+        grep -Eo " postgresql-<%text>${_POSTGRES_VERSION_TO_INSTALL}</%text>-postgis-[0-9]{1,3}.{0,1}[0-9]{0,3} " | \
         awk '{ print $1 }' | \
         sort --version-sort | \
         tail -n 1
       )
     else
-      # Versión manual de PostGIS a instalar
+      # Postgis manual version to install
       _POSTGIS_PACKAGE_EXISTS=$(
-        sudo aptitude search "~n ^postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis-${_POSTGIS_VERSION}"
+        sudo aptitude search "~n ^postgresql-<%text>${_POSTGRES_VERSION_TO_INSTALL}-postgis-${_POSTGIS_VERSION}</%text>"
       )
       if [ "$_POSTGIS_PACKAGE_EXISTS" = "" ]; then
         printf "\n%s (v%s)" "$_MSG_VERSION_OF_POSTGIS_TRYING_TO_INSTALL" "$_POSTGIS_VERSION" >&2
@@ -257,10 +268,10 @@ function installPostgresPackages() {
         printf " (%s 'postgresql-%s-postgis%s')" "$_MSG_THE_PACKAGE" "$_POSTGRES_VERSION_TO_INSTALL" "$_POSTGIS_VERSION" >&2
         printf " %s\n" "$_MSG_DOESNT_EXISTS_IN_PG_OFFICIAL_REPOS" >&2
         printf "%s\n" "$_MSG_SPECIFY_AN_EXISTENT_VERSION" >&2
-        sudo aptitude search "~n ^postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis" >&2
+        sudo aptitude search "~n ^postgresql-<%text>${_POSTGRES_VERSION_TO_INSTALL}</%text>-postgis" >&2
         exit 1
       fi;
-      _POSTGIS_PACKAGE="postgresql-${_POSTGRES_VERSION_TO_INSTALL}-postgis-${_POSTGIS_VERSION}"
+      _POSTGIS_PACKAGE="postgresql-<%text>${_POSTGRES_VERSION_TO_INSTALL}-postgis-${_POSTGIS_VERSION}</%text>"
     fi;
     POSTGRES_PACKAGES+=(
       "$_POSTGIS_PACKAGE"
@@ -280,7 +291,7 @@ function installPostgresPackages() {
   fi;
   if [ $_INCLUDE_PLPYTHON3 -eq 1 ]; then
     _LASTEST_STABLE_PLPYTHON3_COMPATIBLE_PACKAGE=$(
-      sudo aptitude search "~n ^postgresql-plpython3-${_POSTGRES_VERSION_TO_INSTALL}" | \
+      sudo aptitude search "~n ^postgresql-plpython3-<%text>${_POSTGRES_VERSION_TO_INSTALL}"</%text> | \
       head -n 1 | \
       grep -o " postgresql-plpython3-12" | \
       awk '{ print $1 }'
@@ -294,7 +305,7 @@ function installPostgresPackages() {
 
   printIndent
   printf "  %s\n" "$1"
-  for PACKAGE in "${POSTGRES_PACKAGES[@]}"; do
+  for PACKAGE in "<%text>${POSTGRES_PACKAGES[@]}</%text>"; do
     printIndent
     printf "    %s" "$PACKAGE"
     if [[ "$(sudo pacman -Qi "$PACKAGE" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
@@ -361,8 +372,8 @@ function installPostgreSQL() {
   printIndent
   printf "  %s\n" "$_MSG_INSTALLING_PG"
 
-  # Comprobamos si la versión de Debian se encuentra
-  #   disponible en los repositorios oficiales de PostreSQL
+  # Check if the Debian system version is available at official Postgres repos
+  getDebianVersion
   checkDebianVersionSupported
   if [ $DEBIAN_VERSION_SUPPORTED -eq 0 ]; then
     printf "%s (%s)." "$_MSG_DISTRO_VERSION_NOT_SUPPORTED" "$DEBIAN_VERSION" >&2
@@ -382,21 +393,20 @@ function main() {
   printIndent
   printf "%s\n" "$_MSG_CHEKING_PG_ENV"
 
-  # Comprobamos si existe el servicio PostgreSQL
+  # Check if service exists
   checkPostgresqlServiceExists
   if [ $_POSTGRESQL_SERVICE_EXISTS -eq 0 ]; then
-    # Si no existe el servicio, instalamos PostgreSQL
+    # If not, install PostgreSQL
     installPostgreSQL
   else
-    # Si ya existe
-    #   Obtenemos la versión instalada
+    # If exists, obtain installed version
     getInstalledPostgresVersion
     _POSTGRES_VERSION_TO_INSTALL=$_POSTGRES_VERSION_INSTALLED
 
-    #   Comprobamos el resto de paquetes
+    # Check the rest of packages
     installPostgresPackages "$_MSG_CHECKING_PACKAGES"
   fi;
 
   checkPostgresqlServiceConfig
 }
-main
+</%block>

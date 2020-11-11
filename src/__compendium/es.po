@@ -197,9 +197,6 @@ msgstr "Comprobando paquetes de Python adicionales..."
 msgid "Updating global Python3 libraries..."
 msgstr "Actualizando bibliotecas de Python3 globales..."
 
-msgid "This script needs to be executed as superuser."
-msgstr "Este script necesita ser ejecutado como superusuario."
-
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
 
@@ -359,6 +356,9 @@ msgstr "Ejecutando script de instalación..."
 
 msgid "An error happen installing Atom"
 msgstr "Ocurrió un error instalando Atom"
+
+msgid "This script needs to be executed as superuser."
+msgstr "Este script necesita ser ejecutado como superusuario."
 
 msgid "Setting up Redis ecosystem..."
 msgstr "Configurando ecosistema Redis..."
