@@ -35,7 +35,7 @@ done
 # shellcheck source=scripts/constants.sh
 source scripts/constants.sh
 
-find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r script_filepath; do
+find src -type f -name "main.mako" | while read -r script_filepath; do
   # Ignore scripts with other names than `main.sh` and templates
   # with other name as 'main.mako'
   script_filename=$(basename "$script_filepath")

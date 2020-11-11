@@ -3,7 +3,7 @@
 
 PUBLIC_URL="https://mondeja.github.io/shread"
 
-SHREAD_VERSION="0.0.1"
+SHREAD_VERSION="0.1.0"
 
 SUPPORTED_LANGUAGES=(
   "es"

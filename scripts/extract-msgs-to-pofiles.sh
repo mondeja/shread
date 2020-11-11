@@ -62,7 +62,7 @@ msgstr ""
 EOF
 }
 
-find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r filepath; do
+find src -type f -name "main.mako" | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
 

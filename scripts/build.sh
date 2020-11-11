@@ -30,24 +30,25 @@ for arg in "$@"; do
   esac
 done
 
-rm -rf public
-if [ ! -d "public" ]; then
-  mkdir public
-fi;
+function main() {
+  rm -rf public && mkdir public
 
-# Install
-bash scripts/install.sh
+  # Install
+  bash scripts/install.sh
 
-# Create directory tree
-bash scripts/create-directory-tree.sh
+  # Create directory tree
+  bash scripts/create-directory-tree.sh
 
-# Localize, minify and encode as base64 Bash scripts
-bash scripts/render-localize-minify-encode-scripts.sh
+  # Localize, minify and encode as base64 Bash scripts
+  bash scripts/render-localize-minify-encode-scripts.sh
 
-# Create index file
-bash scripts/create-list-txt-file.sh
+  # Create index file
+  bash scripts/create-list-txt-file.sh
 
-# If development (default), create Gemfile for debug with Jekyll
-if [ "$JEKYLL_ENV" != "production" ]; then
-  bash scripts/create-gemfile.sh
-fi;
+  # If development (default), create Gemfile for debug with Jekyll
+  if [ "$JEKYLL_ENV" != "production" ]; then
+    bash scripts/create-gemfile.sh
+  fi;
+}
+
+main

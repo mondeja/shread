@@ -25,7 +25,6 @@ touch public/list.txt
 
 EXTENTIONS=(
   "sh"
-  "js"
 )
 
 for ext in "${EXTENTIONS[@]}"; do
