@@ -357,20 +357,8 @@ msgstr "Ejecutando script de instalación..."
 msgid "An error happen installing Atom"
 msgstr "Ocurrió un error instalando Atom"
 
-msgid "This script needs to be executed as superuser."
-msgstr "Este script necesita ser ejecutado como superusuario."
-
 msgid "Setting up Redis ecosystem..."
 msgstr "Configurando ecosistema Redis..."
-
-msgid "Checking service configuration..."
-msgstr "Comprobando configuración del servicio..."
-
-msgid "An error happen enabling 'redis-server' service."
-msgstr "Ocurrió un error habilitando el servicio 'redis-server'."
-
-msgid "The service 'redis-server' could not be started."
-msgstr "El servicio 'redis-server' no pudo ser iniciado."
 
 msgid "Retrieving lastest stable version..."
 msgstr "Obteniendo la última versión estable disponible..."
@@ -487,6 +475,15 @@ msgstr "Archivo de configuración de Grub no encontrado"
 
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
+
+msgid "Checking service configuration..."
+msgstr "Comprobando configuración del servicio..."
+
+msgid "An error happen enabling 'redis-server' service."
+msgstr "Ocurrió un error habilitando el servicio 'redis-server'."
+
+msgid "The service 'redis-server' could not be started."
+msgstr "El servicio 'redis-server' no pudo ser iniciado."
 
 msgid "Installing Mozilla Firefox packages..."
 msgstr "Instalando paquetes de Mozilla Firefox..."

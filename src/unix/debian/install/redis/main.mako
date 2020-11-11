@@ -1,9 +1,6 @@
-#!/bin/bash
-# -*- ENCODING: UTF-8 -*-
+<%inherit file="/bash-script.base.mako"/>
 
-# https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-redis-on-ubuntu-16-04
-
-_MSG_EXECUTED_AS_SUPERUSER="This script needs to be executed as superuser."
+<%block name="msgs">
 _MSG_SETTING_REDIS_ECOSYSTEM="Setting up Redis ecosystem..."
 _MSG_CHECKING_BASE_DEPENDENCIES="Checking base dependencies..."
 _MSG_RETRIEVING_LASTEST_STABLE_VERSION="Retrieving lastest stable version..."
@@ -28,61 +25,58 @@ _MSG_UNZIPPING="Unzipping..."
 _MSG_INSTALLING_REDIS="Installing Redis"
 _MSG_UPDATING_REDIS="Updating Redis"
 _MSG_FOUND_REDIS_INSTALLED="Found Redis installed"
+</%block>
 
-if [[ $(/usr/bin/id -u) -ne 0 ]]; then
-  printf "%s\n" "$_MSG_EXECUTED_AS_SUPERUSER" >&2
-  exit 1
-fi;
+<%block name="usage_opts">[-t]</%block>
+<%block name="usage_desc">
+  Install or update Redis building from source code. Also, generates the redis user and service.
+</%block>
+<%block name="usage_opts_desc">
+  -t, --test                        If passed, Redis build will be tested. This could take a lot of time.
+</%block>
 
-_ORIGIN_PWD=$PWD
-
-# Indica si debemos testear la construcción de redis
+<%block name="vars">
+# Redis build should be tested?
 _TEST=0
+</%block>
 
-INDENT_STRING=""
-for arg in "$@"; do
-  case $arg in
-    --indent)
-    shift
-    INDENT_STRING=$1
-    shift
-    ;;
+<%block name="prepare">
+_ORIGIN_PWD="$PWD"
+</%block>
 
-    --test)
+<%block name="argparse">
+    -t|--test)
     _TEST=1
     shift
     ;;
-  esac
-done
+</%block>
 
-function printIndent() {
-  printf "%s" "$INDENT_STRING"
+<%block name="script">
+function installPacmanIfNotInstalled() {
+  if [ "$(command -v pacman)" = "" ]; then
+    url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
+    curl -sL "$url" | sudo bash - > /dev/null
+  fi;
 }
 
-printIndent
-printf "%s\n" "$_MSG_SETTING_REDIS_ECOSYSTEM"
-printIndent
-printf "  %s\n" "$_MSG_CHECKING_BASE_DEPENDENCIES"
+function installScriptDependencies() {
+  installPacmanIfNotInstalled
 
-if [ "$(command -v pacman)" = "" ]; then
-  url="https://mondeja.github.io/shread/unix/_/download/pacapt/$_SCRIPT_FILENAME"
-  curl -sL "$url" | sudo bash - > /dev/null
-fi;
+  INSTALLATION_DEPENDENCIES=(
+    "build-essential"
+    "tcl"
+    "make"
+  )
 
-INSTALLATION_DEPENDENCIES=(
-  "build-essential"
-  "tcl"
-  "make"
-)
-
-for DEP in "${INSTALLATION_DEPENDENCIES[@]}"; do
-  printIndent
-  printf "    %s" "$DEP"
-  if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
-    sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
-  fi;
-  printf " \e[92m\xE2\x9C\x94\e[39m\n"
-done
+  for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
+    printIndent
+    printf "    %s" "$DEP"
+    if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
+      sudo pacman -S -- -y "$DEP" > /dev/null || exit $?
+    fi;
+    printf " \e[92m\xE2\x9C\x94\e[39m\n"
+  done
+}
 
 # Obtención de la última versión estable de Redis
 function getRedisServerLastestStableVersion() {
@@ -117,7 +111,7 @@ function downloadRedisLastestStableVersion() {
 }
 
 function buildRedis() {
-  # Construimos desde el código fuente
+  # Build from source code
   printIndent
   printf "    %s\n" "$_MSG_BUILDING_SOURCE_CODE"
   stdbuf -oL make 2>&1 |
@@ -144,7 +138,6 @@ function testRedisBuild() {
 }
 
 function checkRedisServiceConfig() {
-  # Comprobamos el servicio
   printIndent
   printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
   printIndent
@@ -194,16 +187,16 @@ function checkRedisServiceConfig() {
 }
 
 function configureRedis() {
-  # Creamos directorio de configuración de Redis
+  # Create Redis configuration directory
   if [ -d "/etc/redis" ]; then
     sudo rm -rf /etc/redis
   fi;
   sudo mkdir /etc/redis || exit $?
 
-  # Copiamos la configuración por defecto
+  # Copy default configuration
   sudo cp /tmp/redis-stable/redis.conf /etc/redis || exit $?
 
-  # Cambiamos directivas de configuración:
+  # Update configuration:
   #   supervised: no -> systemd
   sudo sed -i 's/^supervised no/supervised systemd/' /etc/redis/redis.conf || \
     exit $?
@@ -211,10 +204,10 @@ function configureRedis() {
   sudo sed -i 's/^dir \.\//dir \/var\/lib\/redis/' /etc/redis/redis.conf || \
     exit $?
 
-  # Creamos archivo de configuración de servicio del sistema
+  # Create service configuration file
   printf "    %s" "$_MSG_CREATING_SERVICE"
 
-  # Detenemos la versión del servicio anterior, si estaba en ejecución
+  # Stop previous service, if was running
   sudo systemctl daemon-reload
   _REDIS_SERVICE_STATUS=$(
     sudo systemctl show -p ActiveState redis | \
@@ -250,25 +243,25 @@ EOF
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printf "    %s" "$_MSG_CREATING_USER"
-  # Comprobamos si existe el usuario 'redis'
+  # Check if 'redis' user exists
   if ! id -u redis > /dev/null 2>&1; then
     # Ya existe, lo eliminamos
     sudo userdel -f redis
   fi;
-  # Creamos el usuario 'redis'
+  # Create 'redis' user
   sudo adduser --system --group --no-create-home redis > /dev/null || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  # Creamos el directorio de Redis
+  # Create Redis directory
   if [ -d "/var/lib/redis" ]; then
     sudo rm -rf /var/lib/redis || exit $?
   fi;
   sudo mkdir /var/lib/redis || exit $?
 
-  # Damos permisos al usuario en el directorio
+  # Give permissions to user in directory
   sudo chown redis:redis /var/lib/redis || exit $?
 
-  # Los usuarios regulares no podrán acceder al diectorio
+  # Regular users can't access to the directory
   sudo chmod 770 /var/lib/redis || exit $?
 
   sudo systemctl daemon-reload
@@ -279,65 +272,71 @@ function installRedis() {
     rm -rf redis-stable
   fi;
 
-  # Descomprimimos el archivo descargado
+  # Unzip downloaded file
   printIndent
   printf "    %s" "$_MSG_UNZIPPING"
   tar xzvf "$1" > /dev/null || exit $?
-  # Eliminamos el archivo comprimido
+  # Remove zipped file
   rm -f "$1" || exit $?
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
-  # Entramos en el directorio de redis-stable
+  # Build source code
   cd redis-stable || exit $?
-
-  # Construimos el código fuente
   buildRedis
 
-  # Testeamos la construcción (si es necesario)
+  # Test build, if necessary
   if [ $_TEST -eq 1 ]; then
     testRedisBuild
   fi;
 
   sudo make install > /dev/null 2>&1 || exit $?
 
-  # Configuramos la instalación de Redis
+  # Configure Redis installation
   configureRedis
 }
 
-# Cambiamos al directorio temporal
-cd /tmp || exit $?
-
-# Obtenemos la última versión estable disponible
-getRedisServerLastestStableVersion
-
-# Comprobamos si se encuentra instalado
-_REDIS_BINARY_FILEPATH="$(command -v redis-server)"
-if [ "$_REDIS_BINARY_FILEPATH" = "" ]; then
-  downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
+function main() {
   printIndent
-  printf "  %s (v%s)...\n" "$_MSG_INSTALLING_REDIS" "$_REDIS_LASTEST_STABLE_VERSION"
-  installRedis /tmp/redis-stable.tar.gz
-else
-  _REDIS_INSTALLED_VERSION=$(
-    redis-server --version | \
-    cut -d'=' -f2 | \
-    cut -d' ' -f1)
-  # Si la versión de Redis no es la última estable
+  printf "%s\n" "$_MSG_SETTING_REDIS_ECOSYSTEM"
+  printIndent
+  printf "  %s\n" "$_MSG_CHECKING_BASE_DEPENDENCIES"
+  installScriptDependencies
 
-  if [ "$_REDIS_INSTALLED_VERSION" != "$_REDIS_LASTEST_STABLE_VERSION" ]; then
+  # Change to temporal directory
+  cd /tmp || exit $?
+
+  # Get latest available version
+  getRedisServerLastestStableVersion
+
+  # Check if is installed
+  _REDIS_BINARY_FILEPATH="$(command -v redis-server)"
+  if [ "$_REDIS_BINARY_FILEPATH" = "" ]; then
     downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
     printIndent
-    printf "  %s (v%s ->" "$_MSG_UPDATING_REDIS" "$_REDIS_INSTALLED_VERSION"
-    printf " v%s)...\n" "$_REDIS_LASTEST_STABLE_VERSION"
+    printf "  %s (v%s)...\n" "$_MSG_INSTALLING_REDIS" "$_REDIS_LASTEST_STABLE_VERSION"
     installRedis /tmp/redis-stable.tar.gz
   else
-    printIndent
-    printf "  %s (v%s)" "$_MSG_FOUND_REDIS_INSTALLED" "$_REDIS_INSTALLED_VERSION"
-    printf " \e[92m\xE2\x9C\x94\e[39m\n"
+    _REDIS_INSTALLED_VERSION=$(
+      redis-server --version | \
+      cut -d'=' -f2 | \
+      cut -d' ' -f1)
+    # If the version of Redis is not the latest stable
+    if [ "$_REDIS_INSTALLED_VERSION" != "$_REDIS_LASTEST_STABLE_VERSION" ]; then
+      downloadRedisLastestStableVersion /tmp/redis-stable.tar.gz
+      printIndent
+      printf "  %s (v%s ->" "$_MSG_UPDATING_REDIS" "$_REDIS_INSTALLED_VERSION"
+      printf " v%s)...\n" "$_REDIS_LASTEST_STABLE_VERSION"
+      installRedis /tmp/redis-stable.tar.gz
+    else
+      printIndent
+      printf "  %s (v%s)" "$_MSG_FOUND_REDIS_INSTALLED" "$_REDIS_INSTALLED_VERSION"
+      printf " \e[92m\xE2\x9C\x94\e[39m\n"
+    fi;
   fi;
-fi;
 
-# Comprobamos el servicio
-checkRedisServiceConfig
+  # Check the service
+  checkRedisServiceConfig
 
-cd "$_ORIGIN_PWD" || exit $?
+  cd "$_ORIGIN_PWD" || exit $?
+}
+</%block>

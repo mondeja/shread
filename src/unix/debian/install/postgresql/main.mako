@@ -64,7 +64,7 @@ _INCLUDE_PLPYTHON3=0
 </%block>
 
 <%block name="prepare">
-_PGDG_SOURCES_LIST_FILEPATH
+_PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
 </%block>
 
 <%block name="argparse">
