@@ -32,10 +32,6 @@ for arg in "$@"; do
     usage
     ;;\
     <%block name="argparse"/>\
-    *)
-    shift
-    usage
-    ;;
   esac
 done
 

@@ -476,14 +476,5 @@ msgstr "Archivo de configuración de Grub no encontrado"
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
 
-msgid "Checking service configuration..."
-msgstr "Comprobando configuración del servicio..."
-
-msgid "An error happen enabling 'redis-server' service."
-msgstr "Ocurrió un error habilitando el servicio 'redis-server'."
-
-msgid "The service 'redis-server' could not be started."
-msgstr "El servicio 'redis-server' no pudo ser iniciado."
-
 msgid "Installing Mozilla Firefox packages..."
 msgstr "Instalando paquetes de Mozilla Firefox..."
