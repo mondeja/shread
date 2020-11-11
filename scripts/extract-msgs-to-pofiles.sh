@@ -74,6 +74,14 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r file
       continue
     fi;
 
+    # Create temporal cache for stores all msgids found for every language.
+    # Thanks to these files, we can later mark as obsoletes in compendiums
+    # those messages not found yet in scripts
+    LANG_MSGIDS_CACHE_FILE="/tmp/shread-compendium-$lang-messages.txt"
+    if [ ! -f "$LANG_MSGIDS_CACHE_FILE" ]; then
+      > "$LANG_MSGIDS_CACHE_FILE"
+    fi;
+
     # If compendium for this language doesn't exists, create it
     if [ ! -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
       createPoLanguageFile "$COMPENDIUM_DIRPATH" "$lang" "" "po" "1"
@@ -89,6 +97,8 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r file
     createPoLanguageFile "$dirpath" "$lang" "$filename" "pot" "0"
 
     # Insert new translations into .pot file
+
+    # Number of strings extracted from this script
     _N_STRINGS_EXTRACTED=0
 
     # Iterate over lines inside script
@@ -112,6 +122,9 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r file
         # Trim spaces at the beggining and the end
         # shellcheck disable=SC2001
         MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
+
+        # Save every msgid in temporal cache
+        printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
 
         # Insert msgid into .pot file
         #   msgstr is initialized with a space because, if initialized
@@ -139,8 +152,6 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r file
         printf "%s" "$_MSGMERGE_OUTPUT" >&2
         exit $_MSGMERGE_EXIT_CODE
       fi;
-    else
-      rm -f "$dirpath/$lang.pot"
     fi;
 
     # Update compendium for the language
@@ -182,6 +193,67 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
   if [ -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
     # Convert `msgstr " "` messages to `msgstr ""` in compendium
     sed -i 's/^msgstr " "/msgstr ""/' "$COMPENDIUM_DIRPATH/$lang.po"
+
+    # Mark messages not found in scripts as obsoletes in compendium
+    LANG_MSGIDS_CACHE_FILE="/tmp/shread-compendium-$lang-messages.txt"
+
+    # Remove compendium wrapping to facilitates manipulation
+    msgcat "$COMPENDIUM_DIRPATH/$lang.po" --no-wrap --color="no" > \
+      "$COMPENDIUM_DIRPATH/$lang.po.bak"
+
+    # Extract msgids from compendium:
+    #   - Match msgids
+    #   - Remove first line (meta msgid)
+    #   - Get all after first '"'
+    #   - Remove last character from each line ('"')
+    COMPENDIUM_MSGIDS_LINES="$(
+      cat "$COMPENDIUM_DIRPATH/$lang.po.bak" | \
+      grep "^msgid" | \
+      sed 1d | \
+      cut -d'"' -f2- | \
+      sed 's/.$//')"
+    readarray -t COMPENDIUM_MSGIDS <<< "$COMPENDIUM_MSGIDS_LINES"
+
+    # For each msgid in compedium, check if the msgid has bee found in current
+    #   translations
+    for COMPENDIUM_MSGID in "${COMPENDIUM_MSGIDS[@]}"; do
+      _FOUND=0
+      while IFS= read -r line; do
+        if [ "$line" = "$COMPENDIUM_MSGID" ]; then
+          _FOUND=1
+          break
+        fi;
+      done < "$LANG_MSGIDS_CACHE_FILE"
+      if [ "$_FOUND" -eq 0 ]; then
+        # Mark msgid in compendium as obsolete
+        NEW_COMPENDIUM_BAK_FILE_CONTENT=""
+        _OBSOLETOR=0
+        while IFS= read -r line; do
+          if [ "$line" = "msgid \"$COMPENDIUM_MSGID\"" ]; then
+            _OBSOLETOR=1
+          elif [ "$_OBSOLETOR" -eq 1 ] && [ "$line" = "" ]; then
+            _OBSOLETOR=0
+          fi;
+          if [ "$_OBSOLETOR" -eq 1 ]; then
+            NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT#~ $line
+"
+          else
+            NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT$line
+"
+          fi;
+        done < "$COMPENDIUM_DIRPATH/$lang.po.bak"
+        printf "%s" "$NEW_COMPENDIUM_BAK_FILE_CONTENT" \
+          > "$COMPENDIUM_DIRPATH/$lang.po.bak"
+      fi;
+    done;
+
+    # Update compendium
+    msgcat "$COMPENDIUM_DIRPATH/$lang.po.bak" --color="no" \
+      > "$COMPENDIUM_DIRPATH/$lang.po"
+    rm "$COMPENDIUM_DIRPATH/$lang.po.bak"
+
+    # Remove msgids cache file
+    rm "$LANG_MSGIDS_CACHE_FILE"
   fi;
 done;
 

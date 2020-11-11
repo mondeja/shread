@@ -9,3 +9,4 @@ __dev__.sh
 /venv/
 main_.sh
 __main.sh
+*.bak

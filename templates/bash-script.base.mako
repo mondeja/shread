@@ -23,9 +23,8 @@ HELP_USAGE
 for arg in "$@"; do
   case $arg in
     -i|--indent)
-    shift
-    INDENT_STRING="$1"
-    shift
+    INDENT_STRING="$2"
+    shift 2
     ;;
     -h|--help)
     shift
