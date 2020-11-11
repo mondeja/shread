@@ -79,7 +79,7 @@ find src -type f \( -name "main.sh" -o -name "main.mako" \) | while read -r file
     # those messages not found yet in scripts
     LANG_MSGIDS_CACHE_FILE="/tmp/shread-compendium-$lang-messages.txt"
     if [ ! -f "$LANG_MSGIDS_CACHE_FILE" ]; then
-      > "$LANG_MSGIDS_CACHE_FILE"
+      printf "" > "$LANG_MSGIDS_CACHE_FILE"
     fi;
 
     # If compendium for this language doesn't exists, create it
@@ -207,7 +207,7 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
     #   - Get all after first '"'
     #   - Remove last character from each line ('"')
     COMPENDIUM_MSGIDS_LINES="$(
-      cat "$COMPENDIUM_DIRPATH/$lang.po.bak" | \
+      < "$COMPENDIUM_DIRPATH/$lang.po.bak" \
       grep "^msgid" | \
       sed 1d | \
       cut -d'"' -f2- | \
