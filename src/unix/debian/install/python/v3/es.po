@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-12 12:07:23+0100\n"
+"POT-Creation-Date: 2020-11-12 14:10:10+0100\n"
 "PO-Revision-Date: 2020-05-01 21:40:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: es\n"
@@ -31,3 +31,72 @@ msgstr "Comprobando paquetes de Python adicionales..."
 
 msgid "Updating global Python3 libraries..."
 msgstr "Actualizando bibliotecas de Python3 globales..."
+
+msgid "Installs some Python2 and Python3 APT packages if are not installed:"
+msgstr ""
+
+msgid "- curl"
+msgstr ""
+
+msgid "- python3-dev"
+msgstr ""
+
+msgid "- python3-pip"
+msgstr ""
+
+msgid "- python3-setuptools"
+msgstr ""
+
+msgid "- python3-testresources"
+msgstr ""
+
+msgid "- libxml2-utils"
+msgstr ""
+
+msgid "- python-lxml"
+msgstr ""
+
+msgid "- python3-lxml"
+msgstr ""
+
+msgid "- python-numpy"
+msgstr ""
+
+msgid "- python3-numpy"
+msgstr ""
+
+msgid "+ In Ubuntu >= 18 installs also:"
+msgstr ""
+
+msgid "- python3-distutils"
+msgstr ""
+
+msgid "+ In Ubuntu < 20 installs also:"
+msgstr ""
+
+msgid "- python-pip"
+msgstr ""
+
+msgid "- python-dev"
+msgstr ""
+
+msgid "+ In Ubuntu >= 20 installs also:"
+msgstr ""
+
+msgid "- python-dev-is-python2"
+msgstr ""
+
+msgid "Optionally, installs or upgrade using PIP some Python3 packages globally:"
+msgstr ""
+
+msgid "- pip"
+msgstr ""
+
+msgid "- virtualenv"
+msgstr ""
+
+msgid "- setuptools"
+msgstr ""
+
+msgid "- testresources"
+msgstr ""

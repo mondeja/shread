@@ -50,7 +50,7 @@ _INCLUDE_PLPYTHON3=0
 <%block name="usage_opts">[-pgv POSTGRESQL_VERSION] [-gis] [-gisv POSTGIS_VERSION] [-pgad] [-plpy3]</%block>
 <%block name="usage_desc">
   Install PostgreSQL packages and, optionally, some additional packages from official sources.
-  Also check if the postgres service is running and enables it, if not already, for execute at start.
+  Also checks if the 'postgres' service is running and enables it, if is not already.
 </%block>
 <%block name="usage_opts_desc">
   -pgv POSTGRESQL_VERSION, --postgresql-version POSTGRESQL_VERSION

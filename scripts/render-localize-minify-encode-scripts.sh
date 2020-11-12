@@ -17,7 +17,9 @@ function usage {
   printf " which are empty.\n"
   printf "      2.5. Encode scripts logic as base64.\n"
   printf "      2.6. Wraps base64 encoded scripts statements with a base64"
-  printf " decoder passing all arguments to the decoded script content.\n\n"
+  printf " decoder passing all arguments to the decoded script content.\n"
+  printf "    3. Store each localized encoded script in their correspondent"
+  printf " location of 'public/' directory.\n\n"
   printf "Options:\n"
   printf "  -h, --help                    Show this help message and exit.\n"
   exit 1
@@ -87,32 +89,80 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
         | cut -d'"' -f2- \
         | sed 's/.$//')"
 
+      # inside 'Usage:' section of the help (translation of usage section)
+      _inside_usage=0
+      # inside 'Options:' section of the help (translation of usage section)
+      _inside_options=0
+
+      # All sections have been parsed (optimization)
+      _sections_parsed=0
+
+      # Iterate over lines of rendered script
       while IFS= read -r line; do
-        # If the line contains a message
+
         line_output=$line
-        if [[ $line = _MSG* ]]; then
-          # Get msgid
-          # shellcheck disable=SC2206
-          MSG_VARIABLE_SPLIT=(${line//\"/ })
-          MSG_SPLITTED_LENGTH="${#MSG_VARIABLE_SPLIT[@]}"
-          MSGID=""
-          # shellcheck disable=SC2006
-          for i in `seq 1 "$MSG_SPLITTED_LENGTH"`; do
-            MSGID="${MSGID} ${MSG_VARIABLE_SPLIT[$i]}"
-          done
-          # Trim spaces at the beggining and the end
-          # shellcheck disable=SC2001,SC2086
-          MSGID="$(echo "$MSGID" | sed 's/^ | *$//')"
+        if [ "$_sections_parsed" -eq 0 ]; then
+          if [ "$_inside_usage" -eq 1 ]; then
+            if [ "$line" = "Options:" ]; then
+              _inside_usage=0
+              _inside_options=1
+            elif [ "$line" != "" ]; then
+              # Remove spaces at beggining
+              MSGID="${line#"${line%%[![:space:]]*}"}"
 
-          # Get msgstr
-          MSGSTR_LINE=$(< "$po_filepath" grep -A 1 "msgid \"$MSGID\"" | tail -n 1)
-          MSGSTR_LINE_LENGHT=${#MSGSTR_LINE}
-          MSGSTR_LINE_NDEL="$((MSGSTR_LINE_LENGHT-9))"
-          MSGSTR=${MSGSTR_LINE:8:$MSGSTR_LINE_NDEL}
+              # Get spaces at the beggining
+              _spaces_at_start="$(printf '   a' | grep -Eo '^ *')"
 
-          # Replace variable in for message
-          # shellcheck disable=SC2128
-          line_output="${MSG_VARIABLE_SPLIT}\"${MSGSTR}\""
+              MSGSTR=$(
+                grep -i -A 1 "msgid \"$MSGID\"" "$po_filepath" \
+                | tail -n 1 \
+                | cut -d'"' -f2- | \
+                sed 's/.$//')
+              if [ "$MSGSTR" = "" ]; then
+                MSGSTR="$MSGID"
+              fi;
+
+              line_output="$_spaces_at_start$MSGSTR"
+            fi;
+          elif [ "$_inside_options" -eq 1 ]; then
+            # TODO: translate options section
+
+            if [ "$line" = "HELP_USAGE" ]; then
+              # exit options section, all parsed
+              _inside_options=0
+              _sections_parsed=1
+            fi;
+          else
+            # If the line contains a message
+            if [[ $line = _MSG* ]]; then
+              # Get msgid
+              # shellcheck disable=SC2206
+              MSG_VARIABLE_SPLIT=(${line//\"/ })
+              MSG_SPLITTED_LENGTH="${#MSG_VARIABLE_SPLIT[@]}"
+              MSGID=""
+              # shellcheck disable=SC2006
+              for i in `seq 1 "$MSG_SPLITTED_LENGTH"`; do
+                MSGID="${MSGID} ${MSG_VARIABLE_SPLIT[$i]}"
+              done
+              # Trim spaces at the beggining and the end
+              # shellcheck disable=SC2001,SC2086
+              MSGID="$(printf "%s" "$MSGID" | sed 's/^ | *$//')"
+
+              # Get msgstr
+              MSGSTR=$(
+                grep -i -A 1 "msgid \"$MSGID\"" "$po_filepath" \
+                | tail -n 1 \
+                | cut -d'"' -f2- | \
+                sed 's/.$//')
+
+              # Replace variable in for message
+              # shellcheck disable=SC2128
+              line_output="${MSG_VARIABLE_SPLIT}\"${MSGSTR}\""
+            elif [[ "$line" = Usage:* ]]; then
+              # enter usage section
+              _inside_usage=1
+            fi;
+          fi;
         fi;
         printf "%s\n" "$line_output" >> "$temp_localized_script"
       done < "$script_filepath"
@@ -154,9 +204,8 @@ $line"
           # Replace hardcoded messages inside localized script ("Usage:"
           # and "Options:")
           if [[ $line == Usage:* ]]; then
-            _after_usage_content="$(printf "%s" "$line" | cut -d' ' -f2-)"
             new_temp_localized_script_output="$new_temp_localized_script_output
-$USAGE_MSGSTR $_after_usage_content"
+$USAGE_MSGSTR $(printf "%s" "$line" | cut -d' ' -f2-)"
           elif [[ $line == Options:* ]]; then
             new_temp_localized_script_output="$new_temp_localized_script_output
 $OPTIONS_MSGSTR"
@@ -168,7 +217,6 @@ $line"
           new_temp_localized_script_output="$new_temp_localized_script_output
 $line"
         fi;
-
       fi;
     done < "$temp_localized_script"
     printf "%s" "$new_temp_localized_script_output" > "$temp_localized_script"
@@ -203,8 +251,7 @@ fi;
 END
 
     rm -f "$temp_localized_script"
-  done
-
-done
+  done  # end of SUPPORTED_LANGUAGES loop
+done  # end of find scripts loop
 
 printf "\n"

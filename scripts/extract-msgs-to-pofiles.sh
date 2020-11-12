@@ -27,13 +27,15 @@ for arg in "$@"; do
   esac
 done
 
-: "
-  $1 - Directory path.
-  $2 - Language code.
-  $3 - Script filename.
-  $4 - Created file extension.
-  $5 - 1 if compendium, 0 if not.
-"
+: ' Creates a pofile.
+
+Arguments:
+  1. Directory path.
+  2. Language code.
+  3. Script filename.
+  4. Created file extension.
+  5. 1 if is a compendium, 0 if not.
+'
 function createPoLanguageFile() {
   if [ "$5" = "1" ]; then
     PO_FIRST_LINE="# $2 compedium of shread."
@@ -104,49 +106,69 @@ find src -type f -name "main.mako" | while read -r filepath; do
 
     # Iterate over lines inside script
 
-    #   inside messages section? (this is an optimization)
-    _inside_msgs=0
+    #   inside usage_desc block? (their content is extracted)
+    _inside_usage_desc=0
     while IFS= read -r line; do
-      # If we've found a message
-      if [[ $line = _MSG* ]]; then
-        _inside_msgs=1
+      if [ "$_inside_usage_desc" -eq 1 ]; then
+        if [ "$line" = "</%block>" ]; then
+          _inside_usage_desc=0
+          continue
+        elif [ "$line" = "" ]; then
+          continue
+        else
+          # Add each 'usage_desc' block line as msgids into pofiles
 
-        # Extract msgid
-        # shellcheck disable=SC2206
-        MSG_VARIABLE_SPLIT="${line//\"/ }"
-        MSGID=""
+          # Remove spaces from the beggining
+          MSGID="${line#"${line%%[![:space:]]*}"}"
 
-        for word in $MSG_VARIABLE_SPLIT; do
-          if [[ $word != _MSG* ]]; then
-            if [ "$MSGID" = "" ]; then
-              MSGID="$word"
-            else
-              MSGID="${MSGID} $word"
+          (( _N_STRINGS_EXTRACTED++ ))
+
+          printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+
+          printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+            >> "$dirpath/$lang.pot"
+        fi;
+      else
+        # If we've found a message
+        if [[ $line = _MSG* ]]; then
+          # Extract msgid
+          # shellcheck disable=SC2206
+          MSG_VARIABLE_SPLIT="${line//\"/ }"
+          MSGID=""
+
+          for word in $MSG_VARIABLE_SPLIT; do
+            if [[ $word != _MSG* ]]; then
+              if [ "$MSGID" = "" ]; then
+                MSGID="$word"
+              else
+                MSGID="${MSGID} $word"
+              fi;
             fi;
+          done;
+          # Trim spaces at the beggining and the end
+          # shellcheck disable=SC2001
+          MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
+
+          (( _N_STRINGS_EXTRACTED++ ))
+
+          # Hardcoded mmessages (usage section)
+          if [ "$MSGID" = "Usage:" ] || [ "$MSGID" = "Options:" ]; then
+            continue
           fi;
-        done;
-        # Trim spaces at the beggining and the end
-        # shellcheck disable=SC2001
-        MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
 
-        (( _N_STRINGS_EXTRACTED++ ))
+          # Save every msgid in temporal cache
+          printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
 
-        # Hardcoded mmessages (usage section)
-        if [ "$MSGID" = "Usage:" ] || [ "$MSGID" = "Options:" ]; then
+          # Insert msgid into .pot file
+          #   msgstr is initialized with a space because, if initialized
+          #   without content, there not will be included merging in
+          #   compendium. At the end of the translation file loop will empty
+          printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+            >> "$dirpath/$lang.pot"
+        elif [ "$line" = "<%block name=\"usage_desc\">" ]; then
+          _inside_usage_desc=1
           continue
         fi;
-
-        # Save every msgid in temporal cache
-        printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
-
-        # Insert msgid into .pot file
-        #   msgstr is initialized with a space because, if initialized
-        #   without content, there not will be included merging in
-        #   compendium. At the end of the translation file loop will empty
-        printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" >> "$dirpath/$lang.pot"
-      elif [ "$_inside_msgs" -eq 1 ]; then
-        # exit messages section
-        break
       fi;
     done < "$filepath"
 

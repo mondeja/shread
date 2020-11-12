@@ -31,8 +31,7 @@ _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
   + In Ubuntu >= 20 installs also:
     - python-dev-is-python2
 
-  Also, installs or upgrade using PIP some Python3 packages globally (this step
-  can be ignored using '--no-upgrade-py3-global-libs' option):
+  Optionally, installs or upgrade using PIP some Python3 packages globally:
 
   - pip
   - virtualenv
