@@ -72,6 +72,21 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
 
     # Copy `main.sh` script content localizing messages
     if [ "$lang" != "en" ]; then
+
+      COMPENDIUM_FILEPATH="src/__compendium/$lang.po"
+
+      # Retrieve hardcoded msgids from compendium (usage section)
+      USAGE_MSGSTR="$(
+        grep -i -A 1 'msgid "Usage:"' "$COMPENDIUM_FILEPATH" \
+        | tail -n 1 \
+        | cut -d'"' -f2- \
+        | sed 's/.$//')"
+      OPTIONS_MSGSTR="$(
+        grep -i -A 1 'msgid "Options:"' "$COMPENDIUM_FILEPATH" \
+        | tail -n 1 \
+        | cut -d'"' -f2- \
+        | sed 's/.$//')"
+
       while IFS= read -r line; do
         # If the line contains a message
         line_output=$line
@@ -87,7 +102,7 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
           done
           # Trim spaces at the beggining and the end
           # shellcheck disable=SC2001,SC2086
-          MSGID="$(echo $MSGID | sed 's/^ | *$//')"
+          MSGID="$(echo "$MSGID" | sed 's/^ | *$//')"
 
           # Get msgstr
           MSGSTR_LINE=$(< "$po_filepath" grep -A 1 "msgid \"$MSGID\"" | tail -n 1)
@@ -99,7 +114,7 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
           # shellcheck disable=SC2128
           line_output="${MSG_VARIABLE_SPLIT}\"${MSGSTR}\""
         fi;
-        echo "$line_output" >> "$temp_localized_script"
+        printf "%s\n" "$line_output" >> "$temp_localized_script"
       done < "$script_filepath"
     else
       cat "$script_filepath" >> "$temp_localized_script"
@@ -133,9 +148,27 @@ $line"
           fi;
         fi;
       else
-        # skip HELP_USAGE sections
-        new_temp_localized_script_output="$new_temp_localized_script_output
+        # skip HELP_USAGE sections stripping new lines
+
+        if [ "$lang" != "en" ]; then
+          # Replace hardcoded messages inside localized script ("Usage:"
+          # and "Options:")
+          if [[ $line == Usage:* ]]; then
+            _after_usage_content="$(printf "%s" "$line" | cut -d' ' -f2-)"
+            new_temp_localized_script_output="$new_temp_localized_script_output
+$USAGE_MSGSTR $_after_usage_content"
+          elif [[ $line == Options:* ]]; then
+            new_temp_localized_script_output="$new_temp_localized_script_output
+$OPTIONS_MSGSTR"
+          else
+            new_temp_localized_script_output="$new_temp_localized_script_output
 $line"
+          fi;
+        else
+          new_temp_localized_script_output="$new_temp_localized_script_output
+$line"
+        fi;
+
       fi;
     done < "$temp_localized_script"
     printf "%s" "$new_temp_localized_script_output" > "$temp_localized_script"
@@ -171,6 +204,7 @@ END
 
     rm -f "$temp_localized_script"
   done
+
 done
 
 printf "\n"

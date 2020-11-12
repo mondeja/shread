@@ -76,7 +76,7 @@ function incrementVersion() {
 
   # source scripts pofiles
   find src -type f -name "*.po" | while read -r po_filepath; do
-    sed -i -E "s/Project-Id\-Version: .+\\\\n/Project-Id-Version: $_NEW_VERSION\\\\n/g" \
+    sed -i -E "s/Project-Id-Version: .+\\\\n/Project-Id-Version: $_NEW_VERSION\\\\n/g" \
       "$po_filepath"
   done;
 }

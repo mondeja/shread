@@ -101,10 +101,16 @@ find src -type f -name "main.mako" | while read -r filepath; do
     # Number of strings extracted from this script
     _N_STRINGS_EXTRACTED=0
 
+
     # Iterate over lines inside script
+
+    #   inside messages section? (this is an optimization)
+    _inside_msgs=0
     while IFS= read -r line; do
       # If we've found a message
       if [[ $line = _MSG* ]]; then
+        _inside_msgs=1
+
         # Extract msgid
         # shellcheck disable=SC2206
         MSG_VARIABLE_SPLIT="${line//\"/ }"
@@ -123,6 +129,13 @@ find src -type f -name "main.mako" | while read -r filepath; do
         # shellcheck disable=SC2001
         MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
 
+        (( _N_STRINGS_EXTRACTED++ ))
+
+        # Hardcoded mmessages (usage section)
+        if [ "$MSGID" = "Usage:" ] || [ "$MSGID" = "Options:" ]; then
+          continue
+        fi;
+
         # Save every msgid in temporal cache
         printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
 
@@ -131,10 +144,17 @@ find src -type f -name "main.mako" | while read -r filepath; do
         #   without content, there not will be included merging in
         #   compendium. At the end of the translation file loop will empty
         printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" >> "$dirpath/$lang.pot"
-
-        (( _N_STRINGS_EXTRACTED++ ))
+      elif [ "$_inside_msgs" -eq 1 ]; then
+        # exit messages section
+        break
       fi;
     done < "$filepath"
+
+    # Add hardcoded messages (usage section)
+    usage_section_msgids=("Usage:" "Options:")
+    for MSGID in "${usage_section_msgids[@]}"; do
+      printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+    done
 
     if [ $_N_STRINGS_EXTRACTED -gt 0 ]; then
       # Merge new messages into .po file
@@ -216,7 +236,19 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
 
     # For each msgid in compedium, check if the msgid has bee found in current
     #   translations
+
+    #   Harcoded messages (usage section)
+    _usage_found=0
+    _options_found=0
     for COMPENDIUM_MSGID in "${COMPENDIUM_MSGIDS[@]}"; do
+
+      # Check if hardcoded messages (usage section) are in compendium
+      if [ "$COMPENDIUM_MSGID" = "Usage:" ]; then
+        _usage_found=1
+      elif [ "$COMPENDIUM_MSGID" = "Options:" ]; then
+        _options_found=1
+      fi;
+
       _FOUND=0
       while IFS= read -r line; do
         if [ "$line" = "$COMPENDIUM_MSGID" ]; then
@@ -246,6 +278,16 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
           > "$COMPENDIUM_DIRPATH/$lang.po.bak"
       fi;
     done;
+
+    # If usage section messages have not been found in compendium, add them
+    if [ "$_usage_found" -eq 0 ]; then
+      printf "msgid \"Usage:\"\nmsgstr \"\"\n\n" \
+        >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+    fi;
+    if [ "$_options_found" -eq 0 ]; then
+      printf "msgid \"Options:\"\nmsgstr \"\"\n\n" \
+        >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+    fi;
 
     # Update compendium
     msgcat "$COMPENDIUM_DIRPATH/$lang.po.bak" --color="no" \
