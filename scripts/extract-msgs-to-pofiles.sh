@@ -132,22 +132,10 @@ find src -type f -name "main.mako" | while read -r filepath; do
         # If we've found a message
         if [[ $line = _MSG* ]]; then
           # Extract msgid
-          # shellcheck disable=SC2206
-          MSG_VARIABLE_SPLIT="${line//\"/ }"
-          MSGID=""
-
-          for word in $MSG_VARIABLE_SPLIT; do
-            if [[ $word != _MSG* ]]; then
-              if [ "$MSGID" = "" ]; then
-                MSGID="$word"
-              else
-                MSGID="${MSGID} $word"
-              fi;
-            fi;
-          done;
-          # Trim spaces at the beggining and the end
-          # shellcheck disable=SC2001
-          MSGID=$(echo "$MSGID" | sed 's/^ | *$//')
+          #   - Get all after first '"' character.
+          #   - Remove last character.
+          #   - Strip whitespaces at neggining and end
+          MSGID="$(printf "$line" | cut -d'"' -f2- | sed 's/.$//' | sed 's/^ | *$//')"
 
           (( _N_STRINGS_EXTRACTED++ ))
 
