@@ -17,9 +17,10 @@ _INSECURE=""
   Check if a TCP address is operative through HTTP using curl.
 </%block>
 <%block name="usage_opts_desc">
-  -a, --address ADDRESS             Endpoint to check if is operative.
-  -m, --max-attempts ATTEMPTS       Maximum number of attemps checking if the provided address is operative. As default 40.
-  -s, --sleep SECONDS               Number of seconds to sleep between attempts. As default 1.
+  -a ADDRESS, --address ADDRESS     Endpoint to check if it is operative.
+  -m ATTEMPTS, --max-attempts ATTEMPTS
+                                    Maximum number of attemps checking if the provided address is operative. As default 40.
+  -s SECONDS, --sleep SECONDS       Number of seconds to sleep between attempts. As default 1.
   -p, --print-between-sleeps        String to printf between attemps (before sleep).
   -k, --insecure                    Perform insecure SSL connection (passes '--insecure' to curl command).
 </%block>

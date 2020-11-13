@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-12 14:10:10+0100\n"
+"POT-Creation-Date: 2020-11-13 13:43:56+0100\n"
 "PO-Revision-Date: 2020-06-10 14:36:34+0200\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
@@ -21,4 +21,19 @@ msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
 
 msgid "Check if a TCP address is operative through HTTP using curl."
+msgstr ""
+
+msgid "Endpoint to check if it is operative."
+msgstr ""
+
+msgid "Maximum number of attemps checking if the provided address is operative. As default 40."
+msgstr ""
+
+msgid "Number of seconds to sleep between attempts. As default 1."
+msgstr ""
+
+msgid "String to printf between attemps (before sleep)."
+msgstr ""
+
+msgid "Perform insecure SSL connection (passes '--insecure' to curl command)."
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-12 15:06:49+0100\n"
+"POT-Creation-Date: 2020-11-13 13:30:02+0100\n"
 "PO-Revision-Date: 2020-05-01 21:24:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: es\n"
@@ -102,4 +102,22 @@ msgid "Installs PostgreSQL packages and, optionally, some additional packages fr
 msgstr ""
 
 msgid "Also checks if the 'postgres' service is running and enables it, if is not already."
+msgstr ""
+
+msgid "PostgreSQL version to install. If not provided, the latest version in repositories will be installed."
+msgstr ""
+
+msgid "Install Postgis package correspondent to the PostgreSQL version to install."
+msgstr ""
+
+msgid "Specifies what version of PostGIS will be installed. Only has effect passing '--install-postgis' option."
+msgstr ""
+
+msgid "If not provided, will be installed the latest available version of the package."
+msgstr ""
+
+msgid "Install latest version available of 'pgadmin' package."
+msgstr ""
+
+msgid "Install latest version available of 'postgresql-plpython3-*' package."
 msgstr ""

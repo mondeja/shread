@@ -31,7 +31,7 @@ fi;
   Downloads shunit2.
 </%block>
 <%block name="usage_opts_desc">
-  --dest-path                       Destination path of the downloaded binary. By default '$_DEST_PATH'.
+  --dest-path FILEPATH              Destination path of the downloaded binary. By default '$_DEST_PATH'.
 </%block>
 
 <%block name="argparse">

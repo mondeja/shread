@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-12 14:10:10+0100\n"
+"POT-Creation-Date: 2020-11-13 13:41:53+0100\n"
 "PO-Revision-Date: 2020-05-01 16:16+0200\n"
 "Last-Translator: \n"
 "Language-Team: es\n"
@@ -66,6 +66,11 @@ msgid "Google Drive found installed in the system"
 msgstr "Encontrado Google Drive instalado en el sistema"
 
 msgid "Downloads or upgrade Google Drive binary."
+msgstr ""
+
+msgid ""
+"Path where the downloaded gdrive binary will be stored. As default at "
+"'$_GDRIVE_BINARY_PATH'."
 msgstr ""
 
 msgid "Checking Dropbox environment..."
@@ -284,11 +289,6 @@ msgstr ""
 "Tu versión de Debian/Ubuntu no está soportada por los repositorios oficiales "
 "de PostgreSQL"
 
-msgid ""
-"Installs PostgreSQL packages and, optionally, some additional packages from "
-"official sources."
-msgstr ""
-
 msgid "An error happen retrieving Boostnote releases info from Github API."
 msgstr ""
 "Ocurrió un error obteniendo la información de las releases de Boostnote de "
@@ -444,6 +444,9 @@ msgstr "El archivo de destino ya existe"
 
 msgid "Indicate another destination for pacapt with parameter"
 msgstr "Indica otro destino para pacapt con el parámetro"
+
+msgid "Downloads pacapt."
+msgstr "Descarga pacapt."
 
 msgid ""
 "An error happen retrieving shunit2 releases information from Github API."

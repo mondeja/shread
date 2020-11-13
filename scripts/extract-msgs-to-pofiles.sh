@@ -34,7 +34,7 @@ Arguments:
   2. Language code.
   3. Script filename.
   4. Created file extension.
-  5. 1 if is a compendium, 0 if not.
+  5. "1" if is a compendium, "0" if not.
 '
 function createPoLanguageFile() {
   if [ "$5" = "1" ]; then
@@ -108,14 +108,14 @@ find src -type f -name "main.mako" | while read -r filepath; do
 
     #   inside usage_desc block? (their content is extracted)
     _inside_usage_desc=0
+    #   inside usage_opts_desc block? (their content is extracted)
+    _inside_usage_opts_desc=0
+
     while IFS= read -r line; do
       if [ "$_inside_usage_desc" -eq 1 ]; then
         if [ "$line" = "</%block>" ]; then
           _inside_usage_desc=0
-          continue
-        elif [ "$line" = "" ]; then
-          continue
-        else
+        elif [ "$line" != "" ]; then
           # Add each 'usage_desc' block line as msgids into pofiles
 
           # Remove spaces from the beggining
@@ -128,6 +128,78 @@ find src -type f -name "main.mako" | while read -r filepath; do
           printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
             >> "$dirpath/$lang.pot"
         fi;
+      elif [ "$_inside_usage_opts_desc" -eq 1 ]; then
+        if [ "$line" = "</%block>" ]; then
+          _inside_usage_opts_desc=0
+        else
+          # Remove spaces from the beggining
+          line_lstripped="${line#"${line%%[![:space:]]*}"}"
+
+          # If the first character is a '-', is an option line,
+          # otherwise is a description line
+          if [ "$(printf "%s" "$line_lstripped" | cut -c1)" = "-" ]; then
+            # Check if the option has a '--long-option-name'
+            long_opt_chars="$(
+              printf "%s\n" "$line_lstripped" \
+              | cut -d' ' -f2 \
+              | cut -c1-2)"
+            if [ "$long_opt_chars" = "--" ]; then
+              # Does not takes PARAMETER. One or two option versions
+              # ('--long' and '-l')
+              description_lspaced="$(
+                printf "%s" "$line_lstripped" | cut -d' ' -f3-)"
+              MSGID="${description_lspaced#"${description_lspaced%%[![:space:]]*}"}"
+              (( _N_STRINGS_EXTRACTED++ ))
+              printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+              printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+                >> "$dirpath/$lang.pot"
+            else
+              # Takes PARAMETER or does not take PARAMETER but without short
+              # option version like '-s'
+              if [ "$(printf "%s" "$line_lstripped" | cut -d' ' -f2)" = "" ]; then
+                # whitout PARAMETER
+                description_lspaced="$(
+                  printf "%s" "$line_lstripped" | cut -d' ' -f2-)"
+                MSGID="${description_lspaced#"${description_lspaced%%[![:space:]]*}"}"
+                (( _N_STRINGS_EXTRACTED++ ))
+                printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+                printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+                  >> "$dirpath/$lang.pot"
+              else
+                # Whitout short option or whit two?
+                if [ "$(printf "%s" "$line_lstripped" | cut -d' ' -f3)" = "" ]; then
+                  # Whithout short option (--option PARAMETER)
+                  description_lspaced="$(
+                    printf "%s" "$line_lstripped" | cut -d' ' -f3-)"
+                  MSGID="${description_lspaced#"${description_lspaced%%[![:space:]]*}"}"
+                  (( _N_STRINGS_EXTRACTED++ ))
+                  printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+                  printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+                    >> "$dirpath/$lang.pot"
+                else
+                  # with '-l' and '--long' options (-o PARAMETER, --option PARAMETER).
+                  description_lspaced="$(
+                    printf "%s" "$line_lstripped" | cut -d' ' -f6-)"
+
+                  # The description could be in the next line
+                  if [ "$description_lspaced" != "" ]; then
+                    MSGID="${description_lspaced#"${description_lspaced%%[![:space:]]*}"}"
+                    (( _N_STRINGS_EXTRACTED++ ))
+                    printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+                    printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+                      >> "$dirpath/$lang.pot"
+                  fi;
+                fi;
+              fi;
+            fi
+          else
+            MSGID="$line_lstripped"
+            (( _N_STRINGS_EXTRACTED++ ))
+            printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+            printf "\nmsgid \"%s\"\nmsgstr \" \"" "$MSGID" \
+              >> "$dirpath/$lang.pot"
+          fi;
+        fi;
       else
         # If we've found a message
         if [[ $line = _MSG* ]]; then
@@ -135,7 +207,11 @@ find src -type f -name "main.mako" | while read -r filepath; do
           #   - Get all after first '"' character.
           #   - Remove last character.
           #   - Strip whitespaces at neggining and end
-          MSGID="$(printf "$line" | cut -d'"' -f2- | sed 's/.$//' | sed 's/^ | *$//')"
+          MSGID="$(
+            printf "%s" "$line" \
+            | cut -d'"' -f2- \
+            | sed 's/.$//' \
+            | sed 's/^ | *$//')"
 
           (( _N_STRINGS_EXTRACTED++ ))
 
@@ -155,7 +231,10 @@ find src -type f -name "main.mako" | while read -r filepath; do
             >> "$dirpath/$lang.pot"
         elif [ "$line" = "<%block name=\"usage_desc\">" ]; then
           _inside_usage_desc=1
-          continue
+          _inside_usage_opts_desc=0
+        elif [ "$line" = "<%block name=\"usage_opts_desc\">" ]; then
+          _inside_usage_opts_desc=1
+          _inside_usage_desc=0
         fi;
       fi;
     done < "$filepath"
@@ -220,93 +299,94 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
     continue
   fi;
 
-  if [ -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
-    # Convert `msgstr " "` messages to `msgstr ""` in compendium
-    sed -i 's/^msgstr " "/msgstr ""/' "$COMPENDIUM_DIRPATH/$lang.po"
-
-    # Mark messages not found in scripts as obsoletes in compendium
-    LANG_MSGIDS_CACHE_FILE="/tmp/shread-compendium-$lang-messages.txt"
-
-    # Remove compendium wrapping to facilitates manipulation
-    msgcat "$COMPENDIUM_DIRPATH/$lang.po" --no-wrap --color="no" > \
-      "$COMPENDIUM_DIRPATH/$lang.po.bak"
-
-    # Extract msgids from compendium:
-    #   - Match msgids
-    #   - Remove first line (meta msgid)
-    #   - Get all after first '"'
-    #   - Remove last character from each line ('"')
-    COMPENDIUM_MSGIDS_LINES="$(
-      < "$COMPENDIUM_DIRPATH/$lang.po.bak" \
-      grep "^msgid" | \
-      sed 1d | \
-      cut -d'"' -f2- | \
-      sed 's/.$//')"
-    readarray -t COMPENDIUM_MSGIDS <<< "$COMPENDIUM_MSGIDS_LINES"
-
-    # For each msgid in compedium, check if the msgid has bee found in current
-    #   translations
-
-    #   Harcoded messages (usage section)
-    _usage_found=0
-    _options_found=0
-    for COMPENDIUM_MSGID in "${COMPENDIUM_MSGIDS[@]}"; do
-
-      # Check if hardcoded messages (usage section) are in compendium
-      if [ "$COMPENDIUM_MSGID" = "Usage:" ]; then
-        _usage_found=1
-      elif [ "$COMPENDIUM_MSGID" = "Options:" ]; then
-        _options_found=1
-      fi;
-
-      _FOUND=0
-      while IFS= read -r line; do
-        if [ "$line" = "$COMPENDIUM_MSGID" ]; then
-          _FOUND=1
-          break
-        fi;
-      done < "$LANG_MSGIDS_CACHE_FILE"
-      if [ "$_FOUND" -eq 0 ]; then
-        # Mark msgid in compendium as obsolete
-        NEW_COMPENDIUM_BAK_FILE_CONTENT=""
-        _OBSOLETOR=0
-        while IFS= read -r line; do
-          if [ "$line" = "msgid \"$COMPENDIUM_MSGID\"" ]; then
-            _OBSOLETOR=1
-          elif [ "$_OBSOLETOR" -eq 1 ] && [ "$line" = "" ]; then
-            _OBSOLETOR=0
-          fi;
-          if [ "$_OBSOLETOR" -eq 1 ]; then
-            NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT#~ $line
-"
-          else
-            NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT$line
-"
-          fi;
-        done < "$COMPENDIUM_DIRPATH/$lang.po.bak"
-        printf "%s" "$NEW_COMPENDIUM_BAK_FILE_CONTENT" \
-          > "$COMPENDIUM_DIRPATH/$lang.po.bak"
-      fi;
-    done;
-
-    # If usage section messages have not been found in compendium, add them
-    if [ "$_usage_found" -eq 0 ]; then
-      printf "msgid \"Usage:\"\nmsgstr \"\"\n\n" \
-        >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
-    fi;
-    if [ "$_options_found" -eq 0 ]; then
-      printf "msgid \"Options:\"\nmsgstr \"\"\n\n" \
-        >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
-    fi;
-
-    # Update compendium
-    msgcat "$COMPENDIUM_DIRPATH/$lang.po.bak" --color="no" \
-      > "$COMPENDIUM_DIRPATH/$lang.po"
-    rm "$COMPENDIUM_DIRPATH/$lang.po.bak"
-
-    # Remove msgids cache file
-    rm "$LANG_MSGIDS_CACHE_FILE"
+  if [ ! -f "$COMPENDIUM_DIRPATH/$lang.po" ]; then
+    continue
   fi;
+
+  # Convert `msgstr " "` messages to `msgstr ""` in compendium
+  sed -i 's/^msgstr " "/msgstr ""/' "$COMPENDIUM_DIRPATH/$lang.po"
+
+  # Mark messages not found in scripts as obsoletes in compendium
+  LANG_MSGIDS_CACHE_FILE="/tmp/shread-compendium-$lang-messages.txt"
+
+  # Remove compendium wrapping to facilitates manipulation
+  msgcat "$COMPENDIUM_DIRPATH/$lang.po" --no-wrap --color="no" \
+    > "$COMPENDIUM_DIRPATH/$lang.po.bak"
+
+  # Extract msgids from compendium:
+  #   - Match msgids
+  #   - Remove first line (meta msgid)
+  #   - Get all after first '"'
+  #   - Remove last character from each line ('"')
+  COMPENDIUM_MSGIDS_LINES="$(
+    < "$COMPENDIUM_DIRPATH/$lang.po.bak" \
+    grep "^msgid" | \
+    sed 1d | \
+    cut -d'"' -f2- | \
+    sed 's/.$//')"
+  readarray -t COMPENDIUM_MSGIDS <<< "$COMPENDIUM_MSGIDS_LINES"
+
+  # For each msgid in compedium, check if the msgid has bee found in current
+  #   translations
+
+  #   Harcoded messages (usage section)
+  _usage_found=0
+  _options_found=0
+  for COMPENDIUM_MSGID in "${COMPENDIUM_MSGIDS[@]}"; do
+    # Check if hardcoded messages (usage section) are in compendium
+    if [ "$COMPENDIUM_MSGID" = "Usage:" ]; then
+      _usage_found=1
+    elif [ "$COMPENDIUM_MSGID" = "Options:" ]; then
+      _options_found=1
+    fi;
+
+    _FOUND_IN_CACHE=0
+    while IFS= read -r line; do
+      if [ "$line" = "$COMPENDIUM_MSGID" ]; then
+        _FOUND_IN_CACHE=1
+        break
+      fi;
+    done < "$LANG_MSGIDS_CACHE_FILE"
+    if [ "$_FOUND_IN_CACHE" -eq 0 ]; then
+      # Mark msgid in compendium as obsolete
+      NEW_COMPENDIUM_BAK_FILE_CONTENT=""
+      _OBSOLETOR=0
+      while IFS= read -r line; do
+        if [ "$line" = "msgid \"$COMPENDIUM_MSGID\"" ]; then
+          _OBSOLETOR=1
+        elif [ "$_OBSOLETOR" -eq 1 ] && [ "$line" = "" ]; then
+          _OBSOLETOR=0
+        fi;
+        if [ "$_OBSOLETOR" -eq 1 ]; then
+          NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT#~ $line
+"
+        else
+          NEW_COMPENDIUM_BAK_FILE_CONTENT="$NEW_COMPENDIUM_BAK_FILE_CONTENT$line
+"
+        fi;
+      done < "$COMPENDIUM_DIRPATH/$lang.po.bak"
+      printf "%s" "$NEW_COMPENDIUM_BAK_FILE_CONTENT" \
+        > "$COMPENDIUM_DIRPATH/$lang.po.bak"
+    fi;
+  done;
+
+  # If usage section messages have not been found in compendium, add them
+  if [ "$_usage_found" -eq 0 ]; then
+    printf "msgid \"Usage:\"\nmsgstr \"\"\n\n" \
+      >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+  fi;
+  if [ "$_options_found" -eq 0 ]; then
+    printf "msgid \"Options:\"\nmsgstr \"\"\n\n" \
+      >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+  fi;
+
+  # Update compendium
+  msgcat "$COMPENDIUM_DIRPATH/$lang.po.bak" --color="no" \
+    > "$COMPENDIUM_DIRPATH/$lang.po"
+  rm "$COMPENDIUM_DIRPATH/$lang.po.bak"
+
+  # Remove msgids cache file
+  rm "$LANG_MSGIDS_CACHE_FILE"
 done;
 
 printf "\n"
