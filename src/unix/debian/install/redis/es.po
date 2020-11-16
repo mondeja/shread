@@ -90,10 +90,7 @@ msgid "Found Redis installed"
 msgstr "Encontrado Redis instalado"
 
 msgid "Installs or updates Redis building from source code. Also, generates and configures the 'redis' user and service."
-msgstr ""
+msgstr "Instala o actualiza Redis construyendo desde código fuente. También genera y configura el usuario y el servicio 'redis'."
 
 msgid "If passed, Redis build will be tested. This could take a lot of time."
-msgstr ""
-
-#~ msgid "Installs or updates Redis building from source code. Also, generates and configures the redis user and service."
-#~ msgstr "Instala o actualiza Redis construyendo desde código fuente. También genera y configura el usuario y el servicio 'redis'."
+msgstr "Si se pasa, la construcción Redis será testeada. Esto puede tardar mucho tiempo."
