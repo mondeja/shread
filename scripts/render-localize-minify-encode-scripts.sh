@@ -77,14 +77,31 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
 
       COMPENDIUM_FILEPATH="src/__compendium/$lang.po"
 
+      COMPENDIUM_FILEPATH_UNWRAPPED="$(
+        msgcat "$COMPENDIUM_FILEPATH" --no-wrap --color="no")"
+
       # Retrieve hardcoded msgids from compendium (usage section)
       USAGE_MSGSTR="$(
-        grep -i -A 1 'msgid "Usage:"' "$COMPENDIUM_FILEPATH" \
+        printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+        | grep -i -A 1 'msgid "Usage:"' \
         | tail -n 1 \
         | cut -d'"' -f2- \
         | sed 's/.$//')"
       OPTIONS_MSGSTR="$(
-        grep -i -A 1 'msgid "Options:"' "$COMPENDIUM_FILEPATH" \
+        printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+        | grep -i -A 1 'msgid "Options:"' \
+        | tail -n 1 \
+        | cut -d'"' -f2- \
+        | sed 's/.$//')"
+      HELP_OPTION_DESC_MSGSTR="$(
+        printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+        | grep -i -A 1 'msgid "Show this help message and exit."' \
+        | tail -n 1 \
+        | cut -d'"' -f2- \
+        | sed 's/.$//')"
+      INDENT_OPTION_DESC_MSGSTR="$(
+        printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+        | grep -i -A 1 'msgid "Each line of the script output will be preceded with the string defined in this parameter."' \
         | tail -n 1 \
         | cut -d'"' -f2- \
         | sed 's/.$//')"
@@ -106,7 +123,11 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
             if [ "$line" = "Options:" ]; then
               _inside_usage=0
               _inside_options=1
-            elif [ "$line" != "" ]; then
+
+              if [ -n "$OPTIONS_MSGSTR" ]; then
+                line_output="$OPTIONS_MSGSTR"
+              fi;
+            elif [ -n "$line" ]; then
               # Remove spaces at beggining
               MSGID="${line#"${line%%[![:space:]]*}"}"
 
@@ -125,7 +146,11 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               line_output="$_spaces_at_start$MSGSTR"
             fi;
           elif [ "$_inside_options" -eq 1 ]; then
-            # TODO: translate options section
+            if [ -n "$HELP_OPTION_DESC_MSGSTR" ] && [ "$line" = "  -h, --help                        Show this help message and exit." ]; then
+              line_output="  -h, --help                        $HELP_OPTION_DESC_MSGSTR"
+            elif [ -n "$INDENT_OPTION_DESC_MSGSTR" ] && [ "$line" = "  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter." ]; then
+              line_output="  -i STRING, --indent STRING        $INDENT_OPTION_DESC_MSGSTR"
+            fi;
 
             if [ "$line" = "HELP_USAGE" ]; then
               # exit options section, all parsed
@@ -158,9 +183,13 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               # Replace variable in for message
               # shellcheck disable=SC2128
               line_output="${MSG_VARIABLE_SPLIT}\"${MSGSTR}\""
-            elif [[ "$line" = Usage:* ]]; then
+            elif [[ "$line" == Usage:* ]]; then
               # enter usage section
               _inside_usage=1
+
+              if [ -n "$USAGE_MSGSTR" ]; then
+                line_output="$USAGE_MSGSTR $(printf "%s" "$line" | cut -d' ' -f2-)"
+              fi;
             fi;
           fi;
         fi;
@@ -198,25 +227,8 @@ $line"
           fi;
         fi;
       else
-        # skip HELP_USAGE sections stripping new lines
-
-        if [ "$lang" != "en" ]; then
-          # Replace hardcoded messages inside localized script ("Usage:"
-          # and "Options:")
-          if [[ $line == Usage:* ]]; then
-            new_temp_localized_script_output="$new_temp_localized_script_output
-$USAGE_MSGSTR $(printf "%s" "$line" | cut -d' ' -f2-)"
-          elif [[ $line == Options:* ]]; then
-            new_temp_localized_script_output="$new_temp_localized_script_output
-$OPTIONS_MSGSTR"
-          else
-            new_temp_localized_script_output="$new_temp_localized_script_output
+        new_temp_localized_script_output="$new_temp_localized_script_output
 $line"
-          fi;
-        else
-          new_temp_localized_script_output="$new_temp_localized_script_output
-$line"
-        fi;
       fi;
     done < "$temp_localized_script"
     printf "%s" "$new_temp_localized_script_output" > "$temp_localized_script"

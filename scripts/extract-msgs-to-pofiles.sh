@@ -64,6 +64,13 @@ msgstr ""
 EOF
 }
 
+USAGE_SECTION_MSGIDS=(
+  "Usage:"
+  "Options:"
+  "Show this help message and exit."
+  "Each line of the script output will be preceded with the string defined in this parameter."
+)
+
 find src -type f -name "main.mako" | while read -r filepath; do
   dirpath=$(dirname "${filepath}")
   filename=$(basename "${filepath}")
@@ -216,7 +223,15 @@ find src -type f -name "main.mako" | while read -r filepath; do
           (( _N_STRINGS_EXTRACTED++ ))
 
           # Hardcoded mmessages (usage section)
-          if [ "$MSGID" = "Usage:" ] || [ "$MSGID" = "Options:" ]; then
+          _is_usage_section_msgid=0
+          for USAGE_SECTION_MSGID in "${USAGE_SECTION_MSGIDS[@]}"; do
+            if [ "$MSGID" = "$USAGE_SECTION_MSGID" ]; then
+              printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
+              _is_usage_section_msgid=1
+              break
+            fi;
+          done
+          if [ "$_is_usage_section_msgid" -eq 1 ]; then
             continue
           fi;
 
@@ -240,8 +255,7 @@ find src -type f -name "main.mako" | while read -r filepath; do
     done < "$filepath"
 
     # Add hardcoded messages (usage section)
-    usage_section_msgids=("Usage:" "Options:")
-    for MSGID in "${usage_section_msgids[@]}"; do
+    for MSGID in "${USAGE_SECTION_MSGIDS[@]}"; do
       printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
     done
 
@@ -332,12 +346,22 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
   #   Harcoded messages (usage section)
   _usage_found=0
   _options_found=0
+  _help_option_msg_found=0
+  _indent_option_msg_found=0
   for COMPENDIUM_MSGID in "${COMPENDIUM_MSGIDS[@]}"; do
     # Check if hardcoded messages (usage section) are in compendium
     if [ "$COMPENDIUM_MSGID" = "Usage:" ]; then
       _usage_found=1
+      continue
     elif [ "$COMPENDIUM_MSGID" = "Options:" ]; then
       _options_found=1
+      continue
+    elif [ "$COMPENDIUM_MSGID" = "Show this help message and exit." ]; then
+      _help_option_msg_found=1
+      continue
+    elif [ "$COMPENDIUM_MSGID" = "Each line of the script output will be preceded with the string defined in this parameter." ]; then
+      _indent_option_msg_found=1
+      continue
     fi;
 
     _FOUND_IN_CACHE=0
@@ -377,6 +401,14 @@ for lang in "${SUPPORTED_LANGUAGES[@]}"; do
   fi;
   if [ "$_options_found" -eq 0 ]; then
     printf "msgid \"Options:\"\nmsgstr \"\"\n\n" \
+      >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+  fi;
+  if [ "$_help_option_msg_found" -eq 0 ]; then
+    printf "msgid \"Show this help message and exit.\"\nmsgstr \"\"\n\n" \
+      >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
+  fi;
+  if [ "$_indent_option_msg_found" -eq 0 ]; then
+    printf "msgid \"Each line of the script output will be preceded with the string defined in this parameter.\"\nmsgstr \"\"\n\n" \
       >> "$COMPENDIUM_DIRPATH/$lang.po.bak"
   fi;
 
