@@ -27,4 +27,4 @@ msgid "CircleCI found installed"
 msgstr "Encontrado CircleCI instalado"
 
 msgid "Downloads or upgrade CircleCI binary."
-msgstr ""
+msgstr "Descarga o actualiza el binario de CircleCI."

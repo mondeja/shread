@@ -21,19 +21,19 @@ msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
 
 msgid "Check if a TCP address is operative through HTTP using curl."
-msgstr ""
+msgstr "Comprueba si una dirección TCP está operativa mediante HTTP usando curl."
 
-msgid "Endpoint to check if it is operative."
-msgstr ""
+msgid "URL to check if it is operative."
+msgstr "URL a comprobar si está operativa."
 
 msgid "Maximum number of attemps checking if the provided address is operative. As default 40."
-msgstr ""
+msgstr "Número máximo de intentos comprobando si la dirección provista está operativa. Por defecto 40."
 
-msgid "Number of seconds to sleep between attempts. As default 1."
-msgstr ""
+msgid "Number of seconds to wait between attempts. As default 1."
+msgstr "Número de segundos a esperar entre intentos. Por defecto 1."
 
-msgid "String to printf between attemps (before sleep)."
-msgstr ""
+msgid "String outputted passing it to printf between attemps (before wait)."
+msgstr "Cadena mostrada pasándola a printf entre intentos (antes de esperar)"
 
-msgid "Perform insecure SSL connection (passes '--insecure' to curl command)."
-msgstr ""
+msgid "Perform insecure SSL connection (passes the option '--insecure' to the curl command)."
+msgstr "Realiza una conexión SSL insegura (pasa la opción '--insecure' al comando curl)"

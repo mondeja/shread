@@ -21,7 +21,7 @@ _DOWNLOAD_CHROMEDRIVER=1
 </%block>
 <%block name="usage_opts_desc">
   -d CHROMEDRIVER_PATH, --chromedriver-path CHROMEDRIVER_PATH
-                                    Specifies where be stored downloaded chromedriver binary. As default at '$_CHROMEDRIVER_PATH'.
+                                    Specifies where be stored the downloaded 'chromedriver' binary. As default at '$_CHROMEDRIVER_PATH'.
   -n, --no-chromedriver             If passed, does not download nor updates chromedriver.
 </%block>
 

@@ -60,7 +60,7 @@ msgid "Updating Boostnote"
 msgstr "Actualizando Boostnote"
 
 msgid "Installs and/or optionally updates Boostnote retrieving source code from their Github repository."
-msgstr ""
+msgstr "Instala y/o, opcionalmente, actualiza Boostnote obteniendo el código fuente de su repositorio de Github."
 
 msgid "Updates Boostnote to the penultimate release available."
-msgstr ""
+msgstr "Actualiza Boostnote al penúltimo lanzamiento disponible."

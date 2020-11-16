@@ -132,17 +132,16 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               MSGID="${line#"${line%%[![:space:]]*}"}"
 
               # Get spaces at the beggining
-              _spaces_at_start="$(printf '   a' | grep -Eo '^ *')"
+              _spaces_at_start="$(printf "%s" "$line" | grep -Eo '^ *')"
 
               MSGSTR=$(
                 grep -i -A 1 "msgid \"$MSGID\"" "$po_filepath" \
                 | tail -n 1 \
                 | cut -d'"' -f2- | \
                 sed 's/.$//')
-              if [ "$MSGSTR" = "" ]; then
+              if [ -z "$MSGSTR" ]; then
                 MSGSTR="$MSGID"
               fi;
-
               line_output="$_spaces_at_start$MSGSTR"
             fi;
           elif [ "$_inside_options" -eq 1 ]; then
@@ -150,12 +149,78 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               line_output="  -h, --help                        $HELP_OPTION_DESC_MSGSTR"
             elif [ -n "$INDENT_OPTION_DESC_MSGSTR" ] && [ "$line" = "  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter." ]; then
               line_output="  -i STRING, --indent STRING        $INDENT_OPTION_DESC_MSGSTR"
-            fi;
-
-            if [ "$line" = "HELP_USAGE" ]; then
+            elif [ "$line" = "HELP_USAGE" ]; then
               # exit options section, all parsed
               _inside_options=0
               _sections_parsed=1
+            elif [ -n "$line" ]; then
+              # Remove spaces from the beggining
+              line_lstripped="${line#"${line%%[![:space:]]*}"}"
+              # If the first character is a '-', is an option line,
+              # otherwise is a description line
+              if [ "$(printf "%s" "$line_lstripped" | cut -c1)" = "-" ]; then
+                description_lspaced="$(printf "%s\n" "$line_lstripped" | cut -d' ' -f5-)"
+                if [ -n "$description_lspaced" ]; then
+
+                  # If description not in new line
+                  options_string="$(
+                    printf "%s\n" "$line_lstripped" \
+                    | cut -d' ' -f1-5 \
+                    | awk '{$1=$1};1')"
+                  options_string_spaces="$(
+                    printf "%s" "$options_string" | sed 's/[^[:space:]]\+//g')"
+                  if [ "$options_string_spaces" = "   " ]; then
+                    options_string_spaces=" "
+                  elif [ "$options_string_spaces" = " " ]; then
+                    options_string_spaces="   "
+                  elif [ -z "$options_string_spaces" ]; then
+                    options_string_spaces="    "
+                  fi;
+
+                  _spaces_at_description_start="$(
+                    printf "%s" "$description_lspaced" | grep -Eo '^ *')"
+                  description_lstripped="${description_lspaced#"${description_lspaced%%[![:space:]]*}"}"
+
+                  MSGID="$description_lstripped"
+                  MSGSTR="$(
+                    printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+                    | grep -i -A 1 "msgid \"$MSGID\"" \
+                    | tail -n 1 \
+                    | cut -d'"' -f2- \
+                    | sed 's/.$//')"
+                  if [ -z "$MSGSTR" ]; then
+                    MSGSTR="$MSGID"
+                  fi;
+                  line_output="  $options_string$options_string_spaces$_spaces_at_description_start$MSGSTR"
+
+                  # Util debugging
+                  # printf "LINE:                  '%s'\n" "$line"
+                  # printf "LINE LSTRIPPED:        '%s'\n" "$line_lstripped"
+                  # printf "DESC LSPACED:          '%s'\n" "$description_lspaced"
+                  # printf "DESC LSTRIPPED:        '%s'\n" "$description_lstripped"
+                  # printf "OPTIONS STRING:        '%s'\n" "$options_string"
+                  # printf "OPTIONS STRING SPACES: '%s'\n" "$options_string_spaces"
+                  # printf "SPACES AT DESC START:  '%s'\n" "$_spaces_at_description_start"
+                  # printf "MSGID:                 '%s'\n" "$MSGID"
+                  # printf "MSGSTR:                '%s'\n" "$MSGSTR"
+                  # printf "\n"
+                fi;
+              else
+                MSGID="$line_lstripped"
+                MSGSTR="$(
+                  printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+                  | grep -i -A 1 "msgid \"$MSGID\"" \
+                  | tail -n 1 \
+                  | cut -d'"' -f2- \
+                  | sed 's/.$//')"
+
+                # Get spaces at the beggining
+                _spaces_at_start="$(printf "%s" "$line" | grep -Eo '^ *')"
+                if [ -z "$MSGSTR" ]; then
+                  MSGSTR="$MSGID"
+                fi;
+                line_output="$_spaces_at_start$MSGSTR"
+              fi;
             fi;
           else
             # If the line contains a message
@@ -171,7 +236,7 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               done
               # Trim spaces at the beggining and the end
               # shellcheck disable=SC2001,SC2086
-              MSGID="$(printf "%s" "$MSGID" | sed 's/^ | *$//')"
+              MSGID="$(printf "%s" "$MSGID" | awk '{$1=$1};1')"
 
               # Get msgstr
               MSGSTR=$(
@@ -183,13 +248,18 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               # Replace variable in for message
               # shellcheck disable=SC2128
               line_output="${MSG_VARIABLE_SPLIT}\"${MSGSTR}\""
-            elif [[ "$line" == Usage:* ]]; then
+            elif [[ "$line" = Usage:* ]]; then
               # enter usage section
               _inside_usage=1
 
               if [ -n "$USAGE_MSGSTR" ]; then
                 line_output="$USAGE_MSGSTR $(printf "%s" "$line" | cut -d' ' -f2-)"
               fi;
+            elif [ "$line" = "HELP_USAGE" ]; then
+              # exit other sections, all parsed
+              _inside_usage=0
+              _inside_options=0
+              _sections_parsed=1
             fi;
           fi;
         fi;

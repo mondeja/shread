@@ -39,10 +39,10 @@ msgid "Chromedriver found installed"
 msgstr "Encontrado chromedriver instalado"
 
 msgid "Installs and upgrade Chrome and Chromedriver retrieving binaries from oficial sources."
-msgstr ""
+msgstr "Instala y actualiza Chrome y Chromedriver obteniendo los binarios de las fuentes oficiales."
 
-msgid "Specifies where be stored downloaded chromedriver binary. As default at '$_CHROMEDRIVER_PATH'."
-msgstr ""
+msgid "Specifies where be stored the downloaded 'chromedriver' binary. As default at '$_CHROMEDRIVER_PATH'."
+msgstr "Especifica donde será almacenado el binario 'chromedriver' descargado. Por defecto en '$_CHROMEDRIVER_PATH'."
 
 msgid "If passed, does not download nor updates chromedriver."
-msgstr ""
+msgstr "Si se pasa, no descarga ni actualiza chromedriver."

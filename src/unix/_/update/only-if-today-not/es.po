@@ -20,8 +20,8 @@ msgstr ""
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
 
-msgid "Updates and optionally upgrades the system if their repository packages have not been updated in the current day."
-msgstr ""
+msgid "Updates and optionally upgrades the system if their repository packages have not been updated today."
+msgstr "Actualiza los paquetes y, opcionalmente, actualiza el sitema si sus paquetes de repositorio no han sido actualizados hoy."
 
 msgid "Passing this option, if the system has not been updated today, will be upgraded also."
-msgstr ""
+msgstr "Pasando esta opción, si el sistema no ha sido actualizado hoy, también será actualizado."

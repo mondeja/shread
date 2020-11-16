@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-13 13:41:53+0100\n"
-"PO-Revision-Date: 2020-11-16 09:44+0100\n"
+"POT-Creation-Date: 2020-11-16 11:09:20+0100\n"
+"PO-Revision-Date: 2020-11-16 11:08+0100\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
 "Language: es\n"
@@ -69,9 +69,11 @@ msgid "Downloads or upgrade Google Drive binary."
 msgstr ""
 
 msgid ""
-"Path where the downloaded gdrive binary will be stored. As default at "
+"Path where the downloaded 'gdrive' binary will be stored. As default at "
 "'$_GDRIVE_BINARY_PATH'."
 msgstr ""
+"Ruta donde será almacenado el binario 'gdrive' descargado. Por defecto en "
+"'$_GDRIVE_BINARY_PATH'."
 
 msgid "Checking Dropbox environment..."
 msgstr "Comprobando entorno Dropbox..."
@@ -93,6 +95,16 @@ msgstr "Descargando Dropbox"
 
 msgid "Installing Dropbox"
 msgstr "Instalando Dropbox"
+
+msgid ""
+"Installs and/or optionally updates Dropbox retrieving release package from "
+"their official repository."
+msgstr ""
+"Instala y/o, opcionalmente, actualiza Dropbox obteniendo el paquete de "
+"lanzamiento de su repositorio oficial."
+
+msgid "Upgrades Dropbox to the latest release available."
+msgstr "Actualiza Dropbox a la última versión disponible."
 
 msgid ""
 "An error happen retrieving Docker Compose releases info from Github API."
@@ -124,6 +136,13 @@ msgstr "Encontrado Docker Compose instalado en el sistema"
 msgid "Updating Docker Compose"
 msgstr "Actualizando Docker Compose"
 
+msgid ""
+"Installs or upgrade Docker Compose retrieving source code from their Github "
+"repository."
+msgstr ""
+"Instala o actualiza Docker Compose obteniendo el código fuente de su "
+"repositorio de Github."
+
 msgid "Checking Docker Community Edition..."
 msgstr "Comprobando Docker Community Edition..."
 
@@ -145,6 +164,13 @@ msgstr "Encontrado repositorio de Docker configurado"
 msgid "Checking Docker CE packages..."
 msgstr "Comprobando paquetes de Docker CE..."
 
+msgid ""
+"Installs Docker Community Edition packages from oficial repositories as "
+"source."
+msgstr ""
+"Instala los paquetes de Docker Community Edition desde los repositorios "
+"oficiales como fuente."
+
 msgid "Checking Chrome ecosystem..."
 msgstr "Comprobando ecosistema Chrome..."
 
@@ -165,6 +191,23 @@ msgstr "Actualizando chromedriver"
 
 msgid "Chromedriver found installed"
 msgstr "Encontrado chromedriver instalado"
+
+msgid ""
+"Installs and upgrade Chrome and Chromedriver retrieving binaries from "
+"oficial sources."
+msgstr ""
+"Instala y actualiza Chrome y Chromedriver obteniendo los binarios de las "
+"fuentes oficiales."
+
+msgid ""
+"Specifies where be stored the downloaded 'chromedriver' binary. As default "
+"at '$_CHROMEDRIVER_PATH'."
+msgstr ""
+"Especifica donde será almacenado el binario 'chromedriver' descargado. Por "
+"defecto en '$_CHROMEDRIVER_PATH'."
+
+msgid "If passed, does not download nor updates chromedriver."
+msgstr "Si se pasa, no descarga ni actualiza chromedriver."
 
 msgid "Setting up NodeJS ecosystem..."
 msgstr "Configurando ecosistema NodeJS..."
@@ -188,6 +231,20 @@ msgid "Your distribution is not supported by this NodeJS installation script"
 msgstr ""
 "Tu distribución no está soportada por este script de instalación de NodeJS"
 
+msgid ""
+"Installs a NodeJS version using 'github.com/nodesource/distributions' "
+"repositories as source."
+msgstr ""
+"Instala una versión de NodeJS usando los repositorios 'github.com/nodesource/"
+"distributions' como fuente."
+
+msgid ""
+"Major version of NodeJS to install or update to. As default the latest "
+"version available."
+msgstr ""
+"Versión mayor de NodeJS a instalar o a la que actualizar. Por defecto la "
+"última versión disponible."
+
 msgid "Setting up Python3 ecosystem..."
 msgstr "Configurando ecosistema Python3..."
 
@@ -202,6 +259,81 @@ msgstr "Comprobando paquetes de Python adicionales..."
 
 msgid "Updating global Python3 libraries..."
 msgstr "Actualizando bibliotecas de Python3 globales..."
+
+msgid "- curl"
+msgstr "- curl"
+
+msgid "- python3-dev"
+msgstr "- python3-dev"
+
+msgid "- python3-pip"
+msgstr "- python3-pip"
+
+msgid "- python3-setuptools"
+msgstr "- python3-setuptools"
+
+msgid "- python3-testresources"
+msgstr "- python3-testresources"
+
+msgid "- libxml2-utils"
+msgstr "- libxml2-utils"
+
+msgid "- python-lxml"
+msgstr "- python-lxml"
+
+msgid "- python3-lxml"
+msgstr "- python3-lxml"
+
+msgid "- python-numpy"
+msgstr "- python-numpy"
+
+msgid "- python3-numpy"
+msgstr "- python3-numpy"
+
+msgid "+ In Ubuntu >= 18 installs also:"
+msgstr "+ En Ubuntu >= 18 instala también:"
+
+msgid "- python3-distutils"
+msgstr "- python3-distutils"
+
+msgid "+ In Ubuntu < 20 installs also:"
+msgstr "+ En Ubuntu < 20 instala también:"
+
+msgid "- python-pip"
+msgstr "- python-pip"
+
+msgid "- python-dev"
+msgstr "- python-dev"
+
+msgid "+ In Ubuntu >= 20 installs also:"
+msgstr "+ En Ubuntu >= 20 instala también:"
+
+msgid "- python-dev-is-python2"
+msgstr "- python-dev-is-python2"
+
+msgid ""
+"Optionally, installs or upgrade using PIP some Python3 packages globally:"
+msgstr ""
+"Opcionalmente, instala o actualiza globalmente usando PIP algunos paquetes "
+"de Python3:"
+
+msgid "- pip"
+msgstr "- pip"
+
+msgid "- virtualenv"
+msgstr "- virtualenv"
+
+msgid "- setuptools"
+msgstr "- setuptools"
+
+msgid "- testresources"
+msgstr "- testresources"
+
+msgid ""
+"Ignores the installation or upgrade of the global Python3 packages using PIP."
+msgstr ""
+"Ignora la instalación o actualización de los paquetes globales de Python3 "
+"usando PIP."
 
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
@@ -289,6 +421,53 @@ msgstr ""
 "Tu versión de Debian/Ubuntu no está soportada por los repositorios oficiales "
 "de PostgreSQL"
 
+msgid ""
+"Installs PostgreSQL packages and, optionally, some additional packages from "
+"official sources."
+msgstr ""
+"Instala los paquetes PostgreSQL y, opcionalmente, algunos paquetes "
+"adicionales desde fuentes oficiales."
+
+msgid ""
+"Also checks if the 'postgres' service is running and enables it, if is not "
+"already."
+msgstr ""
+"También comprueba si el servicio 'postgres' está en ejecución y lo habilita, "
+"si no lo está ya."
+
+msgid ""
+"PostgreSQL version to install. If not provided, the latest version available "
+"in repositories will be installed."
+msgstr ""
+"Versión de PostgreSQL a instalar. Si no se provee, será instalada la última "
+"versión disponible en los repositorios."
+
+msgid ""
+"Install Postgis package correspondent to the PostgreSQL version to install."
+msgstr ""
+"Instala el paquete de PostGIS correspondiente a la versión de PostgreSQL a "
+"instalar."
+
+msgid ""
+"Specifies what version of PostGIS will be installed. Only has effect passing "
+"'--install-postgis' option."
+msgstr ""
+"Especifica qué versión de PostGIS será instalada. Sólo tiene efecto pasando "
+"la opción '--install-postgis'."
+
+msgid ""
+"If not provided, will be installed the latest available version of the "
+"package."
+msgstr ""
+"Si no se provee, será instalada la última versión disponible del paquete."
+
+msgid "Install latest version available of 'pgadmin' package."
+msgstr "Instala la última versión disponible del paquete 'pgadmin'."
+
+msgid "Install latest version available of 'postgresql-plpython3-*' package."
+msgstr ""
+"Instala la última versión disponible del paquete 'postgresql-plpython3-*'."
+
 msgid "An error happen retrieving Boostnote releases info from Github API."
 msgstr ""
 "Ocurrió un error obteniendo la información de las releases de Boostnote de "
@@ -320,6 +499,16 @@ msgstr "Encontrado Boostnote instalado en el sistema"
 msgid "Updating Boostnote"
 msgstr "Actualizando Boostnote"
 
+msgid ""
+"Installs and/or optionally updates Boostnote retrieving source code from "
+"their Github repository."
+msgstr ""
+"Instala y/o, opcionalmente, actualiza Boostnote obteniendo el código fuente "
+"de su repositorio de Github."
+
+msgid "Updates Boostnote to the penultimate release available."
+msgstr "Actualiza Boostnote al penúltimo lanzamiento disponible."
+
 msgid "Checking Mozilla ecosystem..."
 msgstr "Comprobando ecosistema Mozilla..."
 
@@ -335,6 +524,12 @@ msgstr "Encontrado Geckodriver instalado en el sistema"
 msgid "Installing geckodriver..."
 msgstr "Instalando geckodriver..."
 
+msgid "Installs Mozilla Firefox and geckodriver."
+msgstr "Instala Mozilla Firefox y geckodriver."
+
+msgid "If passed, doesn't installs geckodriver."
+msgstr "Si se pasa, no instala geckodriver."
+
 msgid "Installing CircleCI"
 msgstr "Instalando CircleCI"
 
@@ -343,6 +538,9 @@ msgstr "Actualizando CircleCI"
 
 msgid "CircleCI found installed"
 msgstr "Encontrado CircleCI instalado"
+
+msgid "Downloads or upgrade CircleCI binary."
+msgstr "Descarga o actualiza el binario de CircleCI."
 
 msgid "is already installed"
 msgstr "ya se encuentra instalado"
@@ -424,6 +622,11 @@ msgstr "Actualizando Redis"
 msgid "Found Redis installed"
 msgstr "Encontrado Redis instalado"
 
+msgid ""
+"Installs or updates Redis building from source code. Also, generates and "
+"configures the 'redis' user and service."
+msgstr ""
+
 msgid "Checking pacapt"
 msgstr "Comprobando pacapt"
 
@@ -447,6 +650,9 @@ msgstr "Indica otro destino para pacapt con el parámetro"
 
 msgid "Downloads pacapt."
 msgstr "Descarga pacapt."
+
+msgid "Destination path of the downloaded binary. By default '$_DEST_PATH'."
+msgstr "Ruta de destino del binario descargado. Por defecto '$_DEST_PATH'."
 
 msgid ""
 "An error happen retrieving shunit2 releases information from Github API."
@@ -475,11 +681,38 @@ msgstr "Ocurrió un error descargando shunit2"
 msgid "Indicate another destination for shunit2 with parameter"
 msgstr "Indica otro destino para shunit2 con el parámetro"
 
+msgid "Downloads shunit2."
+msgstr "Descarga shunit2."
+
 msgid "Updating system packages..."
 msgstr "Actualizando paquetes del sistema..."
 
+msgid ""
+"Updates and optionally upgrades the system if their repository packages have "
+"not been updated today."
+msgstr ""
+"Actualiza los paquetes y, opcionalmente, actualiza el sitema si sus paquetes "
+"de repositorio no han sido actualizados hoy."
+
+msgid ""
+"Passing this option, if the system has not been updated today, will be "
+"upgraded also."
+msgstr ""
+"Pasando esta opción, si el sistema no ha sido actualizado hoy, también será "
+"actualizado."
+
 msgid "Leaving ports free of processes..."
 msgstr "Dejando puertos libres de procesos."
+
+msgid ""
+"Kills all the processes running in the system that are using the ports "
+"specified with the parameter '--ports'."
+msgstr ""
+"Mata todos los procesos ejecutándose en el sistema que están usando los "
+"puertos especificados con el parámetro '--ports'."
+
+msgid "List of ports separated by commas which process will be terminated."
+msgstr "Lista de puertos separados por comas cuyos procesos serán terminados."
 
 msgid "Setting boot timeout for Grub"
 msgstr "Definiendo tiempo de expiración de arranque para Grub"
@@ -487,8 +720,102 @@ msgstr "Definiendo tiempo de expiración de arranque para Grub"
 msgid "Grub configuration file not found"
 msgstr "Archivo de configuración de Grub no encontrado"
 
+msgid "Defines a new timeout for GRUB boot prompt."
+msgstr ""
+"Define un nuevo tiempo de expiración para el indicador de arranque de GRUB."
+
+msgid ""
+"New timeout for the GRUB boot prompt, in seconds. By default $_NEW_TIMEOUT "
+"seconds."
+msgstr ""
+"Nuevo tiempo de expiración para el indicador de arranque de GRUB, en "
+"segundos. Por defecto $_NEW_TIMEOUT segundos."
+
+msgid ""
+"Exposes information about the distibution of the system. This script must be "
+"sourced."
+msgstr ""
+"Expone información sobre la distribución del sistema. Este script debe ser "
+"ejecutado con 'source'."
+
+msgid ""
+"You can check the information of the distribution in the next exposed "
+"environment variables:"
+msgstr ""
+"Puedes comprobar la información de la distribución con las siguientes "
+"variables de entorno expuestas:"
+
+msgid ""
+"- 'UNIX_DISTRO': Lowercased distribution identificator name. For example: "
+"'ubuntu'."
+msgstr ""
+"- 'UNIX_DISTRO': Nombre identificador de la distribución en minúsculas. Por "
+"ejemplo: 'ubuntu'."
+
+msgid ""
+"- 'UNIX_DISTRO_CAPITALIZED': Capitalized distribution identificator name. "
+"For example: 'Ubuntu'."
+msgstr ""
+"- 'UNIX_DISTRO_CAPITALIZED': Nombre identificador de la distribución con la "
+"primera letra en mayúscula. Por ejemplo: 'Ubuntu'."
+
+msgid ""
+"- 'UNIX_DISTRO_VERSION_NAME': Lowercased distribution version name. For "
+"example: 'focal'."
+msgstr ""
+"- 'UNIX_DISTRO_VERSION_NAME': Nombre de versión de la distribución en "
+"minúsculas. Por ejemplo: 'focal'."
+
+msgid ""
+"- 'UNIX_DISTRO_VERSION_NUMBER': Destribution version number. For example: "
+"'20.04'."
+msgstr ""
+"- 'UNIX_DISTRO_VERSION_NUMBER': Número de versión de la distribución. Por "
+"ejemplo: '20.04'."
+
+msgid ""
+"- 'UNIX_DISTRO_VERSION_NUMBER_MAJOR': Distribution major version number. For "
+"example: '20'."
+msgstr ""
+"- 'UNIX_DISTRO_VERSION_NUMBER_MAJOR': Número de versión mayor de la "
+"distribución. Por ejemplo: '20'."
+
+msgid ""
+"- 'UNIX_DISTRO_VERSION_NUMBER_MINOR': Distribution minor version number. For "
+"example: '04'."
+msgstr ""
+"- 'UNIX_DISTRO_VERSION_NUMBER_MINOR': Número de versión menor de la "
+"distribución. Por ejemplo: '04'."
+
 msgid "You must specify an address with the parameter"
 msgstr "Debes especificar una dirección con el parámetro"
+
+msgid "Check if a TCP address is operative through HTTP using curl."
+msgstr ""
+"Comprueba si una dirección TCP está operativa mediante HTTP usando curl."
+
+msgid "URL to check if it is operative."
+msgstr "URL a comprobar si está operativa."
+
+msgid ""
+"Maximum number of attemps checking if the provided address is operative. As "
+"default 40."
+msgstr ""
+"Número máximo de intentos comprobando si la dirección provista está "
+"operativa. Por defecto 40."
+
+msgid "Number of seconds to wait between attempts. As default 1."
+msgstr "Número de segundos a esperar entre intentos. Por defecto 1."
+
+msgid "String outputted passing it to printf between attemps (before wait)."
+msgstr "Cadena mostrada pasándola a printf entre intentos (antes de esperar)"
+
+msgid ""
+"Perform insecure SSL connection (passes the option '--insecure' to the curl "
+"command)."
+msgstr ""
+"Realiza una conexión SSL insegura (pasa la opción '--insecure' al comando "
+"curl)"
 
 msgid "Usage:"
 msgstr "Uso:"
@@ -505,3 +832,10 @@ msgid ""
 msgstr ""
 "Cada línea de salida del script será precedida con la cadena definida en "
 "este parámetro."
+
+#~ msgid ""
+#~ "Installs or updates Redis building from source code. Also, generates and "
+#~ "configures the redis user and service."
+#~ msgstr ""
+#~ "Instala o actualiza Redis construyendo desde código fuente. También "
+#~ "genera y configura el usuario y el servicio 'redis'."

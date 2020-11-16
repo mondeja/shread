@@ -54,7 +54,7 @@ _INCLUDE_PLPYTHON3=0
 </%block>
 <%block name="usage_opts_desc">
   -pgv POSTGRESQL_VERSION, --postgresql-version POSTGRESQL_VERSION
-                                    PostgreSQL version to install. If not provided, the latest version in repositories will be installed.
+                                    PostgreSQL version to install. If not provided, the latest version available in repositories will be installed.
   -gis, --install-postgis           Install Postgis package correspondent to the PostgreSQL version to install.
   -gisv POSTGIS_VERSION, --postgis-version POSTGIS_VERSION
                                     Specifies what version of PostGIS will be installed. Only has effect passing '--install-postgis' option.

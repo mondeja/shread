@@ -2,10 +2,10 @@
 
 <%block name="usage_desc">
   Exposes information about the distibution of the system. This script must be sourced.
-  You can check the information of the distribution in the next environment variables:
+  You can check the information of the distribution in the next exposed environment variables:
 
-  - 'UNIX_DISTRO': Lowercased distribution identificator name of the system. For example: 'ubuntu'.
-  - 'UNIX_DISTRO_CAPITALIZED': Capitalized distribution identificator name of the system. For example: 'Ubuntu'.
+  - 'UNIX_DISTRO': Lowercased distribution identificator name. For example: 'ubuntu'.
+  - 'UNIX_DISTRO_CAPITALIZED': Capitalized distribution identificator name. For example: 'Ubuntu'.
   - 'UNIX_DISTRO_VERSION_NAME': Lowercased distribution version name. For example: 'focal'.
   - 'UNIX_DISTRO_VERSION_NUMBER': Destribution version number. For example: '20.04'.
   - 'UNIX_DISTRO_VERSION_NUMBER_MAJOR': Distribution major version number. For example: '20'.

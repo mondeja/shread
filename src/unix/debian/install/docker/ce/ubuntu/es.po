@@ -39,4 +39,4 @@ msgid "Checking Docker CE packages..."
 msgstr "Comprobando paquetes de Docker CE..."
 
 msgid "Installs Docker Community Edition packages from oficial repositories as source."
-msgstr ""
+msgstr "Instala los paquetes de Docker Community Edition desde los repositorios oficiales como fuente."

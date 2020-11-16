@@ -10,7 +10,7 @@ _UPGRADE=0
 
 <%block name="usage_opts">[-u]</%block>
 <%block name="usage_desc">
-  Updates and optionally upgrades the system if their repository packages have not been updated in the current day.
+  Updates and optionally upgrades the system if their repository packages have not been updated today.
 </%block>
 <%block name="usage_opts_desc">
   -u, --upgrade                     Passing this option, if the system has not been updated today, will be upgraded also.

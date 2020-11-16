@@ -18,25 +18,25 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Exposes information about the distibution of the system. This script must be sourced."
-msgstr ""
+msgstr "Expone información sobre la distribución del sistema. Este script debe ser ejecutado con 'source'."
 
-msgid "You can check the information of the distribution in the next environment variables:"
-msgstr ""
+msgid "You can check the information of the distribution in the next exposed environment variables:"
+msgstr "Puedes comprobar la información de la distribución con las siguientes variables de entorno expuestas:"
 
-msgid "- 'UNIX_DISTRO': Lowercased distribution identificator name of the system. For example: 'ubuntu'."
-msgstr ""
+msgid "- 'UNIX_DISTRO': Lowercased distribution identificator name. For example: 'ubuntu'."
+msgstr "- 'UNIX_DISTRO': Nombre identificador de la distribución en minúsculas. Por ejemplo: 'ubuntu'."
 
-msgid "- 'UNIX_DISTRO_CAPITALIZED': Capitalized distribution identificator name of the system. For example: 'Ubuntu'."
-msgstr ""
+msgid "- 'UNIX_DISTRO_CAPITALIZED': Capitalized distribution identificator name. For example: 'Ubuntu'."
+msgstr "- 'UNIX_DISTRO_CAPITALIZED': Nombre identificador de la distribución con la primera letra en mayúscula. Por ejemplo: 'Ubuntu'."
 
 msgid "- 'UNIX_DISTRO_VERSION_NAME': Lowercased distribution version name. For example: 'focal'."
-msgstr ""
+msgstr "- 'UNIX_DISTRO_VERSION_NAME': Nombre de versión de la distribución en minúsculas. Por ejemplo: 'focal'."
 
 msgid "- 'UNIX_DISTRO_VERSION_NUMBER': Destribution version number. For example: '20.04'."
-msgstr ""
+msgstr "- 'UNIX_DISTRO_VERSION_NUMBER': Número de versión de la distribución. Por ejemplo: '20.04'."
 
 msgid "- 'UNIX_DISTRO_VERSION_NUMBER_MAJOR': Distribution major version number. For example: '20'."
-msgstr ""
+msgstr "- 'UNIX_DISTRO_VERSION_NUMBER_MAJOR': Número de versión mayor de la distribución. Por ejemplo: '20'."
 
 msgid "- 'UNIX_DISTRO_VERSION_NUMBER_MINOR': Distribution minor version number. For example: '04'."
-msgstr ""
+msgstr "- 'UNIX_DISTRO_VERSION_NUMBER_MINOR': Número de versión menor de la distribución. Por ejemplo: '04'."

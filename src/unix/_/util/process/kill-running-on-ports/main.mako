@@ -14,7 +14,7 @@ _PORTS_STRING=""
 </%block>
 <%block name="usage_opts_desc">
   -p PORT1,PORT2..., --ports PORT1,PORT2...
-                                    List of ports separated by commas, which process will be stopped.
+                                    List of ports separated by commas which process will be terminated.
 </%block>
 
 <%block name="argparse">

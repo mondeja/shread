@@ -42,7 +42,7 @@ msgid "Your distribution is not supported by this NodeJS installation script"
 msgstr "Tu distribución no está soportada por este script de instalación de NodeJS"
 
 msgid "Installs a NodeJS version using 'github.com/nodesource/distributions' repositories as source."
-msgstr ""
+msgstr "Instala una versión de NodeJS usando los repositorios 'github.com/nodesource/distributions' como fuente."
 
 msgid "Major version of NodeJS to install or update to. As default the latest version available."
-msgstr ""
+msgstr "Versión mayor de NodeJS a instalar o a la que actualizar. Por defecto la última versión disponible."

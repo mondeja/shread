@@ -36,70 +36,70 @@ msgid "Installs some Python2 and Python3 APT packages if are not installed:"
 msgstr ""
 
 msgid "- curl"
-msgstr ""
+msgstr "- curl"
 
 msgid "- python3-dev"
-msgstr ""
+msgstr "- python3-dev"
 
 msgid "- python3-pip"
-msgstr ""
+msgstr "- python3-pip"
 
 msgid "- python3-setuptools"
-msgstr ""
+msgstr "- python3-setuptools"
 
 msgid "- python3-testresources"
-msgstr ""
+msgstr "- python3-testresources"
 
 msgid "- libxml2-utils"
-msgstr ""
+msgstr "- libxml2-utils"
 
 msgid "- python-lxml"
-msgstr ""
+msgstr "- python-lxml"
 
 msgid "- python3-lxml"
-msgstr ""
+msgstr "- python3-lxml"
 
 msgid "- python-numpy"
-msgstr ""
+msgstr "- python-numpy"
 
 msgid "- python3-numpy"
-msgstr ""
+msgstr "- python3-numpy"
 
 msgid "+ In Ubuntu >= 18 installs also:"
-msgstr ""
+msgstr "+ En Ubuntu >= 18 instala también:"
 
 msgid "- python3-distutils"
-msgstr ""
+msgstr "- python3-distutils"
 
 msgid "+ In Ubuntu < 20 installs also:"
-msgstr ""
+msgstr "+ En Ubuntu < 20 instala también:"
 
 msgid "- python-pip"
-msgstr ""
+msgstr "- python-pip"
 
 msgid "- python-dev"
-msgstr ""
+msgstr "- python-dev"
 
 msgid "+ In Ubuntu >= 20 installs also:"
-msgstr ""
+msgstr "+ En Ubuntu >= 20 instala también:"
 
 msgid "- python-dev-is-python2"
-msgstr ""
+msgstr "- python-dev-is-python2"
 
 msgid "Optionally, installs or upgrade using PIP some Python3 packages globally:"
-msgstr ""
+msgstr "Opcionalmente, instala o actualiza globalmente usando PIP algunos paquetes de Python3:"
 
 msgid "- pip"
-msgstr ""
+msgstr "- pip"
 
 msgid "- virtualenv"
-msgstr ""
+msgstr "- virtualenv"
 
 msgid "- setuptools"
-msgstr ""
+msgstr "- setuptools"
 
 msgid "- testresources"
-msgstr ""
+msgstr "- testresources"
 
-msgid "Ignores the installation or upgrade of Python3 packages globally using PIP."
-msgstr ""
+msgid "Ignores the installation or upgrade of the global Python3 packages using PIP."
+msgstr "Ignora la instalación o actualización de los paquetes globales de Python3 usando PIP."

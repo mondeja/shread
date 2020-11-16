@@ -33,7 +33,7 @@ msgid "Installing geckodriver..."
 msgstr "Instalando geckodriver..."
 
 msgid "Installs Mozilla Firefox and geckodriver."
-msgstr ""
+msgstr "Instala Mozilla Firefox y geckodriver."
 
 msgid "If passed, doesn't installs geckodriver."
-msgstr ""
+msgstr "Si se pasa, no instala geckodriver."

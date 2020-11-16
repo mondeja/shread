@@ -21,7 +21,7 @@ msgid "Leaving ports free of processes..."
 msgstr "Dejando puertos libres de procesos."
 
 msgid "Kills all the processes running in the system that are using the ports specified with the parameter '--ports'."
-msgstr ""
+msgstr "Mata todos los procesos ejecutándose en el sistema que están usando los puertos especificados con el parámetro '--ports'."
 
-msgid "List of ports separated by commas, which process will be stopped."
-msgstr ""
+msgid "List of ports separated by commas which process will be terminated."
+msgstr "Lista de puertos separados por comas cuyos procesos serán terminados."

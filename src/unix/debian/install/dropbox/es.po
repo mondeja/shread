@@ -39,7 +39,7 @@ msgid "Installing Dropbox"
 msgstr "Instalando Dropbox"
 
 msgid "Installs and/or optionally updates Dropbox retrieving release package from their official repository."
-msgstr ""
+msgstr "Instala y/o, opcionalmente, actualiza Dropbox obteniendo el paquete de lanzamiento de su repositorio oficial."
 
 msgid "Upgrades Dropbox to the latest release available."
-msgstr ""
+msgstr "Actualiza Dropbox a la última versión disponible."

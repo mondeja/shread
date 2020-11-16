@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "POT-Creation-Date: 2020-11-13 13:30:02+0100\n"
-"PO-Revision-Date: 2020-05-01 21:24:33+0200\n"
+"PO-Revision-Date: 2020-11-16 12:00+0100\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
 "Language: es\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.4.2\n"
 
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
@@ -99,25 +100,25 @@ msgid "Your version of Debian/Ubuntu is not supported by official PostgreSQL rep
 msgstr "Tu versión de Debian/Ubuntu no está soportada por los repositorios oficiales de PostgreSQL"
 
 msgid "Installs PostgreSQL packages and, optionally, some additional packages from official sources."
-msgstr ""
+msgstr "Instala los paquetes PostgreSQL y, opcionalmente, algunos paquetes adicionales desde fuentes oficiales."
 
 msgid "Also checks if the 'postgres' service is running and enables it, if is not already."
-msgstr ""
+msgstr "También comprueba si el servicio 'postgres' está en ejecución y lo habilita, si no lo está ya."
 
-msgid "PostgreSQL version to install. If not provided, the latest version in repositories will be installed."
-msgstr ""
+msgid "PostgreSQL version to install. If not provided, the latest version available in repositories will be installed."
+msgstr "Versión de PostgreSQL a instalar. Si no se provee, será instalada la última versión disponible en los repositorios."
 
 msgid "Install Postgis package correspondent to the PostgreSQL version to install."
-msgstr ""
+msgstr "Instala el paquete de PostGIS correspondiente a la versión de PostgreSQL a instalar."
 
 msgid "Specifies what version of PostGIS will be installed. Only has effect passing '--install-postgis' option."
-msgstr ""
+msgstr "Especifica qué versión de PostGIS será instalada. Sólo tiene efecto pasando la opción '--install-postgis'."
 
 msgid "If not provided, will be installed the latest available version of the package."
-msgstr ""
+msgstr "Si no se provee, será instalada la última versión disponible del paquete."
 
 msgid "Install latest version available of 'pgadmin' package."
-msgstr ""
+msgstr "Instala la última versión disponible del paquete 'pgadmin'."
 
 msgid "Install latest version available of 'postgresql-plpython3-*' package."
-msgstr ""
+msgstr "Instala la última versión disponible del paquete 'postgresql-plpython3-*'."

@@ -29,7 +29,7 @@ _MSG_FOUND_REDIS_INSTALLED="Found Redis installed"
 
 <%block name="usage_opts">[-t]</%block>
 <%block name="usage_desc">
-  Install or update Redis building from source code. Also, generates the redis user and service.
+  Installs or updates Redis building from source code. Also, generates and configures the 'redis' user and service.
 </%block>
 <%block name="usage_opts_desc">
   -t, --test                        If passed, Redis build will be tested. This could take a lot of time.

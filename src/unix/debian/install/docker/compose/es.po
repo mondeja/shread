@@ -57,4 +57,4 @@ msgid "Updating Docker Compose"
 msgstr "Actualizando Docker Compose"
 
 msgid "Installs or upgrade Docker Compose retrieving source code from their Github repository."
-msgstr ""
+msgstr "Instala o actualiza Docker Compose obteniendo el código fuente de su repositorio de Github."

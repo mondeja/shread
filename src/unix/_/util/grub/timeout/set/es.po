@@ -24,10 +24,10 @@ msgid "Grub configuration file not found"
 msgstr "Archivo de configuración de Grub no encontrado"
 
 msgid "Defines a new timeout for GRUB boot prompt."
-msgstr ""
+msgstr "Define un nuevo tiempo de expiración para el indicador de arranque de GRUB."
 
-msgid "New timeout for the GRUB boot prompt, by default $_NEW_TIMEOUT."
-msgstr ""
+msgid "New timeout for the GRUB boot prompt, in seconds. By default $_NEW_TIMEOUT seconds."
+msgstr "Nuevo tiempo de expiración para el indicador de arranque de GRUB, en segundos. Por defecto $_NEW_TIMEOUT segundos."
 
 msgid "Path of the GRUB configuration file, by default '$_CONFIG_FILEPATH'."
 msgstr ""

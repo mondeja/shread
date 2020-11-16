@@ -25,7 +25,7 @@ _GDRIVE_BINARY_PATH="/usr/bin/gdrive"
   Downloads or upgrade Google Drive binary.
 </%block>
 <%block name="usage_opts_desc">
-  -b PATH, --binary-path PATH       Path where the downloaded gdrive binary will be stored. As default at '$_GDRIVE_BINARY_PATH'.
+  -b PATH, --binary-path PATH       Path where the downloaded 'gdrive' binary will be stored. As default at '$_GDRIVE_BINARY_PATH'.
 </%block>
 
 <%block name="prepare">
