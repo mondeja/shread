@@ -92,7 +92,7 @@ All scripts accept next option:
 
 <a name="help" href="#help">#</a> <b>-h, --help</b>
 
-Shows an help message for the script and exits.
+Shows usage instructions for the script and exits.
 
 <a name="indent" href="#indent">#</a> <b>-i, --indent</b> *string*
 
