@@ -103,6 +103,7 @@ function retrieveLastNodeJSVersion() {
 # 1. Full version to install.
 # 2. Major version to install.
 function installNodeJS() {
+  printIndent
   if [ -n "$1" ]; then
     printf "  %s (v%s)..." "$_MSG_INSTALLING_NODEJS" "$1"
   else
@@ -150,6 +151,7 @@ function getNodeJSInstalledVersion() {
 }
 
 function uninstallNodesourceNodeJS() {
+  printIndent
   printf "  %s (v%s)..." "$_MSG_UNINSTALLING_NODEJS" "$_NODEJS_INSTALLED_VERSION"
   echo y | sudo pacman -Rsn nodejs > /dev/null || exit $?
 
@@ -184,6 +186,7 @@ function main() {
     installNodeJS "$LAST_NODEJS_VERSION" "$LAST_NODEJS_MAJOR_VERSION"
   else
     getNodeJSInstalledVersion
+    printIndent
     printf "  %s (v%s)" "$_MSG_FOUND_NODEJS_INSTALLED" "$_NODEJS_INSTALLED_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
     if [ -n "$_VERSION" ] && [ "$_VERSION" != "$_NODEJS_INSTALLED_MAJOR_VERSION" ] && [ "$_UPGRADE" -eq 0 ]; then
@@ -202,6 +205,7 @@ function main() {
     fi;
 
     if [ "$_NODEJS_INSTALLED_MAJOR_VERSION" = "$_VERSION" ]; then
+      printIndent
       printf "  %s (v%s)" "$_MSG_NODEJS_IS_UPDATED" "$_NODEJS_INSTALLED_VERSION"
       printf " \e[92m\xE2\x9C\x94\e[39m\n"
       exit 0
@@ -214,6 +218,7 @@ function main() {
       uninstallNodesourceNodeJS
       installNodeJS "$LAST_NODEJS_VERSION" "$_VERSION"
     else
+      printIndent >&2
       printf "  %s" "$_MSG_NODEJS_INSTALLED_BY_ANOTHER_SOURCE" >&2
       printf " " >&2
       printf "%s" "$_MSG_UNINSTALL_MANUALLY_NODEJS_BEFORE_RUN" >&2
