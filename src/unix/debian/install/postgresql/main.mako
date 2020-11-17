@@ -166,8 +166,8 @@ function purgePreviousPackages() {
 function cleanPreviousSources() {
   _PGDG_SOURCES_EXTS=(
     "list"
-    "distUpgrade"
     "save"
+    "distUpgrade"
   )
 
   for EXT in "<%text>${_PGDG_SOURCES_EXTS[@]}</%text>"; do

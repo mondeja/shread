@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-13 13:41:53+0100\n"
+"POT-Creation-Date: 2020-11-17 10:28:52+0100\n"
 "PO-Revision-Date: 2020-11-09 10:56:18+0100\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
@@ -29,20 +29,38 @@ msgstr "Obteniendo última versión absoluta de NodeJS..."
 msgid "Installing NodeJS"
 msgstr "Instalando NodeJS"
 
+msgid "Uninstalling NodeJS"
+msgstr "Desinstalando NodeJS"
+
 msgid "An error happen installing NodeJS"
 msgstr "Ocurrió un error instalando NodeJS"
 
 msgid "Error code"
 msgstr "Código de error"
 
-msgid "Found NodeJS installed in the system"
-msgstr "Encontrado NodeJS instalado en el sistema"
-
 msgid "Your distribution is not supported by this NodeJS installation script"
 msgstr "Tu distribución no está soportada por este script de instalación de NodeJS"
 
-msgid "Installs a NodeJS version using 'github.com/nodesource/distributions' repositories as source."
-msgstr "Instala una versión de NodeJS usando los repositorios 'github.com/nodesource/distributions' como fuente."
+msgid "Found NodeJS installed"
+msgstr "Encontrado NodeJS instalado"
+
+msgid "NodeJS is updated"
+msgstr "NodeJS está actualizado"
+
+msgid "If you want to upgrade the NodeJS version installed you must pass the option '--upgrade' to this script."
+msgstr "Si quieres actualizar la versión de NodeJS instalada debes pasar la opción '--upgrade' a este script."
+
+msgid "NodeJS was installed by an unknown source and can not be upgraded."
+msgstr "NodeJS fue instalado por una fuente desconocida y no puede ser actualizado."
+
+msgid "Uninstall NodeJS manually before run this script."
+msgstr "Desinstala NodeJS manualmente antes de ejecutar este script."
+
+msgid "Installs NodeJS using 'github.com/nodesource/distributions' repositories as source."
+msgstr "Instala NodeJS usando los repositorios 'github.com/nodesource/distributions' como fuente."
 
 msgid "Major version of NodeJS to install or update to. As default the latest version available."
 msgstr "Versión mayor de NodeJS a instalar o a la que actualizar. Por defecto la última versión disponible."
+
+msgid "Upgrades NodeJS version if was previouly installed by the same source used by this script."
+msgstr "Actualiza la versión de NodeJS si fue instalada previamente por la misma fuente usada por este script."
