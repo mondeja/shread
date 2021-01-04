@@ -45,6 +45,7 @@ if [ -z "$_SCRIPT_NAME" ]; then
 fi;
 
 echo "import os
+import sys
 
 from mako.lookup import TemplateLookup
 from mako.template import Template
@@ -53,15 +54,19 @@ data = {
     'script_filepath': '$_SCRIPT_NAME'.lstrip('src/'),
 }
 
-lookup = TemplateLookup(directories=[
-    os.path.join('$PWD', 'templates')
-])
-template = Template(filename='$_TEMPLATE_FILEPATH',
-                    lookup=lookup)
-output = template.render(**data)
+try:
+    lookup = TemplateLookup(directories=[
+        os.path.join('$PWD', 'templates')
+    ])
+    template = Template(filename='$_TEMPLATE_FILEPATH',
+                        lookup=lookup)
+    output = template.render(**data)
 
-if os.path.exists('$_OUTPUT_FILEPATH'):
-    os.remove('$_OUTPUT_FILEPATH')
-with open('$_OUTPUT_FILEPATH', 'w') as f:
-    f.write(output)
+    if os.path.exists('$_OUTPUT_FILEPATH'):
+        os.remove('$_OUTPUT_FILEPATH')
+    with open('$_OUTPUT_FILEPATH', 'w') as f:
+        f.write(output)
+except Exception as err:
+    sys.stderr.write('$_TEMPLATE_FILEPATH')
+    raise err
 " | python3 || exit $?
