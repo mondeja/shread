@@ -237,13 +237,6 @@ msgstr "Encontrado NodeJS instalado"
 msgid "NodeJS is updated"
 msgstr "NodeJS está actualizado"
 
-msgid ""
-"If you want to upgrade the NodeJS version installed you must pass the option "
-"'--upgrade' to this script."
-msgstr ""
-"Si quieres actualizar la versión de NodeJS instalada debes pasar la opción "
-"'--upgrade' a este script."
-
 msgid "NodeJS was installed by an unknown source and can not be upgraded."
 msgstr ""
 "NodeJS fue instalado por una fuente desconocida y no puede ser actualizado."

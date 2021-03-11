@@ -11,7 +11,6 @@ _MSG_ERROR_CODE="Error code"
 _MSG_DISTRIBUTION_NOT_SUPPORTED="Your distribution is not supported by this NodeJS installation script"
 _MSG_FOUND_NODEJS_INSTALLED="Found NodeJS installed"
 _MSG_NODEJS_IS_UPDATED="NodeJS is updated"
-_MSG_MUST_PASS_UPGRADE_OPTION="If you want to upgrade the NodeJS version installed you must pass the option '--upgrade' to this script."
 _MSG_NODEJS_INSTALLED_BY_ANOTHER_SOURCE="NodeJS was installed by an unknown source and can not be upgraded."
 _MSG_UNINSTALL_MANUALLY_NODEJS_BEFORE_RUN="Uninstall NodeJS manually before run this script."
 </%block>
@@ -189,9 +188,6 @@ function main() {
     printIndent
     printf "  %s (v%s)" "$_MSG_FOUND_NODEJS_INSTALLED" "$_NODEJS_INSTALLED_VERSION"
     printf " \e[92m\xE2\x9C\x94\e[39m\n"
-    if [ -n "$_VERSION" ] && [ "$_VERSION" != "$_NODEJS_INSTALLED_MAJOR_VERSION" ] && [ "$_UPGRADE" -eq 0 ]; then
-      printf "  %s\n" "$_MSG_MUST_PASS_UPGRADE_OPTION"
-    fi;
 
     # If we shouldn't upgrade NodeJS version
     if [ "$_UPGRADE" -eq 0 ]; then

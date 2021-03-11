@@ -67,7 +67,7 @@ jobs:
           SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED: 'true'
 
   debian-stretch:
-    name: Debian 9.12 - Stretch
+    name: Debian 9.13 - Stretch
     runs-on: ubuntu-latest
     container:
       image: debian:stretch
