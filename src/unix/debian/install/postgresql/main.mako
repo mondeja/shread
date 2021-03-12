@@ -293,7 +293,7 @@ function installPostgresPackages() {
     _LASTEST_STABLE_PLPYTHON3_COMPATIBLE_PACKAGE=$(
       sudo aptitude search "~n ^postgresql-plpython3-<%text>${_POSTGRES_VERSION_TO_INSTALL}"</%text> | \
       head -n 1 | \
-      grep -o " postgresql-plpython3-12" | \
+      grep -o " postgresql-plpython3-<%text>${_POSTGRES_VERSION_TO_INSTALL}"</%text> | \
       awk '{ print $1 }'
     )
     if [ "$_LASTEST_STABLE_PLPYTHON3_COMPATIBLE_PACKAGE" != "" ]; then
