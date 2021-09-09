@@ -7,7 +7,7 @@
 - `make locale`: Extract strings from scripts and add them to `.po` files,
  used to translate to other languages.
 - `make test`: Run all tests with [shunit2][shunit2-link].
-- `make run`: Start development server.
+- `make run`: Start development server (you need to have Python installed).
 
 ## How to upload patches
 
