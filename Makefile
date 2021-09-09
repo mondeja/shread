@@ -14,3 +14,7 @@ locale:
 .PHONY: test
 test:
 	@bash scripts/test.sh
+
+.PHONY: run
+run:
+	@python3 -m http.server 4000 -b 127.0.0.1 -d public
