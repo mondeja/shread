@@ -43,15 +43,8 @@ Setting up NodeJS ecosystem...
     make ✔
     apt-transport-https ✔
     lsb-release ✔
-    curl ✔
     gnupg ✔
-  Found NodeJS installed in the system (v13.13.0) ✔
-  Checking NPM...
-    It's installed (v6.14.4) ✔
-    It's updated ✔
-  Checking Yarn...
-    It's installed (v1.22.4) ✔
-    It's updated ✔
+  Found NodeJS installed (v14.17.6) ✔
 ```
 
 #### Spanish
@@ -66,15 +59,8 @@ Configurando ecosistema NodeJS...
     make ✔
     apt-transport-https ✔
     lsb-release ✔
-    curl ✔
     gnupg ✔
-  Encontrado NodeJS instalado en el sistema (v13.13.0) ✔
-  Comprobando NPM...
-    Está instalado (v6.14.4) ✔
-    Está actualizado ✔
-  Comprobando Yarn...
-    Está instalado (v1.22.4) ✔
-    Está actualizado ✔
+  Encontrado NodeJS instalado (v14.17.6) ✔
 ```
 
 ## Supported languages
