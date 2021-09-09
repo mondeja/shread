@@ -99,8 +99,8 @@ function retrieveLastNodeJSVersion() {
   printf " (v%s) \e[92m\xE2\x9C\x94\e[39m\n" "$LAST_NODEJS_VERSION"
 }
 
-# 1. Full version to install.
-# 2. Major version to install.
+# $1. Full version to install.
+# $2. Major version to install.
 function installNodeJS() {
   printIndent
   if [ -n "$1" ]; then
@@ -166,7 +166,6 @@ function uninstallNodesourceNodeJS() {
 
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 }
-
 
 function main() {
   sudo printf ""
