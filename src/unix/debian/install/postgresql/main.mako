@@ -45,6 +45,9 @@ _INCLUDE_PGADMIN=0
 
 # Install Plpython3?
 _INCLUDE_PLPYTHON3=0
+
+# Check service is configured to run at start?
+_CHECK_SERVICE=1
 </%block>
 
 <%block name="usage_opts">[-pgv POSTGRESQL_VERSION] [-gis] [-gisv POSTGIS_VERSION] [-pgad] [-plpy3]</%block>
@@ -61,6 +64,7 @@ _INCLUDE_PLPYTHON3=0
                                     If not provided, will be installed the latest available version of the package.
   -pgad, --install-pgadmin          Install latest version available of 'pgadmin' package.
   -plpy3, --install-plpython3       Install latest version available of 'postgresql-plpython3-*' package.
+  --no-check-service                Do not check that the service is configured to run at boot time.
 </%block>
 
 <%block name="prepare">
@@ -74,7 +78,7 @@ _PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
     shift
     ;;
 
-    -gis|--install-postgis)
+    -gis|--install-postgis) --
     _INCLUDE_POSTGIS=1
     shift
     ;;
@@ -92,6 +96,11 @@ _PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
 
     -plpy3|--install-plpython3)
     _INCLUDE_PLPYTHON3=1
+    shift
+    ;;
+
+    --no-check-service)
+    _CHECK_SERVICE=0
     shift
     ;;
 </%block>
@@ -407,6 +416,8 @@ function main() {
     installPostgresPackages "$_MSG_CHECKING_PACKAGES"
   fi;
 
-  checkPostgresqlServiceConfig
+  if [ "$_CHECK_SERVICE" -eq 1 ]; then
+    checkPostgresqlServiceConfig
+  fi;
 }
 </%block>

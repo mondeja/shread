@@ -68,14 +68,14 @@ function installInstallationDependencies() {
   printIndent
   printf "  %s\n" "$_MSG_CHECKING_BASE_DEPS"
   INSTALLATION_DEPENDENCIES=(
-    "build-essential"
-    "gcc"
-    "g++"
-    "make"
     "apt-transport-https"
-    "lsb-release"
-    "gnupg"
     "aptitude"
+    "build-essential"
+    "g++"
+    "gcc"
+    "gnupg"
+    "lsb-release"
+    "make"
   )
 
   for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do

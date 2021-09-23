@@ -488,6 +488,10 @@ msgid "Install latest version available of 'postgresql-plpython3-*' package."
 msgstr ""
 "Instala la última versión disponible del paquete 'postgresql-plpython3-*'."
 
+msgid "Do not check that the service is configured to run at boot time."
+msgstr ""
+"No comprueba que el servicio está configurado para ejecutarse al arrancar."
+
 msgid "An error happen retrieving Boostnote releases info from Github API."
 msgstr ""
 "Ocurrió un error obteniendo la información de las releases de Boostnote de "
