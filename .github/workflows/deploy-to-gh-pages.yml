@@ -1,10 +1,25 @@
 name: Deploy to Github Pages
+
 on:
   push:
     branches:
       - master
+
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - name: Install
+        run: |
+         sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
+         sudo apt-get update && sudo apt-get install python3 gettext
+      - name: Lint
+        run: bash scripts/lint.sh
+
   build-and-deploy:
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
