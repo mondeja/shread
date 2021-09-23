@@ -113,7 +113,7 @@ function installPacmanIfNotInstalled() {
   fi;
 }
 
-function installScriptDependencies() {
+function installInstallationDependencies() {
   installPacmanIfNotInstalled
 
   INSTALLATION_DEPENDENCIES=(
@@ -413,6 +413,7 @@ function checkPostgresqlServiceConfig() {
 function installPostgreSQL() {
   printIndent
   printf "  %s\n" "$_MSG_INSTALLING_PG"
+  installInstallationDependencies
 
   # Check if the Debian system version is available at official Postgres repos
   getDebianVersion
