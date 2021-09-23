@@ -151,11 +151,19 @@ function checkRedisServiceConfig() {
   printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
   printIndent
 
-  _REDIS_SERVICE_ENABLED_FOUND=$(
-    systemctl list-unit-files | \
-    grep enabled | \
-    grep redis)
-  if [ "$_REDIS_SERVICE_ENABLED_FOUND" = "" ]; then
+  if [ "$(ps -p 1 -o comm=)" = "systemd" ]; then
+    sudo systemctl is-enabled redis > /dev/null 2>&1
+    _REDIS_SERVICE_DISABLED=$?
+  else
+    _REDIS_SERVICE_ENABLED_OUT="$(
+      sudo service redis status | grep "Loaded: " | grep ".service; enabled;"
+    )"
+    _REDIS_SERVICE_DISABLED=1
+    if [ -n "$_REDIS_SERVICE_ENABLED_OUT" ]; then
+      _REDIS_SERVICE_DISABLED=0
+    fi;
+  fi;
+  if [ "$_REDIS_SERVICE_DISABLED" -eq 1 ]; then
     printf "    %s" "$_MSG_ENABLING"
     _ENABLE_REDIS_SERVER_OUTPUT=$(
       sudo systemctl enable redis.service 2>&1 > /dev/null
@@ -175,10 +183,10 @@ function checkRedisServiceConfig() {
 
   printIndent
 
-  _REDIS_SERVICE_STATUS=$(
+  _REDIS_SERVICE_STATUS="$(
     sudo systemctl show -p ActiveState redis | \
-    cut -d'=' -f2 | \
-    tr -d '\n')
+    cut -d'=' -f2
+  )"
   if [ "$_REDIS_SERVICE_STATUS" != "active" ]; then
     printf "    %s" "$_MSG_EXECUTING"
     sudo systemctl start redis > /dev/null

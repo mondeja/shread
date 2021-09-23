@@ -333,17 +333,30 @@ function checkPostgresqlServiceConfig() {
   printIndent
   printf "  %s\n" "$_MSG_CHECKING_PG_SERVICE_CONFIG"
   printIndent
+  service_provider="$(ps -p 1 -o comm=)"
 
-  _POSTGRESQL_SERVICE_ENABLED_FOUND=$(
-    systemctl list-unit-files | \
-    grep enabled | \
-    grep postgresql)
-  if [ "$_POSTGRESQL_SERVICE_ENABLED_FOUND" = "" ]; then
+  if [ "$service_provider" = "systemd" ]; then
+    sudo systemctl is-enabled postgresql > /dev/null 2>&1
+    _POSTGRESQL_SERVICE_DISABLED=$?
+  else
+    _POSTGRESQL_SERVICE_ENABLED_OUT="$(
+      sudo service postgresql status | grep "Loaded: " | grep ".service; enabled;"
+    )"
+    _POSTGRESQL_SERVICE_DISABLED=1
+    if [ -n "$_POSTGRESQL_SERVICE_ENABLED_OUT" ]; then
+      _POSTGRESQL_SERVICE_DISABLED=0
+    fi;
+  fi;
+
+  if [ "$_POSTGRESQL_SERVICE_DISABLED" -eq 1 ]; then
     printf "    %s" "$_MSG_ENABLING"
-    _ENABLE_POSTGRESQL_SERVER_OUTPUT=$(
-      sudo systemctl enable postgresql.service 2>&1 > /dev/null
-    )
-    _ENABLE_POSTGRESQL_SERVER_EXIT_CODE=$?
+    if [ "$service_provider" = "systemd" ]; then
+      _ENABLE_POSTGRESQL_SERVER_OUTPUT="$(sudo systemctl enable postgresql.service)"
+      _ENABLE_POSTGRESQL_SERVER_EXIT_CODE=$?
+    else
+      _ENABLE_POSTGRESQL_SERVER_OUTPUT="$(sudo update-rc.d postgresql enable)"
+      _ENABLE_POSTGRESQL_SERVER_EXIT_CODE=$?
+    fi;
     if [ $_ENABLE_POSTGRESQL_SERVER_EXIT_CODE -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
       printf "%s\n" "$_MSG_ERROR_ENABLING_PG_SERVICE" >&2
@@ -357,14 +370,34 @@ function checkPostgresqlServiceConfig() {
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printIndent
-  _POSTGRESQL_SERVICE_STATUS=$(
-    sudo systemctl show -p ActiveState postgresql | \
-    cut -d'=' -f2 | \
-    tr -d '\n')
+  if [ "$service_provider" = "systemd" ]; then
+    _POSTGRESQL_SERVICE_STATUS=$(
+      sudo systemctl show -p ActiveState postgresql \
+      | cut -d'=' -f2
+    )
+  else
+    # shellcheck disable=SC2005
+    _CHECK_ACTIVE_OUTPUT="$(
+      echo "$(sudo service postgresql status 2>&1 || echo "")" \
+      | grep "Active: " \
+      | grep " active (running)"
+    )"
+    _POSTGRESQL_SERVICE_STATUS="inactive"
+    if [ -n "$_CHECK_ACTIVE_OUTPUT" ]; then
+      _POSTGRESQL_SERVICE_STATUS="active"
+    fi;
+  fi;
+
   if [ "$_POSTGRESQL_SERVICE_STATUS" != "active" ]; then
     printf "    %s" "$_MSG_LAUNCHING"
-    sudo systemctl start postgresql > /dev/null
-    _POSTGRESQL_SERVICE_STARTED=$?
+    if [ "$service_provider" = "systemd" ]; then
+      sudo systemctl start postgresql > /dev/null
+      _POSTGRESQL_SERVICE_STARTED=$?
+    else
+      sudo service postgresql start
+      _POSTGRESQL_SERVICE_STARTED=$?
+    fi;
+
     if [ $_POSTGRESQL_SERVICE_STARTED -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
       printf "%s\n" "$_MSG_PG_SERVICE_COULDNT_BE_STARTED" >&2
