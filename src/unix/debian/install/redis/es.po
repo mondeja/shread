@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-16 12:47:34+0100\n"
+"POT-Creation-Date: 2021-09-23 20:35:07+0200\n"
 "PO-Revision-Date: 2020-05-01 22:24:19+0200\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
@@ -94,3 +94,6 @@ msgstr "Instala o actualiza Redis construyendo desde código fuente. También ge
 
 msgid "If passed, Redis build will be tested. This could take a lot of time."
 msgstr "Si se pasa, la construcción Redis será testeada. Esto puede tardar mucho tiempo."
+
+msgid "Do not check that the service is configured to run at boot time."
+msgstr "No comprueba que el servicio está configurado para ejecutarse al arrancar."

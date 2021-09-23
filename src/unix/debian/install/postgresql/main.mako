@@ -78,7 +78,7 @@ _PGDG_SOURCES_LIST_FILEPATH="/etc/apt/sources.list.d/pgdg"
     shift
     ;;
 
-    -gis|--install-postgis) --
+    -gis|--install-postgis)
     _INCLUDE_POSTGIS=1
     shift
     ;;

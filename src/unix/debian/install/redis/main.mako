@@ -27,21 +27,21 @@ _MSG_UPDATING_REDIS="Updating Redis"
 _MSG_FOUND_REDIS_INSTALLED="Found Redis installed"
 </%block>
 
+<%block name="vars">
+# Redis build should be tested?
+_TEST=0
+
+# Check service is configured to run at start?
+_CHECK_SERVICE=1
+</%block>
+
 <%block name="usage_opts">[-t]</%block>
 <%block name="usage_desc">
   Installs or updates Redis building from source code. Also, generates and configures the 'redis' user and service.
 </%block>
 <%block name="usage_opts_desc">
   -t, --test                        If passed, Redis build will be tested. This could take a lot of time.
-</%block>
-
-<%block name="vars">
-# Redis build should be tested?
-_TEST=0
-</%block>
-
-<%block name="prepare">
-_ORIGIN_PWD="$PWD"
+  --no-check-service                Do not check that the service is configured to run at boot time.
 </%block>
 
 <%block name="argparse">
@@ -49,6 +49,15 @@ _ORIGIN_PWD="$PWD"
     _TEST=1
     shift
     ;;
+
+    --no-check-service)
+    _CHECK_SERVICE=0
+    shift
+    ;;
+</%block>
+
+<%block name="prepare">
+_ORIGIN_PWD="$PWD"
 </%block>
 
 <%block name="script">
@@ -335,7 +344,9 @@ function main() {
   fi;
 
   # Check the service
-  checkRedisServiceConfig
+  if [ "$_CHECK_SERVICE" -eq 1 ]; then
+    checkRedisServiceConfig
+  fi;
 
   cd "$_ORIGIN_PWD" || exit $?
 }
