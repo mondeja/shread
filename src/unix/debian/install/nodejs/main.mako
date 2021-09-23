@@ -75,6 +75,7 @@ function installInstallationDependencies() {
     "apt-transport-https"
     "lsb-release"
     "gnupg"
+    "aptitude"
   )
 
   for DEP in "<%text>${INSTALLATION_DEPENDENCIES[@]}</%text>"; do
