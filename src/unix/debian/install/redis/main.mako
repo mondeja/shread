@@ -150,8 +150,9 @@ function checkRedisServiceConfig() {
   printIndent
   printf "  %s\n" "$_MSG_CHECKING_SERVICE_CONFIG"
   printIndent
+  service_provider="$(ps -p 1 -o comm=)"
 
-  if [ "$(ps -p 1 -o comm=)" = "systemd" ]; then
+  if [ "$service_provider" = "systemd" ]; then
     sudo systemctl is-enabled redis > /dev/null 2>&1
     _REDIS_SERVICE_DISABLED=$?
   else
@@ -165,10 +166,13 @@ function checkRedisServiceConfig() {
   fi;
   if [ "$_REDIS_SERVICE_DISABLED" -eq 1 ]; then
     printf "    %s" "$_MSG_ENABLING"
-    _ENABLE_REDIS_SERVER_OUTPUT=$(
-      sudo systemctl enable redis.service 2>&1 > /dev/null
-    )
-    _ENABLE_REDIS_SERVER_EXIT_CODE=$?
+    if [ "$service_provider" = "systemd" ]; then
+      _ENABLE_REDIS_SERVER_OUTPUT="$(sudo systemctl enable redis.service)"
+      _ENABLE_REDIS_SERVER_EXIT_CODE=$?
+    else
+      _ENABLE_REDIS_SERVER_OUTPUT="$(sudo update-rc.d redis enable)"
+      _ENABLE_REDIS_SERVER_EXIT_CODE=$?
+    fi;
     if [ $_ENABLE_REDIS_SERVER_EXIT_CODE -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
       printf "%s\n" "$_MSG_ERROR_ENABLING_SERVICE" >&2
@@ -182,15 +186,35 @@ function checkRedisServiceConfig() {
   printf " \e[92m\xE2\x9C\x94\e[39m\n"
 
   printIndent
+  if [ "$service_provider" = "systemd" ]; then
+    _REDIS_SERVICE_STATUS="$(
+      sudo systemctl show -p ActiveState redis | \
+      cut -d'=' -f2
+    )"
+  else
+    # shellcheck disable=SC2005
+    _CHECK_ACTIVE_OUTPUT="$(
+      echo "$(sudo service redis status 2>&1 || echo "")" \
+      | grep "Active: " \
+      | grep " active (running)"
+    )"
+    _REDIS_SERVICE_STATUS="inactive"
+    if [ -n "$_CHECK_ACTIVE_OUTPUT" ]; then
+      _REDIS_SERVICE_STATUS="active"
+    fi;
+  fi;
 
-  _REDIS_SERVICE_STATUS="$(
-    sudo systemctl show -p ActiveState redis | \
-    cut -d'=' -f2
-  )"
   if [ "$_REDIS_SERVICE_STATUS" != "active" ]; then
     printf "    %s" "$_MSG_EXECUTING"
-    sudo systemctl start redis > /dev/null
-    _REDIS_SERVICE_STARTED=$?
+
+    if [ "$service_provider" = "systemd" ]; then
+      sudo systemctl start redis > /dev/null
+      _REDIS_SERVICE_STARTED=$?
+    else
+      sudo service redis start
+      _REDIS_SERVICE_STARTED=$?
+    fi;
+
     if [ $_REDIS_SERVICE_STARTED -ne 0 ]; then
       printf " \e[91m\xE2\x9C\x95\e[39m\n" >&2
       printf "%s\n" "$_MSG_SERVICE_COULDNT_BE_STARTED" >&2
