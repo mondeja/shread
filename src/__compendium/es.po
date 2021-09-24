@@ -355,6 +355,19 @@ msgstr ""
 "Ignora la instalación o actualización de los paquetes globales de Python3 "
 "usando PIP."
 
+msgid ""
+"Pass a comma separated list of packages to skip APT package installations."
+msgstr ""
+"Pasa una lista de paquetes APT separados por comas para ignorar sus "
+"instalaciones."
+
+msgid ""
+"Pass a comma separated list of packages to skip Python global package "
+"installations."
+msgstr ""
+"Pasa una lista de paquetes globales de Python separados por comas para "
+"ignorar sus instalaciones."
+
 msgid "Adding repository..."
 msgstr "Añadiendo repositorio..."
 
@@ -863,3 +876,8 @@ msgid ""
 msgstr ""
 "Cada línea de salida del script será precedida con la cadena definida en "
 "este parámetro."
+
+#~ msgid "Pass a comma separated list of packages to skip their installations."
+#~ msgstr ""
+#~ "Pasa una lista de paquetes separados por comas para ignorar sus "
+#~ "instalaciones."

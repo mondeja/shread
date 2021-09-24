@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
-"POT-Creation-Date: 2020-11-13 13:32:52+0100\n"
+"POT-Creation-Date: 2021-09-24 02:46:44+0200\n"
 "PO-Revision-Date: 2020-05-01 21:40:06+0200\n"
 "Last-Translator: Álvaro Mondéjar Rubio <mondejar1994@gmail.com>\n"
 "Language-Team: es\n"
@@ -103,3 +103,9 @@ msgstr "- testresources"
 
 msgid "Ignores the installation or upgrade of the global Python3 packages using PIP."
 msgstr "Ignora la instalación o actualización de los paquetes globales de Python3 usando PIP."
+
+msgid "Pass a comma separated list of packages to skip APT package installations."
+msgstr "Pasa una lista de paquetes APT separados por comas para ignorar sus instalaciones."
+
+msgid "Pass a comma separated list of packages to skip Python global package installations."
+msgstr "Pasa una lista de paquetes globales de Python separados por comas para ignorar sus instalaciones."

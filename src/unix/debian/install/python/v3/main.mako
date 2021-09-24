@@ -40,15 +40,31 @@ _MSG_UPDATING_GLOBAL_PY3_LIBRARIES="Updating global Python3 libraries..."
 </%block>
 <%block name="usage_opts_desc">
   --no-upgrade-py3-global-libs      Ignores the installation or upgrade of the global Python3 packages using PIP.
+  --skip-apt-packages               Pass a comma separated list of packages to skip APT package installations.
+  --skip-py-packages                Pass a comma separated list of packages to skip Python global package installations.
 </%block>
 
 <%block name="vars">
 _UPGRADE_PY3_GLOBAL_LIBS=1
+_SKIP_APT_PACKAGES=""
+_SKIP_PY_PACKAGES=""
 </%block>
 
 <%block name="argparse">
     --no-upgrade-py3-global-libs)
     _UPGRADE_PY3_GLOBAL_LIBS=0
+    shift
+    ;;
+
+    --skip-apt-packages)
+    shift
+    _SKIP_APT_PACKAGES=$1
+    shift
+    ;;
+
+    --skip-py-packages)
+    shift
+    _SKIP_PY_PACKAGES=$1
     shift
     ;;
 </%block>
@@ -130,6 +146,13 @@ function installPythonAdditionalAptPackages {
   printf "  %s\n" "$_MSG_CHECKING_ADDITIONAL_PY3_PACKAGES"
 
   for DEP in <%text>"${INSTALLATION_PACKAGES[@]}"</%text>; do
+    if [ -n "$_SKIP_APT_PACKAGES" ]; then
+      # shellcheck disable=SC2143
+      if [ -n "$(echo "$_SKIP_APT_PACKAGES" | grep -o "$DEP")" ]; then
+        continue
+      fi;
+    fi;
+
     printIndent
     printf "    %s" "$DEP"
     if [[ "$(sudo pacman -Qi "$DEP" 2> /dev/null | grep Status)" != "Status: install ok installed" ]]; then
@@ -173,6 +196,13 @@ function upgradeGlobalLibraries {
     )
 
     for LIB in <%text>"${GLOBAL_RECOMMENDED_LIBRARIES[@]}"</%text>; do
+      if [ -n "$_SKIP_PY_PACKAGES" ]; then
+      # shellcheck disable=SC2143
+        if [ -n "$(echo "$_SKIP_PY_PACKAGES" | grep -o "$LIB")" ]; then
+          continue
+        fi;
+      fi;
+
       printIndent
       printf "    %s" "$LIB"
 
