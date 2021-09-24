@@ -394,7 +394,7 @@ function checkPostgresqlServiceConfig() {
       sudo systemctl start postgresql > /dev/null
       _POSTGRESQL_SERVICE_STARTED=$?
     else
-      sudo service postgresql start
+      sudo service postgresql start > /dev/null
       _POSTGRESQL_SERVICE_STARTED=$?
     fi;
 

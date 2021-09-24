@@ -211,7 +211,7 @@ function checkRedisServiceConfig() {
       sudo systemctl start redis > /dev/null
       _REDIS_SERVICE_STARTED=$?
     else
-      sudo service redis start
+      sudo service redis start > /dev/null
       _REDIS_SERVICE_STARTED=$?
     fi;
 
