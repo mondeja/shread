@@ -285,9 +285,9 @@ EOF
 
   printf "    %s" "$_MSG_CREATING_USER"
   # Check if 'redis' user exists
-  if ! id -u redis > /dev/null 2>&1; then
+  if id -u redis > /dev/null 2>&1; then
     # Ya existe, lo eliminamos
-    sudo userdel -f redis
+    sudo userdel -f redis > /dev/null
   fi;
   # Create 'redis' user
   sudo adduser --system --group --no-create-home redis > /dev/null || exit $?
