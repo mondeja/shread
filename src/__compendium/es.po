@@ -876,8 +876,3 @@ msgid ""
 msgstr ""
 "Cada línea de salida del script será precedida con la cadena definida en "
 "este parámetro."
-
-#~ msgid "Pass a comma separated list of packages to skip their installations."
-#~ msgstr ""
-#~ "Pasa una lista de paquetes separados por comas para ignorar sus "
-#~ "instalaciones."
