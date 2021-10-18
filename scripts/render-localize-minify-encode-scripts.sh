@@ -105,6 +105,12 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
         | tail -n 1 \
         | cut -d'"' -f2- \
         | sed 's/.$//')"
+      SETX_OPTION_DESC_MSGSTR="$(
+        printf "%s" "$COMPENDIUM_FILEPATH_UNWRAPPED" \
+        | grep -i -A 1 'msgid "Sets the -x option in Bash to print out the statements as they are being executed. Useful for debugging purposes."' \
+        | tail -n 1 \
+        | cut -d'"' -f2- \
+        | sed 's/.$//')"
 
       # inside 'Usage:' section of the help (translation of usage section)
       _inside_usage=0
@@ -149,6 +155,8 @@ find src -type f -name "main.mako" | while read -r script_filepath; do
               line_output="  -h, --help                        $HELP_OPTION_DESC_MSGSTR"
             elif [ -n "$INDENT_OPTION_DESC_MSGSTR" ] && [ "$line" = "  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter." ]; then
               line_output="  -i STRING, --indent STRING        $INDENT_OPTION_DESC_MSGSTR"
+            elif [ -n "$SETX_OPTION_DESC_MSGSTR" ] && [ "$line" = "  --set-x                           Sets the -x option in Bash to print out the statements as they are being executed. Useful for debugging purposes." ]; then
+              line_output="  --setx                            $SETX_OPTION_DESC_MSGSTR"
             elif [ "$line" = "HELP_USAGE" ]; then
               # exit options section, all parsed
               _inside_options=0

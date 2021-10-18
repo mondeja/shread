@@ -6,6 +6,7 @@
 <%block name="prepare"/>\
 
 INDENT_STRING=""
+SETX=0
 <%block name="vars"/>\
 
 function usage {
@@ -14,7 +15,8 @@ Usage: ${script_filepath}/<%text>$_SCRIPT_FILENAME</%text> [-h] [-i STRING] <%bl
 <%block name="usage_desc"/>
 Options:
   -h, --help                        Show this help message and exit.
-  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter.<%block name="usage_opts_desc"/>\
+  -i STRING, --indent STRING        Each line of the script output will be preceded with the string defined in this parameter.
+  --set-x                           Sets the -x option in Bash to print out the statements as they are being executed. Useful for debugging purposes.<%block name="usage_opts_desc"/>\
 
 HELP_USAGE
     exit 1
@@ -30,6 +32,10 @@ for arg in "$@"; do
     shift
     usage
     ;;\
+    --set-x)
+    SETX=1
+    shift
+    ;;\
     <%block name="argparse"/>\
   esac
 done
@@ -38,6 +44,7 @@ function printIndent() {
   printf "%s" "$INDENT_STRING"
 }
 \
+if [ "$SETX" -eq 1 ]; then set -x; fi
 <%block name="script"/>\
 \
 <%block name="main">
@@ -47,4 +54,5 @@ else
   main
 fi;
 </%block>\
+if [ "$SETX" -eq 1 ]; then set +x; fi
 \
