@@ -59,7 +59,7 @@ function exportVariables {
 }
 
 function main() {
-  printf "%s\n" "$_MSG_MUST_BE_SOURCED"
+  printf "%s\n" "$_MSG_MUST_BE_SOURCED" >&2
   exit 1
 }
 </%block>
