@@ -775,6 +775,9 @@ msgstr ""
 "Nuevo tiempo de expiración para el indicador de arranque de GRUB, en "
 "segundos. Por defecto $_NEW_TIMEOUT segundos."
 
+msgid "This script must be executed with 'source'."
+msgstr "Este script debe ser ejecutado con 'source'."
+
 msgid ""
 "Exposes information about the distibution of the system. This script must be "
 "sourced."

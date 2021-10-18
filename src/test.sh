@@ -111,4 +111,18 @@ function testSupportedDistributionsLtsEol {
     "[ $currentTs -gt $eolTs ]"
 }
 
+: '
+  Test --set-x option.
+'
+function testSetXOption {
+  first_statement="$(
+    bash public/unix/_/util/get-distro/es.sh --set-x 2>&1 1>/dev/null \
+    | head -n 1)"
+
+  assertEquals \
+    "The --set-x option has produced unexpected output" \
+    "$first_statement" \
+    "+ return 0"
+}
+
 . ./scripts/shunit2
