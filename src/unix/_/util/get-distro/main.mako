@@ -1,5 +1,9 @@
 <%inherit file="/bash-script.base.mako"/>
 
+<%block name="msgs">
+_MSG_MUST_BE_SOURCED="This script must be executed with 'source'."
+</%block>
+
 <%block name="usage_desc">
   Exposes information about the distibution of the system. This script must be sourced.
   You can check the information of the distribution in the next exposed environment variables:
@@ -52,5 +56,10 @@ function exportVariables {
   export UNIX_DISTRO_VERSION_NUMBER
   export UNIX_DISTRO_VERSION_NUMBER_MAJOR
   export UNIX_DISTRO_VERSION_NUMBER_MINOR
+}
+
+function main() {
+  printf "%s\n" "$_MSG_MUST_BE_SOURCED" >&2
+  exit 1
 }
 </%block>

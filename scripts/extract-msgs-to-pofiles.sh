@@ -69,6 +69,7 @@ USAGE_SECTION_MSGIDS=(
   "Options:"
   "Show this help message and exit."
   "Each line of the script output will be preceded with the string defined in this parameter."
+  "Sets the -x option in Bash to print out the statements as they are being executed. Useful for debugging purposes."
 )
 
 find src -type f -name "main.mako" | while read -r filepath; do
