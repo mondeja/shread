@@ -18,7 +18,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
          sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
@@ -30,7 +30,7 @@ jobs:
     name: Ubuntu 18.04 - Bionic
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
          sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
@@ -50,7 +50,7 @@ jobs:
     name: Ubuntu 20.04 - Focal
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
          sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
@@ -73,7 +73,7 @@ jobs:
       image: debian:stretch
       options: --name test
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
           printf "deb http://deb.debian.org/debian stretch main contrib non-free\ndeb-src http://deb.debian.org/debian stretch main contrib non-free\n\ndeb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\n\ndeb http://deb.debian.org/debian stretch-updates main contrib non-free\ndeb-src http://deb.debian.org/debian stretch-updates main contrib non-free\n" > /etc/apt/sources.list
@@ -97,7 +97,7 @@ jobs:
       image: debian:buster
       options: --name test
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
           apt-get update
