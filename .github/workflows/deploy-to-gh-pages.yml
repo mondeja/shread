@@ -10,7 +10,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v3
       - name: Install
         run: |
          sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           persist-credentials: false
 
