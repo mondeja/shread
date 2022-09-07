@@ -41,8 +41,6 @@ function pullContainer() {
   docker cp . "$_CONTAINER_NAME":/shread
 
   docker exec "$_CONTAINER_NAME" \
-    bash -c 'printf "deb http://deb.debian.org/debian bullseye main contrib non-free\ndeb-src http://deb.debian.org/debian bullseye main contrib non-free\n\n\ndeb http://deb.debian.org/debian bullseye-updates main contrib non-free\ndeb-src http://deb.debian.org/debian bullseye-updates main contrib non-free\n" > /etc/apt/sources.list'
-  docker exec "$_CONTAINER_NAME" \
     bash -c "apt-get update && apt-get install -y \
     make \
     sudo \
