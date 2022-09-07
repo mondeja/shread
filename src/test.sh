@@ -82,33 +82,34 @@ function testNonObsoletePofilesMessages {
 : '
   Test that supported distributions have not reached LTS EOL.
 
-  - Debian 9 (Stretch): 2022-06-30
   - Debian 10 (Buster): 2024-06
+  - Debian 11 (Bullseye): 2026-06
   - Ubuntu 18.04 (Bionic): 2023-04
   - Ubuntu 20.04 (Focal): 2025-04
+  - Ubuntu 22.04 (Groovy): 2027-04
 '
 function testSupportedDistributionsLtsEol {
   currentTs="$(date +%s)"
 
-  # Debian 9
-  eolTs=1656547200
-  assertFalse "Debian 9 has reach his LTS EOL (2022-06-30)" \
-   "[ $currentTs -gt $eolTs ]"
+  # Debian 10
+  assertFalse "Debian 10 has reach his LTS EOL (2024-06)" \
+    "[ $currentTs -gt 1717200000 ]"
 
-   # Debian 10
-   eolTs=1717200000
-   assertFalse "Debian 10 has reach his LTS EOL (2024-06)" \
-    "[ $currentTs -gt $eolTs ]"
+  # Debian 11
+  assertFalse "Debian 11 has reach his LTS EOL (2026-06)" \
+    "[ $currentTs -gt 1780264800 ]"
 
   # Ubuntu 18.04
-  eolTs=1680307200
   assertFalse "Ubuntu 18.04 has reach his LTS EOL (2023-04)" \
-   "[ $currentTs -gt $eolTs ]"
+    "[ $currentTs -gt 1680307200 ]"
 
-   # Ubuntu 20.04
-   eolTs=1743465600
-   assertFalse "Ubuntu 20.04 has reach his LTS EOL (2025-04)" \
-    "[ $currentTs -gt $eolTs ]"
+  # Ubuntu 20.04
+  assertFalse "Ubuntu 20.04 has reach his LTS EOL (2025-04)" \
+    "[ $currentTs -gt 1743465600 ]"
+
+  # Ubuntu 20.04
+  assertFalse "Ubuntu 22.04 has reach his LTS EOL (2027-04)" \
+    "[ $currentTs -gt 1806530400 ]"
 }
 
 : '
