@@ -3,7 +3,7 @@
 
 Bash Ubuntu/Debian public scripts with localized and indented output.
 
-[![Build status](https://img.shields.io/github/workflow/status/mondeja/shread/Deploy%20to%20Github%20Pages)](https://github.com/mondeja/shread/actions) [![TravisCI tests](https://img.shields.io/travis/mondeja/shread?label=tests)](https://travis-ci.com/github/mondeja/shread) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
+[![Build status](https://img.shields.io/github/workflow/status/mondeja/shread/Deploy%20to%20Github%20Pages)](https://github.com/mondeja/shread/actions) [![Github Workdlows](https://img.shields.io/github/workflow/status/mondeja/shread/CI/master?label=tests)](https://github.com/mondeja/shread/actions/workflows/ci.yml) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
 
 ## Dependencies
 
@@ -12,23 +12,27 @@ Install `curl` before run any of the scripts to make sure that you will not have
 ## Scripts execution
 
 ### With arguments
+
 ```bash
 curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/es.sh \
     | sudo bash -s -- --help
 ```
 
 ### Without arguments
+
 ```bash
 curl -sL https://mondeja.github.io/shread/unix/debian/install/nodejs/en.sh \
     | sudo bash -
 ```
 
 ### Sourcing
+
 ```bash
 source <(curl -sL https://mondeja.github.io/shread/unix/_/util/get-distro/en.sh)
 ```
 
 ### Output
+
 > The verbosity only is increased when failures happen.
 
 #### English
@@ -71,9 +75,11 @@ Configurando ecosistema NodeJS...
 _____________________________________________________________
 
 ## Documentation
+
 - [Files urls](https://mondeja.github.io/shread/list.txt)
 
 ### Common parameters
+
 All scripts accept next option:
 
 <a name="help" href="#help">#</a> <b>-h, --help</b>
