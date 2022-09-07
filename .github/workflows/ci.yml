@@ -66,30 +66,6 @@ jobs:
           SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER: '20.04'
           SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED: 'true'
 
-  debian-stretch:
-    name: Debian 9.13 - Stretch
-    runs-on: ubuntu-latest
-    container:
-      image: debian:stretch
-      options: --name test
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install
-        run: |
-          printf "deb http://deb.debian.org/debian stretch main contrib non-free\ndeb-src http://deb.debian.org/debian stretch main contrib non-free\n\ndeb http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ stretch/updates main contrib non-free\n\ndeb http://deb.debian.org/debian stretch-updates main contrib non-free\ndeb-src http://deb.debian.org/debian stretch-updates main contrib non-free\n" > /etc/apt/sources.list
-          apt-get update
-          apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3 python3-pip gettext
-          useradd -m docker && echo 'docker:docker' | chpasswd && adduser docker sudo
-      - name: Build
-        run: bash scripts/build.sh
-      - name: Test
-        run: bash scripts/test.sh
-        env:
-          SHREAD_TEST__UNIX_DISTRO: debian
-          SHREAD_TEST__UNIX_DISTRO_VERSION_NAME: stretch
-          SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER: '9.13'
-          SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED: 'true'
-
   debian-buster:
     name: Debian 10 - Buster
     runs-on: ubuntu-latest
@@ -111,4 +87,28 @@ jobs:
           SHREAD_TEST__UNIX_DISTRO: debian
           SHREAD_TEST__UNIX_DISTRO_VERSION_NAME: buster
           SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER: '10'
+          SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED: 'true'
+
+  debian-bullseye:
+    name: Debian 11 - Bullseye
+    runs-on: ubuntu-latest
+    container:
+      image: debian:bullseye
+      options: --name test
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install
+        run: |
+          printf "deb http://deb.debian.org/debian bullseye main contrib non-free\ndeb-src http://deb.debian.org/debian bullseye main contrib non-free\n\ndeb http://deb.debian.org/debian-security/ bullseye/updates main contrib non-free\ndeb-src http://deb.debian.org/debian-security/ bullseye/updates main contrib non-free\n\ndeb http://deb.debian.org/debian bullseye-updates main contrib non-free\ndeb-src http://deb.debian.org/debian bullseye-updates main contrib non-free\n" > /etc/apt/sources.list
+          apt-get update
+          apt-get install -y make sudo apt-utils dialog aptitude curl wget ca-certificates apt-transport-https gnupg2 python3 python3-pip gettext
+          useradd -m docker && echo 'docker:docker' | chpasswd && adduser docker sudo
+      - name: Build
+        run: bash scripts/build.sh
+      - name: Test
+        run: bash scripts/test.sh
+        env:
+          SHREAD_TEST__UNIX_DISTRO: debian
+          SHREAD_TEST__UNIX_DISTRO_VERSION_NAME: bullseye
+          SHREAD_TEST__UNIX_DISTRO_VERSION_NUMBER: '11'
           SHREAD_TEST__ATOM_MUST_NOT_BE_INSTALLED: 'true'

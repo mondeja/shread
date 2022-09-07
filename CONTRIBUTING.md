@@ -34,7 +34,7 @@ If you need to access to a Docker machine with Debian 9 or 10 installed to test
  Debian 10 image and login inside with:
 
 ```bash
-bash scripts/docker/debian/10.sh --login
+bash scripts/docker/debian/11.sh --login
 ```
 
 [shellcheck-link]: https://www.shellcheck.net/
