@@ -35,7 +35,11 @@ jobs:
         run: |
          sudo systemctl stop apt-daily.service && sudo systemctl kill --kill-who=all apt-daily.service && while ! (systemctl list-units --all apt-daily.service | fgrep -q dead); do sleep 1; done
          sudo apt-get update
-         sudo apt-get install python3 python3-pip gettext
+         sudo apt-get install gettext
+      - name: Set up Python v3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
       - name: Build
         run: bash scripts/build.sh
       - name: Test

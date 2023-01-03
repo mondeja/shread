@@ -18,6 +18,8 @@ for arg in "$@"; do
   esac
 done
 
+set -e
+
 PYTHON_BINARY="$(command -v python3)"
 
 if [ "$JEKYLL_ENV" = "production" ]; then
@@ -25,3 +27,5 @@ if [ "$JEKYLL_ENV" = "production" ]; then
 else
   $PYTHON_BINARY -m pip install -q -r requirements.txt
 fi;
+
+set +e
