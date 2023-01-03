@@ -105,7 +105,7 @@ function getGoogleDriveLatestVersion() {
   _GET_GDRIVE_LATEST_VERSION_EXIT_CODE=$?
   if [ $_GET_GDRIVE_LATEST_VERSION_EXIT_CODE -ne 0 ]; then
     ((_GET_GDRIVE_LATEST_VERSION_ATTEMPTS++))
-    if [ $_GET_GDRIVE_LATEST_VERSION_ATTEMPTS -ge $_GET_GDRIVE_LATEST_VERSION_MAX_ATTEMPTS ]; then
+    if [ "$_GET_GDRIVE_LATEST_VERSION_ATTEMPTS" -ge "$_GET_GDRIVE_LATEST_VERSION_MAX_ATTEMPTS" ]; then
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
       print "\n%s\n" "$_MSG_ERROR_RETRIEVING_LAST_GDRIVE_RELEASE_VERSION" >&2
       printf "%s: %s\n" "$_MSG_URL" "$_GET_GDRIVE_LATEST_VERSION_URL" >&2
@@ -143,7 +143,7 @@ function downloadGoogleDrive() {
   if [ "$_GDRIVE_BINARY_CONTENT" = "Not Found" ]; then
     # Ocurrió un error 404 en la descarga
     #   ¿Seguimos intentándolo con otras versiones?
-    if [ $_GET_GDRIVE_VERSION_404_ATTEMPTS -ge $_GET_GDRIVE_VERSION_404_MAX_ATTEMPTS ]; then
+    if [ "$_GET_GDRIVE_VERSION_404_ATTEMPTS" -ge "$_GET_GDRIVE_VERSION_404_MAX_ATTEMPTS" ]; then
       sudo rm -f "$1"
       printf "\e[91m\xE2\x9C\x95\e[39m\n" >&2
       printf "\n%s (v%s)\n" "$_MSG_ERROR_DOWNLOADING_GDRIVE" "$_GDRIVE_LASTEST_VERSION" >&2
@@ -203,8 +203,8 @@ function main() {
         printIndent
         printf "  %s (v%s" "$_MSG_UPDATING_GDRIVE" "$_GDRIVE_INSTALLED_VERSION"
         printf " -> v%s)..." "$_GDRIVE_LASTEST_VERSION"
-        sudo rm -f $_GDRIVE_FILEPATH
-        downloadGoogleDrive $_GDRIVE_FILEPATH
+        sudo rm -f "$_GDRIVE_FILEPATH"
+        downloadGoogleDrive "$_GDRIVE_FILEPATH"
       fi;
     fi;
   fi;

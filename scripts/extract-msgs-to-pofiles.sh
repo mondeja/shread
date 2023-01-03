@@ -260,7 +260,7 @@ find src -type f -name "main.mako" | while read -r filepath; do
       printf "%s\n" "$MSGID" >> "$LANG_MSGIDS_CACHE_FILE"
     done
 
-    if [ $_N_STRINGS_EXTRACTED -gt 0 ]; then
+    if [ "$_N_STRINGS_EXTRACTED" -gt 0 ]; then
       # Merge new messages into .po file
       _MSGMERGE_OUTPUT=$(
         msgmerge \
@@ -298,7 +298,7 @@ find src -type f -name "main.mako" | while read -r filepath; do
       "$dirpath/$lang.pot" \
       "$COMPENDIUM_DIRPATH/$lang.po~"
 
-    if [ $_N_STRINGS_EXTRACTED -eq 0 ]; then
+    if [ "$_N_STRINGS_EXTRACTED" -eq 0 ]; then
       rm -f "$dirpath/$lang.po"
     else
       # Convert `msgstr " "` messages to `msgstr ""` bacause with a space,
