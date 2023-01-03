@@ -3,7 +3,7 @@
 
 Bash Ubuntu/Debian public scripts with localized and indented output.
 
-[![Build status](https://img.shields.io/github/workflow/status/mondeja/shread/Deploy%20to%20Github%20Pages)](https://github.com/mondeja/shread/actions) [![Github Workdlows](https://img.shields.io/github/workflow/status/mondeja/shread/CI/master?label=tests)](https://github.com/mondeja/shread/actions/workflows/ci.yml) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
+[![Build status](https://img.shields.io/github/actions/workflow/status/mondeja/shread/deploy-to-gh-pages.yml?branch=master)](https://github.com/mondeja/shread/actions) [![Github Workdlows](https://img.shields.io/github/actions/workflow/status/mondeja/shread/ci.yml?branch=master&label=tests)](https://github.com/mondeja/shread/actions/workflows/ci.yml) [![Pull requests welcome!](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/mondeja/shread/pulls)
 
 ## Dependencies
 
